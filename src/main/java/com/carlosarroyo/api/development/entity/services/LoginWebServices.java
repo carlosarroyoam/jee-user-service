@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package entity.services;
+package com.carlosarroyo.api.development.entity.services;
 
-import crypto.Authentication;
-import entity.User;
-import entity.dao.UserDAO;
+import com.carlosarroyo.api.development.crypto.Authentication;
+import com.carlosarroyo.api.development.entity.User;
+import com.carlosarroyo.api.development.entity.dao.UserDAO;
 import java.util.Objects;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;

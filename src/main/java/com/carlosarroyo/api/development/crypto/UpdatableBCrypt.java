@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package crypto;
+package com.carlosarroyo.api.development.crypto;
 
 import java.util.function.Function;
 import org.slf4j.Logger;

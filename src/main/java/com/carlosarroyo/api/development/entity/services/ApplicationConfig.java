@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package entity.services;
+package com.carlosarroyo.api.development.entity.services;
 
 import java.util.Set;
 import javax.ws.rs.core.Application;
@@ -29,8 +29,8 @@ public class ApplicationConfig extends Application {
      * If required, comment out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
-        resources.add(entity.services.LoginWebServices.class);
-        resources.add(entity.services.UserWebServices.class);
+        resources.add(LoginWebServices.class);
+        resources.add(UserWebServices.class);
     }
     
 }

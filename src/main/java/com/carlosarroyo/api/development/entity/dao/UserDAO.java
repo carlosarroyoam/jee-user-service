@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package entity.dao;
+package com.carlosarroyo.api.development.entity.dao;
 
-import database.DatabaseConnection;
-import database.DatabaseSchema;
-import entity.User;
+import com.carlosarroyo.api.development.database.DatabaseConnection;
+import com.carlosarroyo.api.development.database.DatabaseSchema;
+import com.carlosarroyo.api.development.entity.User;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
