@@ -29,8 +29,8 @@ public class ApplicationConfig extends Application {
      * If required, comment out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
-        resources.add(LoginWebServices.class);
-        resources.add(UserWebServices.class);
+        resources.add(com.carlosarroyo.api.development.entity.services.LoginWebServices.class);
+        resources.add(com.carlosarroyo.api.development.entity.services.UserWebServices.class);
     }
     
 }
