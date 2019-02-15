@@ -1,6 +1,6 @@
 # Development-WebServices
 
-Java based REST API
+Java based REST API example
 
 #Maven dependencies
 
