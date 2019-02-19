@@ -10,8 +10,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- *
- * @author Carlos
+ * 
+ * @author Carlos Alberto Arroyo Martinez – carlosarroyoam@gmail.com
  */
 public class User {
     

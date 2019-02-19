@@ -14,19 +14,19 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
- *
- * @author Carlos
+ * 
+ * @author Carlos Alberto Arroyo Martinez – carlosarroyoam@gmail.com
  */
 public class UserDAO {
 
     private DatabaseConnection connection;
     private static UserDAO UserDAOInstance;
 
-    public static UserDAO getUserDAOInstance() {
+    public static UserDAO getInstance() {
         if (UserDAOInstance == null) {
             UserDAOInstance = new UserDAO();
         }
-        
+
         return UserDAOInstance;
     }
 

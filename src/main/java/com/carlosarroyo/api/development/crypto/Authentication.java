@@ -6,20 +6,20 @@
 package com.carlosarroyo.api.development.crypto;
 
 /**
- *
- * @author Carlos
+ * 
+ * @author Carlos Alberto Arroyo Martinez – carlosarroyoam@gmail.com
  */
 public class Authentication {
 
     // This should be updated every year or two.
-    private static final UpdatableBCrypt bcrypt = new UpdatableBCrypt(11);
+    private static final BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder(BCryptPasswordEncoder.BCryptVersion.$2B, 10);
 
     public static String passwordHash(String password) {
-        return bcrypt.hash(password);
+        return bcrypt.encode(password);
     }
 
     public static boolean verifyHash(String password, String hash) {
-        return bcrypt.verifyHash(password, hash);
+        return bcrypt.matches(password, hash);
     }
 
 }

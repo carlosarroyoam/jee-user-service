@@ -6,8 +6,8 @@
 package com.carlosarroyo.api.development.database;
 
 /**
- *
- * @author Carlos
+ * 
+ * @author Carlos Alberto Arroyo Martinez – carlosarroyoam@gmail.com
  */
 public class DatabaseSchema {
     public static final String DATABASENAME = "users";

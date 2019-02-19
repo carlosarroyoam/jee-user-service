@@ -12,8 +12,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
- * @author Carlos
+ * 
+ * @author Carlos Alberto Arroyo Martinez – carlosarroyoam@gmail.com
  */
 public class DatabaseConnection {
 

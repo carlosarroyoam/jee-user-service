@@ -9,10 +9,9 @@ import java.util.Set;
 import javax.ws.rs.core.Application;
 
 /**
- *
- * @author Carlos
+ * @author Carlos Alberto Arroyo Martinez – carlosarroyoam@gmail.com
  */
-@javax.ws.rs.ApplicationPath("ws")
+@javax.ws.rs.ApplicationPath("webservices")
 public class ApplicationConfig extends Application {
 
     @Override
@@ -29,8 +28,10 @@ public class ApplicationConfig extends Application {
      * If required, comment out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
-        resources.add(com.carlosarroyo.api.development.entity.services.LoginWebServices.class);
-        resources.add(com.carlosarroyo.api.development.entity.services.UserWebServices.class);
+        resources.add(com.carlosarroyo.api.development.entity.services.NotificationServices.class);
+        resources.add(com.carlosarroyo.api.development.entity.services.NotificationsCloudServices.class);
+        resources.add(com.carlosarroyo.api.development.entity.services.UserAuthenticationServices.class);
+        resources.add(com.carlosarroyo.api.development.entity.services.UserServices.class);
     }
     
 }

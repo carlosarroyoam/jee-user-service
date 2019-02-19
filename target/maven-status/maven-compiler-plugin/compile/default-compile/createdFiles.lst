@@ -1,0 +1,17 @@
+com\carlosarroyo\api\development\entity\User.class
+com\carlosarroyo\api\development\crypto\BCryptPasswordEncoder$BCryptVersion.class
+com\carlosarroyo\api\development\database\DatabaseSchema$UsersTable$Cols.class
+com\carlosarroyo\api\development\entity\services\UserAuthenticationServices.class
+com\carlosarroyo\api\development\database\DatabaseSchema.class
+com\carlosarroyo\api\development\database\DatabaseConnection.class
+com\carlosarroyo\api\development\database\DatabaseSchema$UsersTable.class
+com\carlosarroyo\api\development\websockets\WebSocketServer.class
+com\carlosarroyo\api\development\entity\services\NotificationServices.class
+com\carlosarroyo\api\development\crypto\PasswordEncoder.class
+com\carlosarroyo\api\development\entity\dao\UserDAO.class
+com\carlosarroyo\api\development\crypto\BCryptPasswordEncoder.class
+com\carlosarroyo\api\development\entity\services\UserServices.class
+com\carlosarroyo\api\development\entity\services\ApplicationConfig.class
+com\carlosarroyo\api\development\crypto\Authentication.class
+com\carlosarroyo\api\development\crypto\BCrypt.class
+com\carlosarroyo\api\development\entity\services\NotificationsCloudServices.class
