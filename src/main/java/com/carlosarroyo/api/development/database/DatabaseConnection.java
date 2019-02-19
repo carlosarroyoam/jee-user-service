@@ -19,7 +19,7 @@ public class DatabaseConnection {
 
     private static final String DATABASEHOST = "localhost";
     private static final String DATABASEPORT = "3306";
-    private static final String DATABASENAME = "development";
+    private static final String DATABASENAME = DatabaseSchema.DATABASENAME;
     private static final String DATABASEUSER = "root";
     private static final String DATABASEPASSWORD = "toor";
     private Connection connection = null;

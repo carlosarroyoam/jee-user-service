@@ -62,7 +62,7 @@ public class NotificationServices {
 
                     if (!email.equals("") && !password.equals("")) {
                         UserDAO userDAO = UserDAO.getInstance();
-                        User user = userDAO.getUserByEmail(email);
+                        User user = userDAO.getByEmail(email);
 
                         if (!Objects.equals(null, user.getEmail())) {
                             if (Authentication.verifyHash(password, user.getPassword())) {

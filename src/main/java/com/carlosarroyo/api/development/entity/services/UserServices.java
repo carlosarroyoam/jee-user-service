@@ -50,10 +50,10 @@ public class UserServices {
                 JSONObject inputJSON = (JSONObject) jsonParser.parse(content);
                 String id_user = inputJSON.get("id").toString();
                 UserDAO userDAO = UserDAO.getInstance();
-                User user = userDAO.getUserById(Integer.parseInt(id_user));
+                User user = userDAO.getById(Integer.parseInt(id_user));
 
                 outputJSON.put(DatabaseSchema.UsersTable.Cols.UUID, user.getIdUser());
-                outputJSON.put(DatabaseSchema.UsersTable.Cols.NAME, user.getName());
+                outputJSON.put(DatabaseSchema.UsersTable.Cols.FIRSTNAME, user.getName());
                 outputJSON.put(DatabaseSchema.UsersTable.Cols.LASTNAME, user.getLastname());
                 outputJSON.put(DatabaseSchema.UsersTable.Cols.EMAIL, user.getEmail());
                 outputJSON.put(DatabaseSchema.UsersTable.Cols.CREATEDATE, user.getCreatedate());
@@ -85,10 +85,10 @@ public class UserServices {
                 JSONObject inputJSON = (JSONObject) jsonParser.parse(content);
                 String email = inputJSON.get("email").toString();
                 UserDAO userDAO = UserDAO.getInstance();
-                User user = userDAO.getUserByEmail(email);
+                User user = userDAO.getByEmail(email);
 
                 outputJSON.put(DatabaseSchema.UsersTable.Cols.UUID, user.getIdUser());
-                outputJSON.put(DatabaseSchema.UsersTable.Cols.NAME, user.getName());
+                outputJSON.put(DatabaseSchema.UsersTable.Cols.FIRSTNAME, user.getName());
                 outputJSON.put(DatabaseSchema.UsersTable.Cols.LASTNAME, user.getLastname());
                 outputJSON.put(DatabaseSchema.UsersTable.Cols.EMAIL, user.getEmail());
                 outputJSON.put(DatabaseSchema.UsersTable.Cols.CREATEDATE, user.getCreatedate());
@@ -113,13 +113,13 @@ public class UserServices {
         String message = "";
 
         UserDAO userDAO = UserDAO.getInstance();
-        ArrayList<User> usersArrayList = userDAO.getAllUsers();
+        ArrayList<User> usersArrayList = userDAO.getAll();
 
         for (User user : usersArrayList) {
             JSONObject userJSONObject = new JSONObject();
 
             userJSONObject.put(DatabaseSchema.UsersTable.Cols.UUID, user.getIdUser());
-            userJSONObject.put(DatabaseSchema.UsersTable.Cols.NAME, user.getName());
+            userJSONObject.put(DatabaseSchema.UsersTable.Cols.FIRSTNAME, user.getName());
             userJSONObject.put(DatabaseSchema.UsersTable.Cols.LASTNAME, user.getLastname());
             userJSONObject.put(DatabaseSchema.UsersTable.Cols.EMAIL, user.getEmail());
             userJSONObject.put(DatabaseSchema.UsersTable.Cols.CREATEDATE, user.getCreatedate());

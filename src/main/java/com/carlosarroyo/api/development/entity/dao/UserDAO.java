@@ -14,7 +14,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
- * 
+ *
  * @author Carlos Alberto Arroyo Martinez – carlosarroyoam@gmail.com
  */
 public class UserDAO {
@@ -34,11 +34,19 @@ public class UserDAO {
         this.connection = new DatabaseConnection();
     }
 
-    public ArrayList<User> getAllUsers() {
+    public ArrayList<User> getAll() {
         ArrayList<User> usersArrayList = new ArrayList<>();
 
         try {
-            String query = "SELECT id_user, name, lastname, email, password, DATE_FORMAT(createdate, \"%d/%m/%Y %h:%i %p\") as createdate FROM users";
+            String query = "SELECT " +
+                    DatabaseSchema.UsersTable.Cols.UUID + ", " +
+                    DatabaseSchema.UsersTable.Cols.FIRSTNAME + ", " +
+                    DatabaseSchema.UsersTable.Cols.LASTNAME + ", " +
+                    DatabaseSchema.UsersTable.Cols.EMAIL + ", " +
+                    DatabaseSchema.UsersTable.Cols.PASSWORD + ", " +
+                    "DATE_FORMAT(" + DatabaseSchema.UsersTable.Cols.CREATEDATE + ", \"%d/%m/%Y %h:%i %p\") as createdate " +
+                    " FROM " + DatabaseSchema.UsersTable.TABLENAME;
+            
             PreparedStatement preparedStatement = connection.openConnection().prepareStatement(query);
             ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -46,7 +54,7 @@ public class UserDAO {
                 User user = new User();
 
                 user.setIdUser(resultSet.getInt(DatabaseSchema.UsersTable.Cols.UUID));
-                user.setName(resultSet.getString(DatabaseSchema.UsersTable.Cols.NAME));
+                user.setName(resultSet.getString(DatabaseSchema.UsersTable.Cols.FIRSTNAME));
                 user.setLastname(resultSet.getString(DatabaseSchema.UsersTable.Cols.LASTNAME));
                 user.setEmail(resultSet.getString(DatabaseSchema.UsersTable.Cols.EMAIL));
                 user.setPassword(resultSet.getString(DatabaseSchema.UsersTable.Cols.PASSWORD));
@@ -66,19 +74,28 @@ public class UserDAO {
         }
     }
 
-    public User getUserById(int id_user) {
+    public User getById(int id) {
         User user = new User();
 
         try {
-            String query = "SELECT id_user, name, lastname, email, password, DATE_FORMAT(createdate, \"%d/%m/%Y %h:%i %p\") as createdate FROM users WHERE id_user = ?";
+            String query = "SELECT " +
+                    DatabaseSchema.UsersTable.Cols.UUID + ", " +
+                    DatabaseSchema.UsersTable.Cols.FIRSTNAME + ", " +
+                    DatabaseSchema.UsersTable.Cols.LASTNAME + ", " +
+                    DatabaseSchema.UsersTable.Cols.EMAIL + ", " +
+                    DatabaseSchema.UsersTable.Cols.PASSWORD + ", " +
+                    "DATE_FORMAT(" + DatabaseSchema.UsersTable.Cols.CREATEDATE + ", \"%d/%m/%Y %h:%i %p\") as createdate " +
+                    " FROM " + DatabaseSchema.UsersTable.TABLENAME +
+                    " WHERE " + DatabaseSchema.UsersTable.Cols.UUID + " = ?";
+            
             PreparedStatement preparedStatement = connection.openConnection().prepareStatement(query);
-            preparedStatement.setString(1, String.valueOf(id_user));
+            preparedStatement.setString(1, String.valueOf(id));
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
                 user.setIdUser(resultSet.getInt(DatabaseSchema.UsersTable.Cols.UUID));
-                user.setName(resultSet.getString(DatabaseSchema.UsersTable.Cols.NAME));
+                user.setName(resultSet.getString(DatabaseSchema.UsersTable.Cols.FIRSTNAME));
                 user.setLastname(resultSet.getString(DatabaseSchema.UsersTable.Cols.LASTNAME));
                 user.setEmail(resultSet.getString(DatabaseSchema.UsersTable.Cols.EMAIL));
                 user.setPassword(resultSet.getString(DatabaseSchema.UsersTable.Cols.PASSWORD));
@@ -96,10 +113,19 @@ public class UserDAO {
         }
     }
 
-    public User getUserByEmail(String email) {
+    public User getByEmail(String email) {
         User user = new User();
         try {
-            String query = "SELECT id_user, name, lastname, email, password, DATE_FORMAT(createdate, \"%d/%m/%Y %h:%i %p\") as createdate FROM users WHERE email = ?";
+            String query = "SELECT " +
+                    DatabaseSchema.UsersTable.Cols.UUID + ", " +
+                    DatabaseSchema.UsersTable.Cols.FIRSTNAME + ", " +
+                    DatabaseSchema.UsersTable.Cols.LASTNAME + ", " +
+                    DatabaseSchema.UsersTable.Cols.EMAIL + ", " +
+                    DatabaseSchema.UsersTable.Cols.PASSWORD + ", " +
+                    "DATE_FORMAT(" + DatabaseSchema.UsersTable.Cols.CREATEDATE + ", \"%d/%m/%Y %h:%i %p\") as createdate " +
+                    " FROM " + DatabaseSchema.UsersTable.TABLENAME +
+                    " WHERE " + DatabaseSchema.UsersTable.Cols.EMAIL + " = ?";
+            
             PreparedStatement preparedStatement = connection.openConnection().prepareStatement(query);
             preparedStatement.setString(1, email);
 
@@ -107,7 +133,7 @@ public class UserDAO {
 
             while (resultSet.next()) {
                 user.setIdUser(resultSet.getInt(DatabaseSchema.UsersTable.Cols.UUID));
-                user.setName(resultSet.getString(DatabaseSchema.UsersTable.Cols.NAME));
+                user.setName(resultSet.getString(DatabaseSchema.UsersTable.Cols.FIRSTNAME));
                 user.setLastname(resultSet.getString(DatabaseSchema.UsersTable.Cols.LASTNAME));
                 user.setEmail(resultSet.getString(DatabaseSchema.UsersTable.Cols.EMAIL));
                 user.setPassword(resultSet.getString(DatabaseSchema.UsersTable.Cols.PASSWORD));
@@ -125,9 +151,16 @@ public class UserDAO {
         }
     }
 
-    public boolean insertUser(User user) {
+    public boolean insert(User user) {
         try {
-            String query = "INSERT INTO users (name, lastname, email, password) VALUES (?,?,?,?)";
+            String query = "INSERT INTO " +
+                    DatabaseSchema.UsersTable.TABLENAME + " (" +
+                    DatabaseSchema.UsersTable.Cols.FIRSTNAME + ", " +
+                    DatabaseSchema.UsersTable.Cols.LASTNAME + ", " +
+                    DatabaseSchema.UsersTable.Cols.EMAIL + ", " +
+                    DatabaseSchema.UsersTable.Cols.PASSWORD +
+                    ") VALUES (?,?,?,?)";
+            
             PreparedStatement preparedStatement = connection.openConnection().prepareStatement(query);
 
             preparedStatement.setString(1, user.getName());
@@ -149,9 +182,16 @@ public class UserDAO {
         }
     }
 
-    public boolean updateUserById(User user) {
+    public boolean updateById(User user) {
         try {
-            String query = "UPDATE users SET name = ?, lastname = ?, email = ?, password = ? WHERE id_user= ?";
+            String query = "UPDATE " +
+                    DatabaseSchema.UsersTable.TABLENAME +
+                    " SET " + DatabaseSchema.UsersTable.Cols.FIRSTNAME + " = ?, " +
+                    DatabaseSchema.UsersTable.Cols.LASTNAME + " = ?, " +
+                    DatabaseSchema.UsersTable.Cols.EMAIL + " = ?, " +
+                    DatabaseSchema.UsersTable.Cols.PASSWORD + " = ? " +
+                    " WHERE " + DatabaseSchema.UsersTable.Cols.UUID + " = ?";
+
             PreparedStatement preparedStatement = connection.openConnection().prepareStatement(query);
 
             preparedStatement.setString(1, user.getName());
@@ -174,12 +214,15 @@ public class UserDAO {
         }
     }
 
-    public boolean deleteUserById(int id_user) {
+    public boolean deleteById(int id) {
         try {
-            String query = "DELETE FROM users WHERE id_user = ?";
+            String query = "DELETE FROM "
+                    + DatabaseSchema.UsersTable.TABLENAME
+                    + " WHERE " + DatabaseSchema.UsersTable.Cols.UUID + " = ?";
+
             PreparedStatement preparedStatement = connection.openConnection().prepareStatement(query);
 
-            preparedStatement.setString(1, String.valueOf(id_user));
+            preparedStatement.setString(1, String.valueOf(id));
 
             preparedStatement.executeUpdate();
 
