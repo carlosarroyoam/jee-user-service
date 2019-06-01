@@ -6,22 +6,21 @@
 
 window.onload = init;
 
-var socket = new WebSocket("ws://localhost:8082/development/websockets/notificationservice");
-socket.onmessage = onMessage;
-socket.onopen = onOpen;
-socket.onclose = onClose;
-
 function onOpen(event) {
-    alert("Conectado");
+    document.getElementById("messageContainer").innerHTML = "Conectado";
 }
 
 function onClose(event) {
-    alert("Desconectado");
+    document.getElementById("messageContainer").innerHTML = "Desconectado";
 }
 
 function onMessage(event) {
-    alert(event.data);
+    document.getElementById("messageContainer").innerHTML = event.data;
 }
 
 function init() {
+    var socket = new WebSocket("ws://localhost:8082/development/websockets/notificationservice");
+    socket.onmessage = onMessage;
+    socket.onopen = onOpen;
+    socket.onclose = onClose;
 }

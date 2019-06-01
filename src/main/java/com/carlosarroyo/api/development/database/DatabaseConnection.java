@@ -29,11 +29,9 @@ public class DatabaseConnection {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
             connection = DriverManager.getConnection("jdbc:mysql://" + DATABASEHOST + ":" + DATABASEPORT + "/" + DATABASENAME, DATABASEUSER, DATABASEPASSWORD);
 
-        } catch (Exception e) {
+        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | SQLException e) {
             System.out.print(e.getMessage());
-
         }
-
         return connection;
     }
 
@@ -43,11 +41,8 @@ public class DatabaseConnection {
                 connection.close();
                 connection = null;
             }
-
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseConnection.class.getName()).log(Level.SEVERE, null, ex);
-
         }
     }
-
 }

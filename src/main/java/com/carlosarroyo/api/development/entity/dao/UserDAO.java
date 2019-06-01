@@ -61,16 +61,13 @@ public class UserDAO {
                 user.setCreatedate(resultSet.getString(DatabaseSchema.UsersTable.Cols.CREATEDATE));
 
                 usersArrayList.add(user);
-
             }
-
         } catch (SQLException e) {
             System.out.println(e.getMessage());
 
         } finally {
             connection.closeConnection();
             return usersArrayList;
-
         }
     }
 
@@ -102,14 +99,12 @@ public class UserDAO {
                 user.setCreatedate(resultSet.getString(DatabaseSchema.UsersTable.Cols.CREATEDATE));
 
             }
-
         } catch (SQLException e) {
             System.out.println(e.getMessage());
 
         } finally {
             connection.closeConnection();
             return user;
-
         }
     }
 
@@ -140,14 +135,12 @@ public class UserDAO {
                 user.setCreatedate(resultSet.getString(DatabaseSchema.UsersTable.Cols.CREATEDATE));
 
             }
-
         } catch (SQLException e) {
             System.out.println(e.getMessage());
 
         } finally {
             connection.closeConnection();
             return user;
-
         }
     }
 
@@ -171,14 +164,12 @@ public class UserDAO {
             preparedStatement.executeUpdate();
 
             return true;
-
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             return false;
 
         } finally {
             connection.closeConnection();
-
         }
     }
 
@@ -203,14 +194,12 @@ public class UserDAO {
             preparedStatement.executeUpdate();
 
             return true;
-
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             return false;
 
         } finally {
             connection.closeConnection();
-
         }
     }
 
@@ -227,15 +216,12 @@ public class UserDAO {
             preparedStatement.executeUpdate();
 
             return true;
-
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             return false;
 
         } finally {
             connection.closeConnection();
-
         }
     }
-
 }
