@@ -11,6 +11,7 @@ import com.carlosarroyo.api.development.entity.User;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 /**
@@ -30,35 +31,41 @@ public class UserDAO {
         return UserDAOInstance;
     }
 
-    public UserDAO() {
-        this.connection = new DatabaseConnection();
+    private UserDAO() {
+        this.connection = DatabaseConnection.getInstance();
     }
 
     public ArrayList<User> getAll() {
         ArrayList<User> usersArrayList = new ArrayList<>();
 
         try {
-            String query = "SELECT " +
-                    DatabaseSchema.UsersTable.Cols.UUID + ", " +
-                    DatabaseSchema.UsersTable.Cols.FIRSTNAME + ", " +
-                    DatabaseSchema.UsersTable.Cols.LASTNAME + ", " +
-                    DatabaseSchema.UsersTable.Cols.EMAIL + ", " +
-                    DatabaseSchema.UsersTable.Cols.PASSWORD + ", " +
-                    "DATE_FORMAT(" + DatabaseSchema.UsersTable.Cols.CREATEDATE + ", \"%d/%m/%Y %h:%i %p\") as createdate " +
-                    " FROM " + DatabaseSchema.UsersTable.TABLENAME;
-            
+            String query = "SELECT "
+                    + DatabaseSchema.UsersTable.Cols.UUID + ", "
+                    + DatabaseSchema.UsersTable.Cols.FIRSTNAME + ", "
+                    + DatabaseSchema.UsersTable.Cols.LASTNAME + ", "
+                    + DatabaseSchema.UsersTable.Cols.EMAIL + ", "
+                    + DatabaseSchema.UsersTable.Cols.PASSWORD + ", "
+                    + DatabaseSchema.UsersTable.Cols.REMEMBERTOKEN + ", "
+                    + DatabaseSchema.UsersTable.Cols.APITOKEN + ", "
+                    + DatabaseSchema.UsersTable.Cols.CREATEDAT + ", "
+                    + DatabaseSchema.UsersTable.Cols.UPDATEDAT
+                    + " FROM " + DatabaseSchema.UsersTable.TABLENAME;
+
             PreparedStatement preparedStatement = connection.openConnection().prepareStatement(query);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
                 User user = new User();
 
-                user.setIdUser(resultSet.getInt(DatabaseSchema.UsersTable.Cols.UUID));
-                user.setName(resultSet.getString(DatabaseSchema.UsersTable.Cols.FIRSTNAME));
-                user.setLastname(resultSet.getString(DatabaseSchema.UsersTable.Cols.LASTNAME));
+                user.setId(resultSet.getInt(DatabaseSchema.UsersTable.Cols.UUID));
+                user.setFirstName(resultSet.getString(DatabaseSchema.UsersTable.Cols.FIRSTNAME));
+                user.setLastName(resultSet.getString(DatabaseSchema.UsersTable.Cols.LASTNAME));
                 user.setEmail(resultSet.getString(DatabaseSchema.UsersTable.Cols.EMAIL));
                 user.setPassword(resultSet.getString(DatabaseSchema.UsersTable.Cols.PASSWORD));
-                user.setCreatedate(resultSet.getString(DatabaseSchema.UsersTable.Cols.CREATEDATE));
+                user.setRememberToken(resultSet.getString(DatabaseSchema.UsersTable.Cols.REMEMBERTOKEN));
+                user.setApiToken(resultSet.getString(DatabaseSchema.UsersTable.Cols.APITOKEN));
+                user.setCreateAt(resultSet.getTimestamp(DatabaseSchema.UsersTable.Cols.CREATEDAT));
+                user.setUpdatedAt(resultSet.getTimestamp(DatabaseSchema.UsersTable.Cols.UPDATEDAT));
 
                 usersArrayList.add(user);
             }
@@ -71,32 +78,59 @@ public class UserDAO {
         }
     }
 
-    public User getById(int id) {
+    public User get(int id) {
+        String defaultEmail = "";
+        return get(id, defaultEmail);
+    }
+
+    public User get(String email) {
+        int defaultInt = 0;
+        return get(defaultInt, email);
+    }
+
+    public User get(int id, String email) {
         User user = new User();
 
         try {
-            String query = "SELECT " +
-                    DatabaseSchema.UsersTable.Cols.UUID + ", " +
-                    DatabaseSchema.UsersTable.Cols.FIRSTNAME + ", " +
-                    DatabaseSchema.UsersTable.Cols.LASTNAME + ", " +
-                    DatabaseSchema.UsersTable.Cols.EMAIL + ", " +
-                    DatabaseSchema.UsersTable.Cols.PASSWORD + ", " +
-                    "DATE_FORMAT(" + DatabaseSchema.UsersTable.Cols.CREATEDATE + ", \"%d/%m/%Y %h:%i %p\") as createdate " +
-                    " FROM " + DatabaseSchema.UsersTable.TABLENAME +
-                    " WHERE " + DatabaseSchema.UsersTable.Cols.UUID + " = ?";
-            
+            String query = "SELECT "
+                    + DatabaseSchema.UsersTable.Cols.UUID + ", "
+                    + DatabaseSchema.UsersTable.Cols.FIRSTNAME + ", "
+                    + DatabaseSchema.UsersTable.Cols.LASTNAME + ", "
+                    + DatabaseSchema.UsersTable.Cols.EMAIL + ", "
+                    + DatabaseSchema.UsersTable.Cols.PASSWORD + ", "
+                    + DatabaseSchema.UsersTable.Cols.REMEMBERTOKEN + ", "
+                    + DatabaseSchema.UsersTable.Cols.APITOKEN + ", "
+                    + DatabaseSchema.UsersTable.Cols.CREATEDAT + ", "
+                    + DatabaseSchema.UsersTable.Cols.UPDATEDAT
+                    + " FROM " + DatabaseSchema.UsersTable.TABLENAME
+                    + " WHERE ";
+
+            if (id > 0) {
+                query += DatabaseSchema.UsersTable.Cols.UUID + " = ?";
+            } else if (!email.trim().equals("")) {
+                query += DatabaseSchema.UsersTable.Cols.EMAIL + " = ?";
+            }
+
             PreparedStatement preparedStatement = connection.openConnection().prepareStatement(query);
-            preparedStatement.setString(1, String.valueOf(id));
+
+            if (id > 0) {
+                preparedStatement.setString(1, String.valueOf(id));
+            } else if (!email.trim().equals("")) {
+                preparedStatement.setString(1, email);
+            }
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                user.setIdUser(resultSet.getInt(DatabaseSchema.UsersTable.Cols.UUID));
-                user.setName(resultSet.getString(DatabaseSchema.UsersTable.Cols.FIRSTNAME));
-                user.setLastname(resultSet.getString(DatabaseSchema.UsersTable.Cols.LASTNAME));
+                user.setId(resultSet.getInt(DatabaseSchema.UsersTable.Cols.UUID));
+                user.setFirstName(resultSet.getString(DatabaseSchema.UsersTable.Cols.FIRSTNAME));
+                user.setLastName(resultSet.getString(DatabaseSchema.UsersTable.Cols.LASTNAME));
                 user.setEmail(resultSet.getString(DatabaseSchema.UsersTable.Cols.EMAIL));
                 user.setPassword(resultSet.getString(DatabaseSchema.UsersTable.Cols.PASSWORD));
-                user.setCreatedate(resultSet.getString(DatabaseSchema.UsersTable.Cols.CREATEDATE));
+                user.setRememberToken(resultSet.getString(DatabaseSchema.UsersTable.Cols.REMEMBERTOKEN));
+                user.setApiToken(resultSet.getString(DatabaseSchema.UsersTable.Cols.APITOKEN));
+                user.setCreateAt(resultSet.getTimestamp(DatabaseSchema.UsersTable.Cols.CREATEDAT));
+                user.setUpdatedAt(resultSet.getTimestamp(DatabaseSchema.UsersTable.Cols.UPDATEDAT));
 
             }
         } catch (SQLException e) {
@@ -108,58 +142,61 @@ public class UserDAO {
         }
     }
 
-    public User getByEmail(String email) {
-        User user = new User();
+    public User create(User user) {
         try {
-            String query = "SELECT " +
-                    DatabaseSchema.UsersTable.Cols.UUID + ", " +
-                    DatabaseSchema.UsersTable.Cols.FIRSTNAME + ", " +
-                    DatabaseSchema.UsersTable.Cols.LASTNAME + ", " +
-                    DatabaseSchema.UsersTable.Cols.EMAIL + ", " +
-                    DatabaseSchema.UsersTable.Cols.PASSWORD + ", " +
-                    "DATE_FORMAT(" + DatabaseSchema.UsersTable.Cols.CREATEDATE + ", \"%d/%m/%Y %h:%i %p\") as createdate " +
-                    " FROM " + DatabaseSchema.UsersTable.TABLENAME +
-                    " WHERE " + DatabaseSchema.UsersTable.Cols.EMAIL + " = ?";
-            
-            PreparedStatement preparedStatement = connection.openConnection().prepareStatement(query);
-            preparedStatement.setString(1, email);
+            String query = "INSERT INTO "
+                    + DatabaseSchema.UsersTable.TABLENAME + " ("
+                    + DatabaseSchema.UsersTable.Cols.FIRSTNAME + ", "
+                    + DatabaseSchema.UsersTable.Cols.LASTNAME + ", "
+                    + DatabaseSchema.UsersTable.Cols.EMAIL + ", "
+                    + DatabaseSchema.UsersTable.Cols.PASSWORD + ", "
+                    + DatabaseSchema.UsersTable.Cols.APITOKEN
+                    + ") VALUES (?,?,?,?,?)";
 
-            ResultSet resultSet = preparedStatement.executeQuery();
+            PreparedStatement preparedStatement = connection.openConnection().prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 
-            while (resultSet.next()) {
-                user.setIdUser(resultSet.getInt(DatabaseSchema.UsersTable.Cols.UUID));
-                user.setName(resultSet.getString(DatabaseSchema.UsersTable.Cols.FIRSTNAME));
-                user.setLastname(resultSet.getString(DatabaseSchema.UsersTable.Cols.LASTNAME));
-                user.setEmail(resultSet.getString(DatabaseSchema.UsersTable.Cols.EMAIL));
-                user.setPassword(resultSet.getString(DatabaseSchema.UsersTable.Cols.PASSWORD));
-                user.setCreatedate(resultSet.getString(DatabaseSchema.UsersTable.Cols.CREATEDATE));
-
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-
-        } finally {
-            connection.closeConnection();
-            return user;
-        }
-    }
-
-    public boolean insert(User user) {
-        try {
-            String query = "INSERT INTO " +
-                    DatabaseSchema.UsersTable.TABLENAME + " (" +
-                    DatabaseSchema.UsersTable.Cols.FIRSTNAME + ", " +
-                    DatabaseSchema.UsersTable.Cols.LASTNAME + ", " +
-                    DatabaseSchema.UsersTable.Cols.EMAIL + ", " +
-                    DatabaseSchema.UsersTable.Cols.PASSWORD +
-                    ") VALUES (?,?,?,?)";
-            
-            PreparedStatement preparedStatement = connection.openConnection().prepareStatement(query);
-
-            preparedStatement.setString(1, user.getName());
-            preparedStatement.setString(2, user.getLastname());
+            preparedStatement.setString(1, user.getFirstName());
+            preparedStatement.setString(2, user.getLastName());
             preparedStatement.setString(3, user.getEmail());
             preparedStatement.setString(4, user.getPassword());
+            preparedStatement.setString(5, user.getApiToken());
+
+            preparedStatement.executeUpdate();
+            ResultSet rs = preparedStatement.getGeneratedKeys();
+
+            if (rs.next()) {
+                int id = rs.getInt(1);
+                return get(id);
+            }
+
+            return new User();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return new User();
+        } finally {
+            connection.closeConnection();
+        }
+    }
+
+    public boolean update(User user) {
+        try {
+            String query = "UPDATE "
+                    + DatabaseSchema.UsersTable.TABLENAME
+                    + " SET " + DatabaseSchema.UsersTable.Cols.FIRSTNAME + " = ?, "
+                    + DatabaseSchema.UsersTable.Cols.LASTNAME + " = ?, "
+                    + DatabaseSchema.UsersTable.Cols.EMAIL + " = ?, "
+                    + DatabaseSchema.UsersTable.Cols.PASSWORD + " = ? "
+                    + DatabaseSchema.UsersTable.Cols.APITOKEN + " = ? "
+                    + " WHERE " + DatabaseSchema.UsersTable.Cols.UUID + " = ?";
+
+            PreparedStatement preparedStatement = connection.openConnection().prepareStatement(query);
+
+            preparedStatement.setString(1, user.getFirstName());
+            preparedStatement.setString(2, user.getLastName());
+            preparedStatement.setString(3, user.getEmail());
+            preparedStatement.setString(4, user.getPassword());
+            preparedStatement.setString(5, user.getApiToken());
+            preparedStatement.setInt(6, user.getId());
 
             preparedStatement.executeUpdate();
 
@@ -173,46 +210,14 @@ public class UserDAO {
         }
     }
 
-    public boolean updateById(User user) {
-        try {
-            String query = "UPDATE " +
-                    DatabaseSchema.UsersTable.TABLENAME +
-                    " SET " + DatabaseSchema.UsersTable.Cols.FIRSTNAME + " = ?, " +
-                    DatabaseSchema.UsersTable.Cols.LASTNAME + " = ?, " +
-                    DatabaseSchema.UsersTable.Cols.EMAIL + " = ?, " +
-                    DatabaseSchema.UsersTable.Cols.PASSWORD + " = ? " +
-                    " WHERE " + DatabaseSchema.UsersTable.Cols.UUID + " = ?";
-
-            PreparedStatement preparedStatement = connection.openConnection().prepareStatement(query);
-
-            preparedStatement.setString(1, user.getName());
-            preparedStatement.setString(2, user.getLastname());
-            preparedStatement.setString(3, user.getEmail());
-            preparedStatement.setString(4, user.getPassword());
-            preparedStatement.setInt(5, user.getIdUser());
-
-            preparedStatement.executeUpdate();
-
-            return true;
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            return false;
-
-        } finally {
-            connection.closeConnection();
-        }
-    }
-
-    public boolean deleteById(int id) {
+    public boolean delete(int id) {
         try {
             String query = "DELETE FROM "
                     + DatabaseSchema.UsersTable.TABLENAME
                     + " WHERE " + DatabaseSchema.UsersTable.Cols.UUID + " = ?";
 
             PreparedStatement preparedStatement = connection.openConnection().prepareStatement(query);
-
             preparedStatement.setString(1, String.valueOf(id));
-
             preparedStatement.executeUpdate();
 
             return true;

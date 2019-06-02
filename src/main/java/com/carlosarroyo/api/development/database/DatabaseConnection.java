@@ -23,6 +23,20 @@ public class DatabaseConnection {
     private static final String DATABASEUSER = "root";
     private static final String DATABASEPASSWORD = "toor";
     private Connection connection = null;
+    
+    private static DatabaseConnection DatabaseConeConnectionInstance;
+    
+    public static DatabaseConnection getInstance() {
+        if (DatabaseConeConnectionInstance == null) {
+            DatabaseConeConnectionInstance = new DatabaseConnection();
+        }
+
+        return DatabaseConeConnectionInstance;
+    }
+    
+    private DatabaseConnection() {
+        this.DatabaseConeConnectionInstance = new DatabaseConnection();
+    }
 
     public Connection openConnection() {
         try {

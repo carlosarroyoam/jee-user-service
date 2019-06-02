@@ -19,13 +19,15 @@ public class DatabaseSchema {
 
         public static final class Cols {
 
-            public static final String UUID = "id_user";
-            public static final String FIRSTNAME = "name";
-            public static final String LASTNAME = "lastname";
+            public static final String UUID = "id";
+            public static final String FIRSTNAME = "first_name";
+            public static final String LASTNAME = "last_name";
             public static final String EMAIL = "email";
             public static final String PASSWORD = "password";
-            public static final String CREATEDATE = "createdate";
+            public static final String REMEMBERTOKEN = "remember_token";
+            public static final String APITOKEN = "api_token";
+            public static final String CREATEDAT = "created_at";
+            public static final String UPDATEDAT = "updated_at";
         }
     }
-
 }
