@@ -5,8 +5,6 @@
  */
 package com.carlosarroyo.api.development.entity.services;
 
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
 import javax.ws.rs.POST;
@@ -23,9 +21,6 @@ import javax.ws.rs.core.Response;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class NotificationsCloudServices {
-
-    @Context
-    private UriInfo context;
 
     @POST
     @Path("send")

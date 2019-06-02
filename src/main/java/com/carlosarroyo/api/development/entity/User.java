@@ -7,46 +7,47 @@ package com.carlosarroyo.api.development.entity;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import javax.xml.bind.annotation.XmlRootElement;
+import java.sql.Timestamp;
+import java.util.Objects;
 
 /**
  *
  * @author Carlos Alberto Arroyo Martinez – carlosarroyoam@gmail.com
  */
-
-@XmlRootElement
 public class User {
 
-    private int id_user;
-    private String name;
-    private String lastname;
+    private int id;
+    private String first_name;
+    private String last_name;
     private String email;
     private String password;
-    private Date createdate;
+    private String remember_token;
+    private String api_token;
+    private Timestamp create_at;
+    private Timestamp updated_at;
 
-    public int getIdUser() {
-        return id_user;
+    public int getId() {
+        return id;
     }
 
-    public void setIdUser(int id_user) {
-        this.id_user = id_user;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return first_name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String first_name) {
+        this.first_name = first_name;
     }
 
-    public String getLastname() {
-        return lastname;
+    public String getLastName() {
+        return last_name;
     }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public void setLastName(String last_name) {
+        this.last_name = last_name;
     }
 
     public String getEmail() {
@@ -65,18 +66,53 @@ public class User {
         this.password = password;
     }
 
-    public Date getCreatedate() {
-        return createdate;
+    public String getRememberToken() {
+        return remember_token;
     }
 
-    public String getCreatedateStringFormatted() {
+    public void setRememberToken(String remember_token) {
+        this.remember_token = remember_token;
+    }
+
+    public String getApiToken() {
+        return api_token;
+    }
+
+    public void setApiToken(String api_token) {
+        this.api_token = api_token;
+    }
+
+    public Timestamp getCreateAt() {
+        return create_at;
+    }
+
+    public void setCreateAt(Timestamp create_at) {
+        this.create_at = create_at;
+    }
+
+    public String getCreatedAtStringFormatted() {
+        if(Objects.equals(null, create_at))
+            return "";
+        
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy h:mm a");
-        String formattedDate = simpleDateFormat.format(createdate);
+        String formattedDate = simpleDateFormat.format(create_at);
         return formattedDate;
     }
 
-    public void setCreatedate(String Date) throws ParseException {
-        Date dateFormattedCreatedate = new SimpleDateFormat("dd/MM/yyyy h:mm a").parse(Date);
-        this.createdate = dateFormattedCreatedate;
+    public Timestamp getUpdatedAt() {
+        return updated_at;
+    }
+
+    public void setUpdatedAt(Timestamp updated_at) {
+        this.updated_at = updated_at;
+    }
+
+    public String getUpdatedAtStringFormatted() {
+        if(Objects.equals(null, updated_at))
+            return "";
+        
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy h:mm a");
+        String formattedDate = simpleDateFormat.format(updated_at);
+        return formattedDate;
     }
 }

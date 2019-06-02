@@ -5,8 +5,6 @@
  */
 package com.carlosarroyo.api.development.entity.services;
 
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
 import javax.ws.rs.POST;
@@ -21,9 +19,6 @@ import javax.ws.rs.core.Response;
  */
 @Path("notifications")
 public class NotificationServices {
-
-    @Context
-    private UriInfo context;
 
     @POST
     @Path("getByUserId")
