@@ -34,9 +34,7 @@ public class DatabaseConnection {
         return DatabaseConeConnectionInstance;
     }
     
-    private DatabaseConnection() {
-        this.DatabaseConeConnectionInstance = new DatabaseConnection();
-    }
+    private DatabaseConnection() {}
 
     public Connection openConnection() {
         try {
