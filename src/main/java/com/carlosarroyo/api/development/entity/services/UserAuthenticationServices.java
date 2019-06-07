@@ -38,10 +38,10 @@ public class UserAuthenticationServices {
             JSONObject data = new JSONObject(requestBody);
             
             if (!data.isEmpty()) {
-                String email = data.get("email").toString().trim();
-                String password = data.get("password").toString().trim();
+                String email = data.get("email").toString();
+                String password = data.get("password").toString();
 
-                if (!email.equals("") && !password.equals("")) {
+                if (!email.trim().equals("") && !password.trim().equals("")) {
                     User user = UserDAO.getInstance().get(email);
                     if (!Objects.equals(null, user.getEmail())) {
                         if (Authentication.verifyHash(password, user.getPassword())) {
@@ -49,6 +49,7 @@ public class UserAuthenticationServices {
                         }
                         return Response.status(Response.Status.UNAUTHORIZED).build();
                     }
+                    return Response.status(Response.Status.NO_CONTENT).build();
                 }
             }
         }
@@ -57,15 +58,15 @@ public class UserAuthenticationServices {
 
     @POST
     @Path("passwordReset")
-    public Response recoverPassword(String content) {
+    public Response recoverPassword(String requestBody) {
         return Response.status(Response.Status.SERVICE_UNAVAILABLE).build();
     }
 
     @POST
     @Path("passwordEncrypt")
-    public Response encryptPassword(String content) {
-        if (!content.trim().equals("")) {
-            JSONObject data = new JSONObject(content);
+    public Response encryptPassword(String requestBody) {
+        if (!requestBody.trim().equals("")) {
+            JSONObject data = new JSONObject(requestBody);
 
             if (!data.isEmpty()) {
                 Map messagesList = new HashMap();

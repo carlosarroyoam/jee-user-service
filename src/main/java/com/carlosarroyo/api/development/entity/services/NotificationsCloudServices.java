@@ -24,7 +24,7 @@ public class NotificationsCloudServices {
 
     @POST
     @Path("send")
-    public Response login(String content) {
+    public Response login(String requestBody) {
         return Response.status(Response.Status.SERVICE_UNAVAILABLE).build();
     }
 

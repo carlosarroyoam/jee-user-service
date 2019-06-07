@@ -24,7 +24,7 @@ public class NotificationServices {
     @Path("getByUserId")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getByUserId(String content) {
+    public Response getByUserId(String requestBody) {
         return Response.status(Response.Status.SERVICE_UNAVAILABLE).build();
     }
 }
