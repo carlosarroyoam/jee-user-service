@@ -5,13 +5,17 @@
  */
 package com.carlosarroyo.api.development.entity.dao;
 
-import com.carlosarroyo.api.development.entity.User;
+import java.util.ArrayList;
 
 /**
  *
  * @author Carlos Alberto Arroyo Martinez – carlosarroyoam@gmail.com
+ * @param <T>
  */
-public interface UserDAO extends DAOInterface<User>{
-    User get(String email);
-    User get(int id, String email);
+public interface DAOInterface<T> {
+    ArrayList<T> getAll();
+    T get(int id);
+    T create(T t);
+    boolean update(T t);
+    boolean delete(T t);
 }

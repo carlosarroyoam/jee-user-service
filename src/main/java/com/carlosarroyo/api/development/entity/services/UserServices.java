@@ -7,7 +7,7 @@ package com.carlosarroyo.api.development.entity.services;
 
 import com.carlosarroyo.api.development.crypto.Authentication;
 import com.carlosarroyo.api.development.entity.User;
-import com.carlosarroyo.api.development.entity.dao.UserDAO;
+import com.carlosarroyo.api.development.entity.dao.UserDAOImplementation;
 import java.util.Objects;
 import javax.ejb.Stateful;
 import javax.ws.rs.Consumes;
@@ -36,7 +36,7 @@ public class UserServices {
     public Response getAll() {
         return Response.status(Response.Status.OK)
                 .type(MediaType.APPLICATION_JSON)
-                .entity(UserDAO.getInstance().getAll())
+                .entity(UserDAOImplementation.getInstance().getAll())
                 .build();
     }
 
@@ -45,7 +45,7 @@ public class UserServices {
     public Response getById(@PathParam("id") int id) {
         return Response.status(Response.Status.OK)
                 .type(MediaType.APPLICATION_JSON)
-                .entity(UserDAO.getInstance().get(id))
+                .entity(UserDAOImplementation.getInstance().get(id))
                 .build();
     }
 
@@ -54,7 +54,7 @@ public class UserServices {
     public Response getByEmail(@PathParam("email") String email) {
         return Response.status(Response.Status.OK)
                 .type(MediaType.APPLICATION_JSON)
-                .entity(UserDAO.getInstance().get(email))
+                .entity(UserDAOImplementation.getInstance().get(email))
                 .build();
     }
 
@@ -72,7 +72,7 @@ public class UserServices {
                 user.setPassword(Authentication.passwordHash(data.getString("password")));
                 user.setApiToken(data.getString("api_token"));
 
-                User createdUser = UserDAO.getInstance().create(user);
+                User createdUser = UserDAOImplementation.getInstance().create(user);
                 if (!Objects.equals(null, createdUser.getEmail())) {
                     return Response.status(Response.Status.CREATED).entity(createdUser).build();
                 }
