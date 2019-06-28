@@ -37,7 +37,6 @@ public class UserDAOImplementation implements UserDAO {
 
     @Override
     public ArrayList<User> getAll() {
-        ArrayList<User> usersArrayList;
 
         StringBuilder query = new StringBuilder();
         query.append("SELECT ");
@@ -53,29 +52,25 @@ public class UserDAOImplementation implements UserDAO {
 
         try (PreparedStatement preparedStatement = connection.openConnection().prepareStatement(query.toString());
                 ResultSet resultSet = preparedStatement.executeQuery()) {
-
             if (resultSet.isBeforeFirst()) {
-                usersArrayList = new ArrayList<>();
-            } else {
-                return null;
+                ArrayList<User> usersArrayList = new ArrayList<>();
+
+                while (resultSet.next()) {
+                    User user = new User();
+
+                    user.setId(resultSet.getInt(DatabaseSchema.UsersTable.Cols.UUID));
+                    user.setFirstName(resultSet.getString(DatabaseSchema.UsersTable.Cols.FIRSTNAME));
+                    user.setLastName(resultSet.getString(DatabaseSchema.UsersTable.Cols.LASTNAME));
+                    user.setEmail(resultSet.getString(DatabaseSchema.UsersTable.Cols.EMAIL));
+                    user.setPassword(resultSet.getString(DatabaseSchema.UsersTable.Cols.PASSWORD));
+                    user.setRememberToken(resultSet.getString(DatabaseSchema.UsersTable.Cols.REMEMBERTOKEN));
+                    user.setCreateAt(resultSet.getTimestamp(DatabaseSchema.UsersTable.Cols.CREATEDAT));
+                    user.setUpdatedAt(resultSet.getTimestamp(DatabaseSchema.UsersTable.Cols.UPDATEDAT));
+
+                    usersArrayList.add(user);
+                }
+                return usersArrayList;
             }
-
-            while (resultSet.next()) {
-                User user = new User();
-
-                user.setId(resultSet.getInt(DatabaseSchema.UsersTable.Cols.UUID));
-                user.setFirstName(resultSet.getString(DatabaseSchema.UsersTable.Cols.FIRSTNAME));
-                user.setLastName(resultSet.getString(DatabaseSchema.UsersTable.Cols.LASTNAME));
-                user.setEmail(resultSet.getString(DatabaseSchema.UsersTable.Cols.EMAIL));
-                user.setPassword(resultSet.getString(DatabaseSchema.UsersTable.Cols.PASSWORD));
-                user.setRememberToken(resultSet.getString(DatabaseSchema.UsersTable.Cols.REMEMBERTOKEN));
-                user.setCreateAt(resultSet.getTimestamp(DatabaseSchema.UsersTable.Cols.CREATEDAT));
-                user.setUpdatedAt(resultSet.getTimestamp(DatabaseSchema.UsersTable.Cols.UPDATEDAT));
-
-                usersArrayList.add(user);
-            }
-
-            return usersArrayList;
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -127,11 +122,9 @@ public class UserDAOImplementation implements UserDAO {
                 preparedStatement.setString(1, email);
             }
 
-            User user = null;
-
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
-                    user = new User();
+                    User user = new User();
 
                     user.setId(resultSet.getInt(DatabaseSchema.UsersTable.Cols.UUID));
                     user.setFirstName(resultSet.getString(DatabaseSchema.UsersTable.Cols.FIRSTNAME));
@@ -141,9 +134,10 @@ public class UserDAOImplementation implements UserDAO {
                     user.setRememberToken(resultSet.getString(DatabaseSchema.UsersTable.Cols.REMEMBERTOKEN));
                     user.setCreateAt(resultSet.getTimestamp(DatabaseSchema.UsersTable.Cols.CREATEDAT));
                     user.setUpdatedAt(resultSet.getTimestamp(DatabaseSchema.UsersTable.Cols.UPDATEDAT));
+
+                    return user;
                 }
             }
-            return user;
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -174,8 +168,7 @@ public class UserDAOImplementation implements UserDAO {
 
             try (ResultSet resultSet = preparedStatement.getGeneratedKeys()) {
                 if (resultSet.next()) {
-                    int id = resultSet.getInt(1);
-                    return get(id);
+                    return get(resultSet.getInt(1));
                 }
             }
 
@@ -205,9 +198,8 @@ public class UserDAOImplementation implements UserDAO {
             preparedStatement.setString(3, user.getEmail());
             preparedStatement.setString(4, user.getPassword());
             preparedStatement.setInt(5, user.getId());
-            int numberOfRowsAffected = preparedStatement.executeUpdate();
 
-            if (numberOfRowsAffected == 1) {
+            if (preparedStatement.executeUpdate() == 1) {
                 return true;
             }
 
@@ -230,9 +222,8 @@ public class UserDAOImplementation implements UserDAO {
 
         try (PreparedStatement preparedStatement = connection.openConnection().prepareStatement(query.toString())) {
             preparedStatement.setString(1, String.valueOf(user.getId()));
-            int numberOfRowsAffected = preparedStatement.executeUpdate();
-
-            if (numberOfRowsAffected == 1) {
+            
+            if (preparedStatement.executeUpdate() == 1) {
                 return true;
             }
 
