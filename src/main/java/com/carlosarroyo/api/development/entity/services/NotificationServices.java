@@ -19,6 +19,11 @@ import javax.ws.rs.core.Response;
 @Path("notifications")
 public class NotificationServices {
 
+    /**
+     * 
+     * @param requestBody
+     * @return Response
+     */
     @POST
     @Path("getByUserId")
     @Consumes(MediaType.APPLICATION_JSON)
