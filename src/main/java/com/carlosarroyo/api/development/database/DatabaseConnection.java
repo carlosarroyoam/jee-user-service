@@ -54,8 +54,8 @@ public class DatabaseConnection {
                 connection.close();
                 connection = null;
             }
-        } catch (SQLException ex) {
-            Logger.getLogger(DatabaseConnection.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException e) {
+            Logger.getLogger(DatabaseConnection.class.getName()).log(Level.SEVERE, null, e);
         }
     }
 }
