@@ -100,6 +100,7 @@ public class UserDAOImplementation implements UserDAO {
 
     @Override
     public User get(int id, String email) {
+
         StringBuilder query = new StringBuilder();
         query.append("SELECT ");
         query.append(DatabaseSchema.UsersTable.Cols.UUID + ", ");
@@ -142,7 +143,6 @@ public class UserDAOImplementation implements UserDAO {
                     user.setUpdatedAt(resultSet.getTimestamp(DatabaseSchema.UsersTable.Cols.UPDATEDAT));
                 }
             }
-
             return user;
 
         } catch (SQLException e) {
@@ -165,14 +165,14 @@ public class UserDAOImplementation implements UserDAO {
         query.append(DatabaseSchema.UsersTable.Cols.PASSWORD);
         query.append(") VALUES (?,?,?,?)");
 
-        try (PreparedStatement preparedStatement = connection.openConnection().prepareStatement(query.toString(), PreparedStatement.RETURN_GENERATED_KEYS)) {
-
+        try (PreparedStatement preparedStatement = connection.openConnection().prepareStatement(query.toString(), Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, user.getFirstName());
             preparedStatement.setString(2, user.getLastName());
             preparedStatement.setString(3, user.getEmail());
             preparedStatement.setString(4, user.getPassword());
+            preparedStatement.executeUpdate();
 
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+            try (ResultSet resultSet = preparedStatement.getGeneratedKeys()) {
                 if (resultSet.next()) {
                     int id = resultSet.getInt(1);
                     return get(id);
@@ -200,7 +200,6 @@ public class UserDAOImplementation implements UserDAO {
         query.append(" WHERE " + DatabaseSchema.UsersTable.Cols.UUID + " = ?");
 
         try (PreparedStatement preparedStatement = connection.openConnection().prepareStatement(query.toString())) {
-
             preparedStatement.setString(1, user.getFirstName());
             preparedStatement.setString(2, user.getLastName());
             preparedStatement.setString(3, user.getEmail());
@@ -224,12 +223,12 @@ public class UserDAOImplementation implements UserDAO {
     @Override
     public boolean delete(User user) {
         StringBuilder query = new StringBuilder();
+
         query.append("DELETE FROM ");
         query.append(DatabaseSchema.UsersTable.TABLENAME);
         query.append(" WHERE " + DatabaseSchema.UsersTable.Cols.UUID + " = ?");
 
         try (PreparedStatement preparedStatement = connection.openConnection().prepareStatement(query.toString())) {
-
             preparedStatement.setString(1, String.valueOf(user.getId()));
             int numberOfRowsAffected = preparedStatement.executeUpdate();
 
