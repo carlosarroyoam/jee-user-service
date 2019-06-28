@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 
 /**
  * 
- * @author Carlos Alberto Arroyo Martinez – carlosarroyoam@gmail.com
+ * @author Carlos Alberto Arroyo Martinez <carlosarroyoam@gmail.com>
  */
 public class DatabaseConnection {
 
@@ -44,6 +44,7 @@ public class DatabaseConnection {
         } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | SQLException e) {
             System.out.print(e.getMessage());
         }
+        
         return connection;
     }
 

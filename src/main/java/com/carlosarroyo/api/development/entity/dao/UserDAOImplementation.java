@@ -16,9 +16,9 @@ import java.util.ArrayList;
 
 /**
  *
- * @author Carlos Alberto Arroyo Martinez – carlosarroyoam@gmail.com
+ * @author Carlos Alberto Arroyo Martinez <carlosarroyoam@gmail.com>
  */
-public class UserDAOImplementation implements UserDAO{
+public class UserDAOImplementation implements UserDAO {
 
     private DatabaseConnection connection;
     private static UserDAOImplementation UserDAOInstance;
@@ -37,7 +37,9 @@ public class UserDAOImplementation implements UserDAO{
 
     @Override
     public ArrayList<User> getAll() {
-        ArrayList<User> usersArrayList = new ArrayList<>();
+        ArrayList<User> usersArrayList;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
 
         try {
             String query = "SELECT "
@@ -47,13 +49,18 @@ public class UserDAOImplementation implements UserDAO{
                     + DatabaseSchema.UsersTable.Cols.EMAIL + ", "
                     + DatabaseSchema.UsersTable.Cols.PASSWORD + ", "
                     + DatabaseSchema.UsersTable.Cols.REMEMBERTOKEN + ", "
-                    + DatabaseSchema.UsersTable.Cols.APITOKEN + ", "
                     + DatabaseSchema.UsersTable.Cols.CREATEDAT + ", "
                     + DatabaseSchema.UsersTable.Cols.UPDATEDAT
                     + " FROM " + DatabaseSchema.UsersTable.TABLENAME;
 
-            PreparedStatement preparedStatement = connection.openConnection().prepareStatement(query);
-            ResultSet resultSet = preparedStatement.executeQuery();
+            preparedStatement = connection.openConnection().prepareStatement(query);
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.isBeforeFirst()) {
+                usersArrayList = new ArrayList<>();
+            } else {
+                return null;
+            }
 
             while (resultSet.next()) {
                 User user = new User();
@@ -64,19 +71,40 @@ public class UserDAOImplementation implements UserDAO{
                 user.setEmail(resultSet.getString(DatabaseSchema.UsersTable.Cols.EMAIL));
                 user.setPassword(resultSet.getString(DatabaseSchema.UsersTable.Cols.PASSWORD));
                 user.setRememberToken(resultSet.getString(DatabaseSchema.UsersTable.Cols.REMEMBERTOKEN));
-                user.setApiToken(resultSet.getString(DatabaseSchema.UsersTable.Cols.APITOKEN));
                 user.setCreateAt(resultSet.getTimestamp(DatabaseSchema.UsersTable.Cols.CREATEDAT));
                 user.setUpdatedAt(resultSet.getTimestamp(DatabaseSchema.UsersTable.Cols.UPDATEDAT));
 
                 usersArrayList.add(user);
             }
+
+            return usersArrayList;
+
         } catch (SQLException e) {
             System.out.println(e.getMessage());
 
         } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                    resultSet = null;
+                }
+            } catch (SQLException sqlEx) {
+                System.out.println(sqlEx.getMessage());
+            }
+
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                    preparedStatement = null;
+                }
+            } catch (SQLException sqlEx) {
+                System.out.println(sqlEx.getMessage());
+            }
+
             connection.closeConnection();
-            return usersArrayList;
         }
+
+        return null;
     }
 
     @Override
@@ -93,7 +121,9 @@ public class UserDAOImplementation implements UserDAO{
 
     @Override
     public User get(int id, String email) {
-        User user = new User();
+        User user = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
 
         try {
             String query = "SELECT "
@@ -103,7 +133,6 @@ public class UserDAOImplementation implements UserDAO{
                     + DatabaseSchema.UsersTable.Cols.EMAIL + ", "
                     + DatabaseSchema.UsersTable.Cols.PASSWORD + ", "
                     + DatabaseSchema.UsersTable.Cols.REMEMBERTOKEN + ", "
-                    + DatabaseSchema.UsersTable.Cols.APITOKEN + ", "
                     + DatabaseSchema.UsersTable.Cols.CREATEDAT + ", "
                     + DatabaseSchema.UsersTable.Cols.UPDATEDAT
                     + " FROM " + DatabaseSchema.UsersTable.TABLENAME
@@ -115,7 +144,7 @@ public class UserDAOImplementation implements UserDAO{
                 query += DatabaseSchema.UsersTable.Cols.EMAIL + " = ?";
             }
 
-            PreparedStatement preparedStatement = connection.openConnection().prepareStatement(query);
+            preparedStatement = connection.openConnection().prepareStatement(query);
 
             if (id > 0) {
                 preparedStatement.setString(1, String.valueOf(id));
@@ -123,68 +152,112 @@ public class UserDAOImplementation implements UserDAO{
                 preparedStatement.setString(1, email);
             }
 
-            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet = preparedStatement.executeQuery();
 
-            while (resultSet.next()) {
+            if (resultSet.next()) {
+                user = new User();
+
                 user.setId(resultSet.getInt(DatabaseSchema.UsersTable.Cols.UUID));
                 user.setFirstName(resultSet.getString(DatabaseSchema.UsersTable.Cols.FIRSTNAME));
                 user.setLastName(resultSet.getString(DatabaseSchema.UsersTable.Cols.LASTNAME));
                 user.setEmail(resultSet.getString(DatabaseSchema.UsersTable.Cols.EMAIL));
                 user.setPassword(resultSet.getString(DatabaseSchema.UsersTable.Cols.PASSWORD));
                 user.setRememberToken(resultSet.getString(DatabaseSchema.UsersTable.Cols.REMEMBERTOKEN));
-                user.setApiToken(resultSet.getString(DatabaseSchema.UsersTable.Cols.APITOKEN));
                 user.setCreateAt(resultSet.getTimestamp(DatabaseSchema.UsersTable.Cols.CREATEDAT));
                 user.setUpdatedAt(resultSet.getTimestamp(DatabaseSchema.UsersTable.Cols.UPDATEDAT));
-
             }
+
+            return user;
+
         } catch (SQLException e) {
             System.out.println(e.getMessage());
 
         } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                    resultSet = null;
+                }
+            } catch (SQLException sqlEx) {
+                System.out.println(sqlEx.getMessage());
+            }
+
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                    preparedStatement = null;
+                }
+            } catch (SQLException sqlEx) {
+                System.out.println(sqlEx.getMessage());
+            }
+
             connection.closeConnection();
-            return user;
         }
+
+        return null;
     }
 
     @Override
     public User create(User user) {
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
         try {
             String query = "INSERT INTO "
                     + DatabaseSchema.UsersTable.TABLENAME + " ("
                     + DatabaseSchema.UsersTable.Cols.FIRSTNAME + ", "
                     + DatabaseSchema.UsersTable.Cols.LASTNAME + ", "
                     + DatabaseSchema.UsersTable.Cols.EMAIL + ", "
-                    + DatabaseSchema.UsersTable.Cols.PASSWORD + ", "
-                    + DatabaseSchema.UsersTable.Cols.APITOKEN
-                    + ") VALUES (?,?,?,?,?)";
+                    + DatabaseSchema.UsersTable.Cols.PASSWORD
+                    + ") VALUES (?,?,?,?)";
 
-            PreparedStatement preparedStatement = connection.openConnection().prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            preparedStatement = connection.openConnection().prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 
             preparedStatement.setString(1, user.getFirstName());
             preparedStatement.setString(2, user.getLastName());
             preparedStatement.setString(3, user.getEmail());
             preparedStatement.setString(4, user.getPassword());
-            preparedStatement.setString(5, user.getApiToken());
 
             preparedStatement.executeUpdate();
-            ResultSet rs = preparedStatement.getGeneratedKeys();
+            resultSet = preparedStatement.getGeneratedKeys();
 
-            if (rs.next()) {
-                int id = rs.getInt(1);
+            if (resultSet.next()) {
+                int id = resultSet.getInt(1);
                 return get(id);
             }
 
-            return new User();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-            return new User();
+
         } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                    resultSet = null;
+                }
+            } catch (SQLException sqlEx) {
+                System.out.println(sqlEx.getMessage());
+            }
+
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                    preparedStatement = null;
+                }
+            } catch (SQLException sqlEx) {
+                System.out.println(sqlEx.getMessage());
+            }
+
             connection.closeConnection();
         }
+
+        return null;
     }
 
     @Override
     public boolean update(User user) {
+        PreparedStatement preparedStatement = null;
+
         try {
             String query = "UPDATE "
                     + DatabaseSchema.UsersTable.TABLENAME
@@ -192,49 +265,73 @@ public class UserDAOImplementation implements UserDAO{
                     + DatabaseSchema.UsersTable.Cols.LASTNAME + " = ?, "
                     + DatabaseSchema.UsersTable.Cols.EMAIL + " = ?, "
                     + DatabaseSchema.UsersTable.Cols.PASSWORD + " = ? "
-                    + DatabaseSchema.UsersTable.Cols.APITOKEN + " = ? "
                     + " WHERE " + DatabaseSchema.UsersTable.Cols.UUID + " = ?";
 
-            PreparedStatement preparedStatement = connection.openConnection().prepareStatement(query);
+            preparedStatement = connection.openConnection().prepareStatement(query);
 
             preparedStatement.setString(1, user.getFirstName());
             preparedStatement.setString(2, user.getLastName());
             preparedStatement.setString(3, user.getEmail());
             preparedStatement.setString(4, user.getPassword());
-            preparedStatement.setString(5, user.getApiToken());
-            preparedStatement.setInt(6, user.getId());
+            preparedStatement.setInt(5, user.getId());
+            int i = preparedStatement.executeUpdate();
 
-            preparedStatement.executeUpdate();
+            if (i == 1) {
+                return true;
+            }
 
-            return true;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-            return false;
 
         } finally {
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                    preparedStatement = null;
+                }
+            } catch (SQLException sqlEx) {
+                System.out.println(sqlEx.getMessage());
+            }
+
             connection.closeConnection();
         }
+
+        return false;
     }
 
     @Override
     public boolean delete(User user) {
+        PreparedStatement preparedStatement = null;
+
         try {
             String query = "DELETE FROM "
                     + DatabaseSchema.UsersTable.TABLENAME
                     + " WHERE " + DatabaseSchema.UsersTable.Cols.UUID + " = ?";
 
-            PreparedStatement preparedStatement = connection.openConnection().prepareStatement(query);
+            preparedStatement = connection.openConnection().prepareStatement(query);
             preparedStatement.setString(1, String.valueOf(user.getId()));
-            preparedStatement.executeUpdate();
+            int i = preparedStatement.executeUpdate();
 
-            return true;
+            if (i == 1) {
+                return true;
+            }
+
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-            return false;
 
         } finally {
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                    preparedStatement = null;
+                }
+            } catch (SQLException sqlEx) {
+                System.out.println(sqlEx.getMessage());
+            }
+
             connection.closeConnection();
         }
-    }
 
+        return false;
+    }
 }

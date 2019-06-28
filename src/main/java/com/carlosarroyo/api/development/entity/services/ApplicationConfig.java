@@ -9,7 +9,8 @@ import java.util.Set;
 import javax.ws.rs.core.Application;
 
 /**
- * @author Carlos Alberto Arroyo Martinez – carlosarroyoam@gmail.com
+ * 
+ * @author Carlos Alberto Arroyo Martinez <carlosarroyoam@gmail.com>
  */
 @javax.ws.rs.ApplicationPath("webservices")
 public class ApplicationConfig extends Application {

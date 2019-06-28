@@ -8,8 +8,8 @@ package com.carlosarroyo.api.development.entity.dao;
 import java.util.ArrayList;
 
 /**
- *
- * @author Carlos Alberto Arroyo Martinez – carlosarroyoam@gmail.com
+ * 
+ * @author Carlos Alberto Arroyo Martinez <carlosarroyoam@gmail.com>
  * @param <T>
  */
 public interface DAOInterface<T> {

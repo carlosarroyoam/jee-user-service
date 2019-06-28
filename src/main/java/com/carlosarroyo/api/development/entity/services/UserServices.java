@@ -21,9 +21,8 @@ import javax.ws.rs.core.Response;
 import org.json.JSONObject;
 
 /**
- * REST Web Service
- *
- * @author Carlos Alberto Arroyo Martinez – carlosarroyoam@gmail.com
+ * 
+ * @author Carlos Alberto Arroyo Martinez <carlosarroyoam@gmail.com>
  */
 @Stateful
 @Path("users")
@@ -31,6 +30,10 @@ import org.json.JSONObject;
 @Produces(MediaType.APPLICATION_JSON)
 public class UserServices {
 
+    /**
+     * 
+     * @return Response
+     */
     @GET
     @Path("/")
     public Response getAll() {
@@ -40,15 +43,25 @@ public class UserServices {
                 .build();
     }
 
+    /**
+     * 
+     * @param id
+     * @return Response
+     */
     @GET
-    @Path("/{id}")
+    @Path(value = "/{id}")
     public Response getById(@PathParam("id") int id) {
         return Response.status(Response.Status.OK)
                 .type(MediaType.APPLICATION_JSON)
                 .entity(UserDAOImplementation.getInstance().get(id))
                 .build();
     }
-
+    
+    /**
+     * 
+     * @param email
+     * @return Response
+     */
     @GET
     @Path("/byemail/{email}")
     public Response getByEmail(@PathParam("email") String email) {
@@ -58,6 +71,11 @@ public class UserServices {
                 .build();
     }
 
+    /**
+     * 
+     * @param requestBody
+     * @return Response
+     */
     @POST
     @Path("/")
     public Response create(String requestBody) {
@@ -70,7 +88,6 @@ public class UserServices {
                 user.setLastName(data.getString("last_name"));
                 user.setEmail(data.getString("email"));
                 user.setPassword(Authentication.passwordHash(data.getString("password")));
-                user.setApiToken(data.getString("api_token"));
 
                 User createdUser = UserDAOImplementation.getInstance().create(user);
                 if (!Objects.equals(null, createdUser.getEmail())) {

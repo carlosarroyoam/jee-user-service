@@ -12,14 +12,13 @@ package com.carlosarroyo.api.development.crypto;
 public class Authentication {
 
     // This should be updated every year or two.
-    private static final BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder(BCryptPasswordEncoder.BCryptVersion.$2B, 10);
+    private static final BCryptPasswordEncoder B_CRYPT_PASSWORD_ENCODER = new BCryptPasswordEncoder(BCryptPasswordEncoder.BCryptVersion.$2B, 10);
 
     public static String passwordHash(String password) {
-        return bcrypt.encode(password);
+        return B_CRYPT_PASSWORD_ENCODER.encode(password);
     }
 
     public static boolean verifyHash(String password, String hash) {
-        return bcrypt.matches(password, hash);
+        return B_CRYPT_PASSWORD_ENCODER.matches(password, hash);
     }
-
 }

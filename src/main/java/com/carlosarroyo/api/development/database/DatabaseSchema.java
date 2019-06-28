@@ -6,8 +6,8 @@
 package com.carlosarroyo.api.development.database;
 
 /**
- *
- * @author Carlos Alberto Arroyo Martinez – carlosarroyoam@gmail.com
+ * 
+ * @author Carlos Alberto Arroyo Martinez <carlosarroyoam@gmail.com>
  */
 public class DatabaseSchema {
 
@@ -25,7 +25,6 @@ public class DatabaseSchema {
             public static final String EMAIL = "email";
             public static final String PASSWORD = "password";
             public static final String REMEMBERTOKEN = "remember_token";
-            public static final String APITOKEN = "api_token";
             public static final String CREATEDAT = "created_at";
             public static final String UPDATEDAT = "updated_at";
         }

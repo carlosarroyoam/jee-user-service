@@ -13,9 +13,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 /**
- * REST Web Service
- *
- * @author Carlos Alberto Arroyo Martinez – carlosarroyoam@gmail.com
+ * 
+ * @author Carlos Alberto Arroyo Martinez <carlosarroyoam@gmail.com>
  */
 @Path("notifications")
 public class NotificationServices {

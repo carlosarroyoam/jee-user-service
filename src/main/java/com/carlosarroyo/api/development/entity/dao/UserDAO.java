@@ -8,8 +8,8 @@ package com.carlosarroyo.api.development.entity.dao;
 import com.carlosarroyo.api.development.entity.User;
 
 /**
- *
- * @author Carlos Alberto Arroyo Martinez – carlosarroyoam@gmail.com
+ * 
+ * @author Carlos Alberto Arroyo Martinez <carlosarroyoam@gmail.com>
  */
 public interface UserDAO extends DAOInterface<User>{
     User get(String email);

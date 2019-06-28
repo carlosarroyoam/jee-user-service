@@ -19,27 +19,26 @@ import javax.websocket.server.ServerEndpoint;
 
 /**
  * 
- * @author Carlos Alberto Arroyo Martinez – carlosarroyoam@gmail.com
+ * @author Carlos Alberto Arroyo Martinez <carlosarroyoam@gmail.com>
  */
 @ServerEndpoint("/websockets/notificationservice")
 public class WebSocketServer {
     
-    private static Map<String, Session> sessions = new HashMap<String, Session>();
+    private Map<String, Session> sessions = new HashMap<>();
     
     @OnOpen
     public void open(Session session) throws IOException {
         sessions.put(session.getId(), session);
-        System.out.println("Opening connection: " + session.getId());
-        System.out.println("After open socket sessions: " + sessions.size());
-        session.getBasicRemote().sendText(session.getId() + ": Connected to socket server");
+        System.out.println("Opening socket connection: " + session.getId());
+        System.out.println("Sessions after socket open: " + sessions.size());
+        session.getBasicRemote().sendText(session.getId() + ": has been connected to socket server");
     }
 
     @OnClose
     public void close(Session session) throws IOException {
         sessions.remove(session.getId());
-        System.out.println("Closing connection: " + session.getId());
-        System.out.println("After close socket sessions: " + sessions.size());
-
+        System.out.println("Closing socket connection: " + session.getId());
+        System.out.println("Sessions after socket closed: " + sessions.size());
     }
 
     @OnError
@@ -48,14 +47,6 @@ public class WebSocketServer {
     }
 
     @OnMessage
-    public void handleMessage(String message, Session session) throws IOException {
-
-//        try (JsonReader reader = Json.createReader(new StringReader(message))) {
-//            JsonObject jsonMessage = reader.readObject();
-//
-//            if ("add".equals(jsonMessage.getString("action"))) {
-//
-//            }
-//        }
+    public void handleMessage(String message, Session session) {
     }
 }

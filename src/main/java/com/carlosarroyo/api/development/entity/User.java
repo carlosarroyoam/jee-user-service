@@ -5,14 +5,13 @@
  */
 package com.carlosarroyo.api.development.entity;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.sql.Timestamp;
 import java.util.Objects;
 
 /**
- *
- * @author Carlos Alberto Arroyo Martinez – carlosarroyoam@gmail.com
+ * 
+ * @author Carlos Alberto Arroyo Martinez <carlosarroyoam@gmail.com>
  */
 public class User {
 
@@ -22,7 +21,6 @@ public class User {
     private String email;
     private String password;
     private String remember_token;
-    private String api_token;
     private Timestamp create_at;
     private Timestamp updated_at;
 
@@ -72,14 +70,6 @@ public class User {
 
     public void setRememberToken(String remember_token) {
         this.remember_token = remember_token;
-    }
-
-    public String getApiToken() {
-        return api_token;
-    }
-
-    public void setApiToken(String api_token) {
-        this.api_token = api_token;
     }
 
     public Timestamp getCreateAt() {

@@ -21,9 +21,8 @@ import javax.ws.rs.core.Response;
 import org.json.JSONObject;
 
 /**
- * REST Web Service
- *
- * @author Carlos Alberto Arroyo Martinez – carlosarroyoam@gmail.com
+ * 
+ * @author Carlos Alberto Arroyo Martinez <carlosarroyoam@gmail.com>
  */
 @Stateful
 @Consumes(MediaType.APPLICATION_JSON)
@@ -31,6 +30,11 @@ import org.json.JSONObject;
 @Path("authentication")
 public class UserAuthenticationServices {
 
+    /**
+     * 
+     * @param requestBody
+     * @return 
+     */
     @POST
     @Path("authenticate")
     public Response getToken(String requestBody) {
@@ -56,12 +60,22 @@ public class UserAuthenticationServices {
         return Response.status(Response.Status.BAD_REQUEST).build();
     }
 
+    /**
+     * 
+     * @param requestBody
+     * @return 
+     */
     @POST
     @Path("passwordReset")
     public Response recoverPassword(String requestBody) {
         return Response.status(Response.Status.SERVICE_UNAVAILABLE).build();
     }
 
+    /**
+     * 
+     * @param requestBody
+     * @return 
+     */
     @POST
     @Path("passwordEncrypt")
     public Response encryptPassword(String requestBody) {

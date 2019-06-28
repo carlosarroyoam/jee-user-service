@@ -13,22 +13,29 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 /**
- * REST Web Service
- *
- * @author Carlos Alberto Arroyo Martinez – carlosarroyoam@gmail.com
+ * 
+ * @author Carlos Alberto Arroyo Martinez <carlosarroyoam@gmail.com>
  */
 @Path("notificationscloud")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class NotificationsCloudServices {
 
+    /**
+     * 
+     * @param requestBody
+     * @return Response
+     */
     @POST
     @Path("send")
     public Response login(String requestBody) {
         return Response.status(Response.Status.SERVICE_UNAVAILABLE).build();
     }
 
+    /**
+     * 
+     * @param message 
+     */
     private void sendMessageOverSocket(String message) {
-
     }
 }
