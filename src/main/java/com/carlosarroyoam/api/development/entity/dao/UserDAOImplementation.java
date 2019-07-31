@@ -14,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -58,7 +59,6 @@ public class UserDAOImplementation implements UserDAO {
 
                 while (resultSet.next()) {
                     User user = new User();
-
                     user.setId(resultSet.getInt(DatabaseSchema.UsersTable.Cols.UUID));
                     user.setFirstName(resultSet.getString(DatabaseSchema.UsersTable.Cols.FIRST_NAME));
                     user.setLastName(resultSet.getString(DatabaseSchema.UsersTable.Cols.LAST_NAME));
@@ -70,6 +70,7 @@ public class UserDAOImplementation implements UserDAO {
 
                     usersArrayList.add(user);
                 }
+                
                 return usersArrayList;
             }
 
@@ -79,7 +80,7 @@ public class UserDAOImplementation implements UserDAO {
             connection.closeConnection();
         }
 
-        return null;
+        return Collections.emptyList();
     }
 
     @Override
