@@ -12,7 +12,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * 
+ * This class contains methods for managing database connections
+ *
  * @author Carlos Alberto Arroyo Martínez <carlosarroyoam@gmail.com>
  */
 public class DatabaseConnection {
@@ -26,6 +27,12 @@ public class DatabaseConnection {
     
     private static DatabaseConnection DatabaseConeConnectionInstance;
     
+    /**
+    * Gets this class instance, avoids to have multiple DatabaseConnection
+    * class instances
+    *
+    * @return DatabaseConnection instance of this class
+    */
     public static DatabaseConnection getInstance() {
         if (DatabaseConeConnectionInstance == null) {
             DatabaseConeConnectionInstance = new DatabaseConnection();
@@ -36,6 +43,11 @@ public class DatabaseConnection {
     
     private DatabaseConnection() {}
 
+    /**
+    * Handles and opens the database connection
+    *
+    * @return Connection connection to database
+    */
     public Connection openConnection() {
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -48,6 +60,10 @@ public class DatabaseConnection {
         return connection;
     }
 
+    /**
+    * Closes current database connection
+    *
+    */
     public void closeConnection() {
         try {
             if (connection != null) {
