@@ -13,8 +13,8 @@ import java.util.List;
  * @param <T> Object type
  * @author Carlos Alberto Arroyo Martínez <carlosarroyoam@gmail.com>
  */
-public interface DAOInterface<T> {
-
+public interface Dao<T> {
+    
     List<T> getAll();
 
     T get(int id);
@@ -24,4 +24,5 @@ public interface DAOInterface<T> {
     boolean update(T t);
 
     boolean delete(T t);
+    
 }
