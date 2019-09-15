@@ -1,13 +1,32 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * The MIT License
+ *
+ * Copyright 2019 Carlos Alberto Arroyo Martínez <carlosarroyoam@gmail.com>.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
+
 package com.carlosarroyoam.api.development.entity.services;
 
 import com.carlosarroyoam.api.development.auth.Authentication;
 import com.carlosarroyoam.api.development.entity.User;
-import com.carlosarroyoam.api.development.entity.dao.UserDAO;
+import com.carlosarroyoam.api.development.entity.dao.UserDao;
 import java.util.Objects;
 import javax.ejb.Stateful;
 import javax.ws.rs.Consumes;
@@ -39,7 +58,7 @@ public class UserServices {
     public Response getAll() {
         return Response.status(Response.Status.OK)
                 .type(MediaType.APPLICATION_JSON)
-                .entity(UserDAO.getInstance().getAll())
+                .entity(UserDao.getInstance().getAll())
                 .build();
     }
 
@@ -53,7 +72,7 @@ public class UserServices {
     public Response getById(@PathParam("id") int id) {
         return Response.status(Response.Status.OK)
                 .type(MediaType.APPLICATION_JSON)
-                .entity(UserDAO.getInstance().get(id))
+                .entity(UserDao.getInstance().get(id))
                 .build();
     }
     
@@ -67,7 +86,7 @@ public class UserServices {
     public Response getByEmail(@PathParam("email") String email) {
         return Response.status(Response.Status.OK)
                 .type(MediaType.APPLICATION_JSON)
-                .entity(UserDAO.getInstance().get(email))
+                .entity(UserDao.getInstance().get(email))
                 .build();
     }
 
@@ -89,7 +108,7 @@ public class UserServices {
                 user.setEmail(data.getString("email"));
                 user.setPassword(Authentication.passwordHash(data.getString("password")));
 
-                User createdUser = UserDAO.getInstance().create(user);
+                User createdUser = UserDao.getInstance().create(user);
                 if (!Objects.equals(null, createdUser.getEmail())) {
                     return Response.status(Response.Status.CREATED).entity(createdUser).build();
                 }
