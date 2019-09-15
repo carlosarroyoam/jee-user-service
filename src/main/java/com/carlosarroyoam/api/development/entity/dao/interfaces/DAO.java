@@ -13,7 +13,7 @@ import java.util.List;
  * @param <T> Object type
  * @author Carlos Alberto Arroyo Martínez <carlosarroyoam@gmail.com>
  */
-public interface DAOInterface<T> {
+public interface DAO<T> {
 
     List<T> getAll();
 

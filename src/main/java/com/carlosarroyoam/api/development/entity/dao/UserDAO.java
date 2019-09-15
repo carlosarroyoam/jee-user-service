@@ -5,10 +5,10 @@
  */
 package com.carlosarroyoam.api.development.entity.dao;
 
-import com.carlosarroyoam.api.development.entity.dao.interfaces.UserDAO;
 import com.carlosarroyoam.api.development.database.DatabaseConnection;
 import com.carlosarroyoam.api.development.database.DatabaseSchema;
 import com.carlosarroyoam.api.development.entity.User;
+import com.carlosarroyoam.api.development.entity.dao.interfaces.DAO;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -21,38 +21,37 @@ import java.util.List;
  *
  * @author Carlos Alberto Arroyo Martínez <carlosarroyoam@gmail.com>
  */
-public class UserDAOImplementation implements UserDAO {
+public class UserDAO implements DAO<User> {
 
     private DatabaseConnection connection;
-    private static UserDAOImplementation UserDAOImplementationInstance;
+    private static UserDAO UserDAOImplementationInstance;
 
-    public static UserDAOImplementation getInstance() {
+    public static UserDAO getInstance() {
         if (UserDAOImplementationInstance == null) {
-            UserDAOImplementationInstance = new UserDAOImplementation();
+            UserDAOImplementationInstance = new UserDAO();
         }
 
         return UserDAOImplementationInstance;
     }
 
-    private UserDAOImplementation() {
+    private UserDAO() {
         this.connection = DatabaseConnection.getInstance();
     }
 
     @Override
     public List<User> getAll() {
-        StringBuilder query = new StringBuilder();
-        query.append("SELECT ").
-                append(DatabaseSchema.UsersTable.Cols.UUID + ", ").
-                append(DatabaseSchema.UsersTable.Cols.FIRST_NAME + ", ").
-                append(DatabaseSchema.UsersTable.Cols.LAST_NAME + ", ").
-                append(DatabaseSchema.UsersTable.Cols.EMAIL + ", ").
-                append(DatabaseSchema.UsersTable.Cols.PASSWORD + ", ").
-                append(DatabaseSchema.UsersTable.Cols.REMEMBER_TOKEN + ", ").
-                append(DatabaseSchema.UsersTable.Cols.CREATED_AT + ", ").
-                append(DatabaseSchema.UsersTable.Cols.UPDATED_AT).
-                append(" FROM " + DatabaseSchema.UsersTable.TABLE_NAME);
+        String query = "SELECT "
+                + DatabaseSchema.UsersTable.Cols.UUID + ", "
+                + DatabaseSchema.UsersTable.Cols.FIRST_NAME + ", "
+                + DatabaseSchema.UsersTable.Cols.LAST_NAME + ", "
+                + DatabaseSchema.UsersTable.Cols.EMAIL + ", "
+                + DatabaseSchema.UsersTable.Cols.PASSWORD + ", "
+                + DatabaseSchema.UsersTable.Cols.REMEMBER_TOKEN + ", "
+                + DatabaseSchema.UsersTable.Cols.CREATED_AT + ", "
+                + DatabaseSchema.UsersTable.Cols.UPDATED_AT
+                + " FROM " + DatabaseSchema.UsersTable.TABLE_NAME;
 
-        try (PreparedStatement preparedStatement = connection.openConnection().prepareStatement(query.toString());
+        try (PreparedStatement preparedStatement = connection.openConnection().prepareStatement(query);
                 ResultSet resultSet = preparedStatement.executeQuery()) {
             if (resultSet.isBeforeFirst()) {
                 List<User> usersArrayList = new ArrayList<>();
@@ -70,7 +69,7 @@ public class UserDAOImplementation implements UserDAO {
 
                     usersArrayList.add(user);
                 }
-                
+
                 return usersArrayList;
             }
 
@@ -86,36 +85,33 @@ public class UserDAOImplementation implements UserDAO {
     @Override
     public User get(int id) {
         String defaultEmail = "";
-        return get(id, defaultEmail);
+        return getByIdOrEmail(id, defaultEmail);
     }
 
-    @Override
     public User get(String email) {
         int defaultInt = 0;
-        return get(defaultInt, email);
+        return getByIdOrEmail(defaultInt, email);
     }
 
-    @Override
-    public User get(int id, String email) {
-        StringBuilder query = new StringBuilder();
-        query.append("SELECT ").
-                append(DatabaseSchema.UsersTable.Cols.UUID + ", ").
-                append(DatabaseSchema.UsersTable.Cols.FIRST_NAME + ", ").
-                append(DatabaseSchema.UsersTable.Cols.LAST_NAME + ", ").
-                append(DatabaseSchema.UsersTable.Cols.EMAIL + ", ").
-                append(DatabaseSchema.UsersTable.Cols.PASSWORD + ", ").
-                append(DatabaseSchema.UsersTable.Cols.REMEMBER_TOKEN + ", ").
-                append(DatabaseSchema.UsersTable.Cols.CREATED_AT + ", ").
-                append(DatabaseSchema.UsersTable.Cols.UPDATED_AT).
-                append(" FROM " + DatabaseSchema.UsersTable.TABLE_NAME);
+    private User getByIdOrEmail(int id, String email) {
+        String query = "SELECT "
+                + DatabaseSchema.UsersTable.Cols.UUID + ", "
+                + DatabaseSchema.UsersTable.Cols.FIRST_NAME + ", "
+                + DatabaseSchema.UsersTable.Cols.LAST_NAME + ", "
+                + DatabaseSchema.UsersTable.Cols.EMAIL + ", "
+                + DatabaseSchema.UsersTable.Cols.PASSWORD + ", "
+                + DatabaseSchema.UsersTable.Cols.REMEMBER_TOKEN + ", "
+                + DatabaseSchema.UsersTable.Cols.CREATED_AT + ", "
+                + DatabaseSchema.UsersTable.Cols.UPDATED_AT
+                + " FROM " + DatabaseSchema.UsersTable.TABLE_NAME;
 
         if (id > 0) {
-            query.append(" WHERE " + DatabaseSchema.UsersTable.Cols.UUID + " = ?");
+            query += " WHERE " + DatabaseSchema.UsersTable.Cols.UUID + " = ?";
         } else if (!email.trim().equals("")) {
-            query.append(" WHERE " + DatabaseSchema.UsersTable.Cols.EMAIL + " = ?");
+            query += " WHERE " + DatabaseSchema.UsersTable.Cols.EMAIL + " = ?";
         }
 
-        try (PreparedStatement preparedStatement = connection.openConnection().prepareStatement(query.toString())) {
+        try (PreparedStatement preparedStatement = connection.openConnection().prepareStatement(query)) {
 
             if (id > 0) {
                 preparedStatement.setInt(1, id);
@@ -151,16 +147,15 @@ public class UserDAOImplementation implements UserDAO {
 
     @Override
     public User create(User user) {
-        StringBuilder query = new StringBuilder();
-        query.append("INSERT INTO ").
-                append(DatabaseSchema.UsersTable.TABLE_NAME + " (").
-                append(DatabaseSchema.UsersTable.Cols.FIRST_NAME + ", ").
-                append(DatabaseSchema.UsersTable.Cols.LAST_NAME + ", ").
-                append(DatabaseSchema.UsersTable.Cols.EMAIL + ", ").
-                append(DatabaseSchema.UsersTable.Cols.PASSWORD).
-                append(") VALUES (?,?,?,?)");
+        String query = "INSERT INTO "
+                + DatabaseSchema.UsersTable.TABLE_NAME + " ("
+                + DatabaseSchema.UsersTable.Cols.FIRST_NAME + ", "
+                + DatabaseSchema.UsersTable.Cols.LAST_NAME + ", "
+                + DatabaseSchema.UsersTable.Cols.EMAIL + ", "
+                + DatabaseSchema.UsersTable.Cols.PASSWORD
+                + ") VALUES (?,?,?,?)";
 
-        try (PreparedStatement preparedStatement = connection.openConnection().prepareStatement(query.toString(), Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement preparedStatement = connection.openConnection().prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, user.getFirstName());
             preparedStatement.setString(2, user.getLastName());
             preparedStatement.setString(3, user.getEmail());
@@ -184,16 +179,15 @@ public class UserDAOImplementation implements UserDAO {
 
     @Override
     public boolean update(User user) {
-        StringBuilder query = new StringBuilder();
-        query.append("UPDATE ").
-                append(DatabaseSchema.UsersTable.TABLE_NAME).
-                append(" SET " + DatabaseSchema.UsersTable.Cols.FIRST_NAME + " = ?, ").
-                append(DatabaseSchema.UsersTable.Cols.LAST_NAME + " = ?, ").
-                append(DatabaseSchema.UsersTable.Cols.EMAIL + " = ?, ").
-                append(DatabaseSchema.UsersTable.Cols.PASSWORD + " = ? ").
-                append(" WHERE " + DatabaseSchema.UsersTable.Cols.UUID + " = ?");
+        String query = "UPDATE "
+                + DatabaseSchema.UsersTable.TABLE_NAME
+                + " SET " + DatabaseSchema.UsersTable.Cols.FIRST_NAME + " = ?, "
+                + DatabaseSchema.UsersTable.Cols.LAST_NAME + " = ?, "
+                + DatabaseSchema.UsersTable.Cols.EMAIL + " = ?, "
+                + DatabaseSchema.UsersTable.Cols.PASSWORD + " = ? "
+                + " WHERE " + DatabaseSchema.UsersTable.Cols.UUID + " = ?";
 
-        try (PreparedStatement preparedStatement = connection.openConnection().prepareStatement(query.toString())) {
+        try (PreparedStatement preparedStatement = connection.openConnection().prepareStatement(query)) {
             preparedStatement.setString(1, user.getFirstName());
             preparedStatement.setString(2, user.getLastName());
             preparedStatement.setString(3, user.getEmail());
@@ -215,12 +209,11 @@ public class UserDAOImplementation implements UserDAO {
 
     @Override
     public boolean delete(User user) {
-        StringBuilder query = new StringBuilder();
-        query.append("DELETE FROM ").
-                append(DatabaseSchema.UsersTable.TABLE_NAME).
-                append(" WHERE " + DatabaseSchema.UsersTable.Cols.UUID + " = ?");
+        String query = "DELETE FROM "
+                + DatabaseSchema.UsersTable.TABLE_NAME
+                + " WHERE " + DatabaseSchema.UsersTable.Cols.UUID + " = ?";
 
-        try (PreparedStatement preparedStatement = connection.openConnection().prepareStatement(query.toString())) {
+        try (PreparedStatement preparedStatement = connection.openConnection().prepareStatement(query)) {
             preparedStatement.setString(1, String.valueOf(user.getId()));
 
             if (preparedStatement.executeUpdate() == 1) {
