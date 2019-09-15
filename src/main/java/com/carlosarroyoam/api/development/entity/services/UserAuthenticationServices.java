@@ -7,7 +7,7 @@ package com.carlosarroyoam.api.development.entity.services;
 
 import com.carlosarroyoam.api.development.auth.Authentication;
 import com.carlosarroyoam.api.development.entity.User;
-import com.carlosarroyoam.api.development.entity.dao.UserDao;
+import com.carlosarroyoam.api.development.entity.dao.UserDAO;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -46,7 +46,7 @@ public class UserAuthenticationServices {
                 String password = data.get("password").toString();
 
                 if (!email.trim().equals("") && !password.trim().equals("")) {
-                    User user = UserDao.getInstance().get(email);
+                    User user = UserDAO.getInstance().get(email);
                     if (!Objects.equals(null, user.getEmail())) {
                         if (Authentication.verifyHash(password, user.getPassword())) {
                             return Response.status(Response.Status.OK).entity(user).build();

@@ -7,7 +7,7 @@ package com.carlosarroyoam.api.development.entity.services;
 
 import com.carlosarroyoam.api.development.auth.Authentication;
 import com.carlosarroyoam.api.development.entity.User;
-import com.carlosarroyoam.api.development.entity.dao.UserDao;
+import com.carlosarroyoam.api.development.entity.dao.UserDAO;
 import java.util.Objects;
 import javax.ejb.Stateful;
 import javax.ws.rs.Consumes;
@@ -39,7 +39,7 @@ public class UserServices {
     public Response getAll() {
         return Response.status(Response.Status.OK)
                 .type(MediaType.APPLICATION_JSON)
-                .entity(UserDao.getInstance().getAll())
+                .entity(UserDAO.getInstance().getAll())
                 .build();
     }
 
@@ -53,7 +53,7 @@ public class UserServices {
     public Response getById(@PathParam("id") int id) {
         return Response.status(Response.Status.OK)
                 .type(MediaType.APPLICATION_JSON)
-                .entity(UserDao.getInstance().get(id))
+                .entity(UserDAO.getInstance().get(id))
                 .build();
     }
     
@@ -67,7 +67,7 @@ public class UserServices {
     public Response getByEmail(@PathParam("email") String email) {
         return Response.status(Response.Status.OK)
                 .type(MediaType.APPLICATION_JSON)
-                .entity(UserDao.getInstance().get(email))
+                .entity(UserDAO.getInstance().get(email))
                 .build();
     }
 
@@ -89,7 +89,7 @@ public class UserServices {
                 user.setEmail(data.getString("email"));
                 user.setPassword(Authentication.passwordHash(data.getString("password")));
 
-                User createdUser = UserDao.getInstance().create(user);
+                User createdUser = UserDAO.getInstance().create(user);
                 if (!Objects.equals(null, createdUser.getEmail())) {
                     return Response.status(Response.Status.CREATED).entity(createdUser).build();
                 }
