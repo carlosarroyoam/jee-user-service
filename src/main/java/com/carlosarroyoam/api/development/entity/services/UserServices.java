@@ -40,6 +40,7 @@ import javax.ws.rs.core.Response;
 import org.json.JSONObject;
 
 /**
+ * This class handles all /user requests
  * 
  * @author Carlos Alberto Arroyo Martínez <carlosarroyoam@gmail.com>
  */
@@ -51,7 +52,7 @@ public class UserServices {
 
     /**
      * 
-     * @return Response
+     * @return The list of users
      */
     @GET
     @Path("/")
@@ -65,7 +66,7 @@ public class UserServices {
     /**
      * 
      * @param id
-     * @return Response
+     * @return A JSON with the requested user
      */
     @GET
     @Path(value = "/{id}")
@@ -79,7 +80,7 @@ public class UserServices {
     /**
      * 
      * @param email
-     * @return Response
+     * @return A JSON with the requested user
      */
     @GET
     @Path("/byemail/{email}")
@@ -93,7 +94,7 @@ public class UserServices {
     /**
      * 
      * @param requestBody
-     * @return Response
+     * @return A JSON with the created user
      */
     @POST
     @Path("/")

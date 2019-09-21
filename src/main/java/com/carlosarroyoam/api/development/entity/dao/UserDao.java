@@ -36,7 +36,8 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- *
+ * User entity dao class
+ * 
  * @author Carlos Alberto Arroyo Martínez <carlosarroyoam@gmail.com>
  */
 public class UserDao implements Dao<User> {
@@ -232,7 +233,7 @@ public class UserDao implements Dao<User> {
                 + " WHERE " + DatabaseSchema.UsersTable.Cols.UUID + " = ?";
 
         try (PreparedStatement preparedStatement = connection.openConnection().prepareStatement(query)) {
-            preparedStatement.setString(1, String.valueOf(user.getId()));
+            preparedStatement.setInt(1, user.getId());
 
             if (preparedStatement.executeUpdate() == 1) {
                 return true;

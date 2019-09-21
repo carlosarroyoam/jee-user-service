@@ -40,6 +40,7 @@ import javax.ws.rs.core.Response;
 import org.json.JSONObject;
 
 /**
+ * This class handles all /authentication requests
  * 
  * @author Carlos Alberto Arroyo Martínez <carlosarroyoam@gmail.com>
  */
@@ -52,7 +53,7 @@ public class UserAuthenticationServices {
     /**
      * 
      * @param requestBody
-     * @return 
+     * @return The authenticated user info
      */
     @POST
     @Path("authenticate")
@@ -93,7 +94,7 @@ public class UserAuthenticationServices {
     /**
      * 
      * @param requestBody
-     * @return 
+     * @return The encrypted password hash string
      */
     @POST
     @Path("passwordEncrypt")

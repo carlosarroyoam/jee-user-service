@@ -22,40 +22,26 @@
  * THE SOFTWARE.
  */
 
-package com.carlosarroyoam.api.development.entity.services;
+package com.carlosarroyoam.api.development.entity.dao;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.Produces;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import java.util.List;
 
 /**
- * This class handles all /notificationscloud requests
- * 
+ * Specifies all methods that should be implemented on dao entities classes
+ *
+ * @param <T> Object type
  * @author Carlos Alberto Arroyo Martínez <carlosarroyoam@gmail.com>
  */
-@Path("notificationscloud")
-@Consumes(MediaType.APPLICATION_JSON)
-@Produces(MediaType.APPLICATION_JSON)
-public class NotificationsCloudServices {
+public interface Dao<T> {
 
-    /**
-     * 
-     * @param requestBody
-     * @return
-     */
-    @POST
-    @Path("send")
-    public Response login(String requestBody) {
-        return Response.status(Response.Status.SERVICE_UNAVAILABLE).build();
-    }
+    List<T> getAll();
 
-    /**
-     * 
-     * @param message 
-     */
-    private void sendMessageOverSocket(String message) {
-    }
+    T get(int id);
+
+    T create(T t);
+
+    boolean update(T t);
+
+    boolean delete(T t);
+    
 }

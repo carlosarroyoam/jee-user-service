@@ -32,6 +32,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 /**
+ * This class handles all /notifications requests
  * 
  * @author Carlos Alberto Arroyo Martínez <carlosarroyoam@gmail.com>
  */
@@ -41,7 +42,7 @@ public class NotificationServices {
     /**
      * 
      * @param requestBody
-     * @return Response
+     * @return The list of requested user notifications
      */
     @POST
     @Path("getByUserId")
