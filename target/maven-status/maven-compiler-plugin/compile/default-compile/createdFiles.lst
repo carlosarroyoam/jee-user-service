@@ -1,0 +1,17 @@
+com\carlosarroyoam\api\auth\bcrypt\BCrypt.class
+com\carlosarroyoam\api\controllers\ApplicationConfig.class
+com\carlosarroyoam\api\database\DatabaseSchema$UsersTable.class
+com\carlosarroyoam\api\database\DatabaseSchema$UsersTable$Cols.class
+com\carlosarroyoam\api\auth\Authentication.class
+com\carlosarroyoam\api\controllers\NotificationController.class
+com\carlosarroyoam\api\dao\UserDao.class
+com\carlosarroyoam\api\models\User.class
+com\carlosarroyoam\api\controllers\AuthenticationController.class
+com\carlosarroyoam\api\auth\bcrypt\BCryptPasswordEncoder.class
+com\carlosarroyoam\api\controllers\UserController.class
+com\carlosarroyoam\api\database\DatabaseConnection.class
+com\carlosarroyoam\api\controllers\NotificationsCloudServices.class
+com\carlosarroyoam\api\auth\bcrypt\BCryptPasswordEncoder$BCryptVersion.class
+com\carlosarroyoam\api\auth\bcrypt\PasswordEncoderInterface.class
+com\carlosarroyoam\api\database\DatabaseSchema.class
+com\carlosarroyoam\api\dao\Dao.class
