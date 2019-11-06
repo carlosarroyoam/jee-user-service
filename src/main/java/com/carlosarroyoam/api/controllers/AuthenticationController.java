@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package com.carlosarroyoam.api.controllers;
 
 import com.carlosarroyoam.api.auth.Authentication;
@@ -29,7 +28,6 @@ import com.carlosarroyoam.api.models.User;
 import com.carlosarroyoam.api.dao.UserDao;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import javax.ejb.Stateful;
 import javax.ws.rs.Consumes;
@@ -42,7 +40,7 @@ import org.json.JSONObject;
 
 /**
  * This class handles all example-domain.com/authentication requests.
- * 
+ *
  * @author Carlos Alberto Arroyo Martínez <carlosarroyoam@gmail.com>
  */
 @Stateful
@@ -52,53 +50,66 @@ import org.json.JSONObject;
 public class AuthenticationController {
 
     /**
-     * 
+     *
      * @param requestBody
-     * @return The authenticated user info.
+     * @return The authenticated User.
      */
     @POST
     @Path("authenticate")
     public Response getToken(String requestBody) {
         if (!requestBody.trim().equals("")) {
             JSONObject data = new JSONObject(requestBody);
-            
+
             if (!data.isEmpty()) {
                 String email = data.get("email").toString();
                 String password = data.get("password").toString();
 
                 if (!email.trim().equals("") && !password.trim().equals("")) {
                     Optional<User> user = UserDao.getInstance().get(email);
+                    
                     if (user.isPresent()) {
                         if (Authentication.verifyHash(password, user.get().getPassword())) {
                             return Response.status(Response.Status.OK).entity(user.get()).build();
                         }
-                        
-                        return Response.status(Response.Status.UNAUTHORIZED).build();
+
+                        return Response.status(Response.Status.UNAUTHORIZED)
+                                .type(MediaType.APPLICATION_JSON)
+                                .entity("UNAUTHORIZED")
+                                .build();
                     }
-                    
-                    return Response.status(Response.Status.NO_CONTENT).build();
+
+                    return Response.status(Response.Status.NOT_FOUND)
+                            .type(MediaType.APPLICATION_JSON)
+                            .entity("NOT_FOUND")
+                            .build();
                 }
             }
         }
-        
-        return Response.status(Response.Status.BAD_REQUEST).build();
+
+        return Response.status(Response.Status.BAD_REQUEST)
+                .type(MediaType.APPLICATION_JSON)
+                .entity("BAD_REQUEST")
+                .build();
     }
 
     /**
-     * 
+     *
      * @param requestBody
-     * @return 
+     * @return
      */
     @POST
     @Path("passwordReset")
     public Response recoverPassword(String requestBody) {
-        return Response.status(Response.Status.SERVICE_UNAVAILABLE).build();
+        return Response.status(Response.Status.SERVICE_UNAVAILABLE)
+                .type(MediaType.APPLICATION_JSON)
+                .entity("SERVICE_UNAVAILABLE")
+                .build();
     }
 
     /**
-     * 
+     *
      * @param requestBody
-     * @return The encrypted password hash string.
+     * @return The encrypted password hashed string.
      */
     @POST
     @Path("passwordEncrypt")
@@ -109,9 +120,15 @@ public class AuthenticationController {
             if (!data.isEmpty()) {
                 Map messagesList = new HashMap();
                 messagesList.put("passwordHash", Authentication.passwordHash(data.get("password").toString()));
+
                 return Response.status(Response.Status.OK).entity(messagesList).build();
             }
         }
-        return Response.status(Response.Status.BAD_REQUEST).build();
+
+        return Response.status(Response.Status.BAD_REQUEST)
+                .type(MediaType.APPLICATION_JSON)
+                .entity("BAD_REQUEST")
+                .build();
     }
+
 }

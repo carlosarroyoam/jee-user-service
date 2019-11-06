@@ -41,7 +41,7 @@ public interface Dao<T> {
 
     Optional<T> create(T t);
 
-    boolean update(T t);
+    Optional<T> update(T t);
 
     boolean delete(T t);
     

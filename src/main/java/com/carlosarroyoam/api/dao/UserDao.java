@@ -43,14 +43,14 @@ import java.util.Optional;
 public class UserDao implements Dao<User> {
 
     private final DatabaseConnection connection;
-    private static UserDao UserDAOImplementationInstance;
+    private static UserDao UserDAOInstance;
 
     public static UserDao getInstance() {
-        if (UserDAOImplementationInstance == null) {
-            UserDAOImplementationInstance = new UserDao();
+        if (UserDAOInstance == null) {
+            UserDAOInstance = new UserDao();
         }
 
-        return UserDAOImplementationInstance;
+        return UserDAOInstance;
     }
 
     private UserDao() {
@@ -188,7 +188,7 @@ public class UserDao implements Dao<User> {
         } finally {
             connection.closeConnection();
         }
-        
+
         return Optional.ofNullable(createdUser);
     }
 
@@ -200,10 +200,11 @@ public class UserDao implements Dao<User> {
      * @return A boolean, indicating if user was successfully updated or not.
      */
     @Override
-    public boolean update(User user) {
+    public Optional<User> update(User user) {
+        User updatedUser = null;
         String query = "UPDATE "
-                + DatabaseSchema.UsersTable.TABLE_NAME
-                + " SET " + DatabaseSchema.UsersTable.Cols.FIRST_NAME + " = ?, "
+                + DatabaseSchema.UsersTable.TABLE_NAME + " SET "
+                + DatabaseSchema.UsersTable.Cols.FIRST_NAME + " = ?, "
                 + DatabaseSchema.UsersTable.Cols.LAST_NAME + " = ?, "
                 + DatabaseSchema.UsersTable.Cols.EMAIL + " = ?, "
                 + DatabaseSchema.UsersTable.Cols.PASSWORD + " = ? "
@@ -217,7 +218,7 @@ public class UserDao implements Dao<User> {
             preparedStatement.setInt(5, user.getId());
 
             if (preparedStatement.executeUpdate() == 1) {
-                return true;
+                updatedUser = get(user.getId()).get();
             }
 
         } catch (SQLException e) {
@@ -226,7 +227,7 @@ public class UserDao implements Dao<User> {
             connection.closeConnection();
         }
 
-        return false;
+        return Optional.ofNullable(updatedUser);
     }
 
     /**
