@@ -49,8 +49,6 @@ public class ApplicationConfig extends Application {
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(com.carlosarroyoam.api.controllers.AuthenticationController.class);
-        resources.add(com.carlosarroyoam.api.controllers.NotificationController.class);
-        resources.add(com.carlosarroyoam.api.controllers.NotificationsCloudServices.class);
         resources.add(com.carlosarroyoam.api.controllers.UserController.class);
     }
     
