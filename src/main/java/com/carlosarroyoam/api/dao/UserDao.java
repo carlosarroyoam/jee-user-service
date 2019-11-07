@@ -45,6 +45,12 @@ public class UserDao implements Dao<User> {
     private final DatabaseConnection connection;
     private static UserDao UserDAOInstance;
 
+    /**
+    * Gets this class instance, avoids to have multiple UserDao
+    * class instances.
+    *
+    * @return UserDao instance.
+    */
     public static UserDao getInstance() {
         if (UserDAOInstance == null) {
             UserDAOInstance = new UserDao();
@@ -54,6 +60,9 @@ public class UserDao implements Dao<User> {
     }
 
     /**
+     * Class constructor, gets DatabaseConnection instance.
+     * Needs to be private in order to avoid being instanciated
+     * from external classes.
      * 
      */
     private UserDao() {
@@ -61,7 +70,7 @@ public class UserDao implements Dao<User> {
     }
 
     /**
-     * Performs the SQL query to get all users on the database. 
+     * Performs the SQL query to get all users from the database. 
      * 
      * @return The List users.
      */
@@ -108,7 +117,7 @@ public class UserDao implements Dao<User> {
     }
 
     /**
-     * Performs the SQL query to get an user on the database by id. 
+     * Performs the SQL query to get an user from the database by id. 
      * 
      * @param id User id.
      * @return The requested User.
@@ -120,7 +129,7 @@ public class UserDao implements Dao<User> {
     }
 
     /**
-     * Performs the SQL query to get an user on the database by email.
+     * Performs the SQL query to get an user from the database by email.
      * 
      * @param email User email.
      * @return The requested User.
@@ -131,7 +140,7 @@ public class UserDao implements Dao<User> {
     }
 
     /**
-     * Performs the SQL query to get an user on the database, 
+     * Performs the SQL query to get an user from the database, 
      * It receives two parameters but only one is needed,
      * If needs to get a user by id, then pass an empty string on email parameter,
      * Same if needs to get a user by email, then pass a 0 on id parameter.

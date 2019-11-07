@@ -50,7 +50,7 @@ public class DatabaseConnection {
     * Gets this class instance, avoids to have multiple DatabaseConnection
     * class instances.
     *
-    * @return DatabaseConnection instance of this class.
+    * @return DatabaseConnection instance.
     */
     public static DatabaseConnection getInstance() {
         if (DatabaseConnectionInstance == null) {
@@ -60,6 +60,11 @@ public class DatabaseConnection {
         return DatabaseConnectionInstance;
     }
     
+    /**
+     * Class constructor, needs to be private in order to avoid being
+     * instanciated from external classes.
+     * 
+     */
     private DatabaseConnection() {}
 
     /**
