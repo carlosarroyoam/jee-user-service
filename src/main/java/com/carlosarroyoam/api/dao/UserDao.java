@@ -53,10 +53,18 @@ public class UserDao implements Dao<User> {
         return UserDAOInstance;
     }
 
+    /**
+     * 
+     */
     private UserDao() {
         this.connection = DatabaseConnection.getInstance();
     }
 
+    /**
+     * Performs the SQL query to get all users on the database. 
+     * 
+     * @return The List users.
+     */
     @Override
     public List<User> getAll() {
         String query = "SELECT "
@@ -99,17 +107,40 @@ public class UserDao implements Dao<User> {
         return Collections.emptyList();
     }
 
+    /**
+     * Performs the SQL query to get an user on the database by id. 
+     * 
+     * @param id User id.
+     * @return The requested User.
+     */
     @Override
     public Optional<User> get(int id) {
         final String defaultEmail = "";
         return getByIdOrEmail(id, defaultEmail);
     }
 
+    /**
+     * Performs the SQL query to get an user on the database by email.
+     * 
+     * @param email User email.
+     * @return The requested User.
+     */
     public Optional<User> get(String email) {
         final int defaultId = 0;
         return getByIdOrEmail(defaultId, email);
     }
 
+    /**
+     * Performs the SQL query to get an user on the database, 
+     * It receives two parameters but only one is needed,
+     * If needs to get a user by id, then pass an empty string on email parameter,
+     * Same if needs to get a user by email, then pass a 0 on id parameter.
+     *
+     * @param id User id.
+     * @param email User email.
+     * 
+     * @return The requested User.
+     */
     private Optional<User> getByIdOrEmail(int id, String email) {
         User user = null;
         String query = "SELECT "
@@ -159,6 +190,13 @@ public class UserDao implements Dao<User> {
         return Optional.ofNullable(user);
     }
 
+    /**
+     * Performs the SQL query to create an user on the database, Returns
+     * {@code true} if user was successfully created, otherwise {@code false}.
+     *
+     * @param user User to be created.
+     * @return The created User.
+     */
     @Override
     public Optional<User> create(User user) {
         User createdUser = null;
