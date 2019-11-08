@@ -23,27 +23,24 @@
  */
 package com.carlosarroyoam.api.controllers;
 
-import com.carlosarroyoam.api.auth.Authentication;
+import com.carlosarroyoam.api.auth.Passwords;
 import com.carlosarroyoam.api.models.User;
-import com.carlosarroyoam.api.dao.UserDao;
-import java.util.HashMap;
-import java.util.Map;
+import com.carlosarroyoam.api.services.UserService;
+import java.util.Objects;
 import java.util.Optional;
-import javax.ejb.Stateful;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import org.json.JSONObject;
 
 /**
  * This class handles all example-domain.com/authentication requests.
  *
  * @author Carlos Alberto Arroyo Martínez <carlosarroyoam@gmail.com>
  */
-@Stateful
+
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 @Path("authentication")
@@ -51,83 +48,51 @@ public class AuthenticationController {
 
     /**
      *
-     * @param requestBody
+     * @param user The User to be authenticated.
      * @return The authenticated User.
      */
     @POST
-    @Path("authenticate")
-    public Response getToken(String requestBody) {
-        if (!requestBody.trim().equals("")) {
-            JSONObject data = new JSONObject(requestBody);
-
-            if (!data.isEmpty()) {
-                String email = data.get("email").toString();
-                String password = data.get("password").toString();
-
-                if (!email.trim().equals("") && !password.trim().equals("")) {
-                    Optional<User> user = UserDao.getInstance().get(email);
-                    
-                    if (user.isPresent()) {
-                        if (Authentication.verifyHash(password, user.get().getPassword())) {
-                            return Response.status(Response.Status.OK).entity(user.get()).build();
-                        }
-
-                        return Response.status(Response.Status.UNAUTHORIZED)
-                                .type(MediaType.APPLICATION_JSON)
-                                .entity("UNAUTHORIZED")
-                                .build();
-                    }
-
-                    return Response.status(Response.Status.NOT_FOUND)
-                            .type(MediaType.APPLICATION_JSON)
-                            .entity("NOT_FOUND")
-                            .build();
-                }
-            }
+    @Path("auth")
+    public Response getToken(User user) {
+        if (Objects.equals(null, user)) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .type(MediaType.APPLICATION_JSON)
+                    .entity("BAD_REQUEST")
+                    .build();
         }
 
-        return Response.status(Response.Status.BAD_REQUEST)
+        Optional<User> optionalUser = UserService.getInstance().findByEmail(user.getEmail());
+        
+        if (!optionalUser.isPresent()) {
+            return Response.status(Response.Status.NOT_FOUND)
+                    .type(MediaType.APPLICATION_JSON)
+                    .entity("NOT_FOUND")
+                    .build();
+        }
+
+        if (!Passwords.verifyHash(user.getPassword(), optionalUser.get().getPassword())) {
+            return Response.status(Response.Status.UNAUTHORIZED)
+                    .type(MediaType.APPLICATION_JSON)
+                    .entity("UNAUTHORIZED")
+                    .build();
+        }
+
+        return Response.status(Response.Status.OK)
                 .type(MediaType.APPLICATION_JSON)
-                .entity("BAD_REQUEST")
+                .entity(optionalUser.get())
                 .build();
     }
 
     /**
      *
-     * @param requestBody
      * @return
      */
     @POST
     @Path("passwordReset")
-    public Response recoverPassword(String requestBody) {
+    public Response recoverPassword() {
         return Response.status(Response.Status.SERVICE_UNAVAILABLE)
                 .type(MediaType.APPLICATION_JSON)
                 .entity("SERVICE_UNAVAILABLE")
-                .build();
-    }
-
-    /**
-     *
-     * @param requestBody
-     * @return The encrypted password hashed string.
-     */
-    @POST
-    @Path("passwordEncrypt")
-    public Response encryptPassword(String requestBody) {
-        if (!requestBody.trim().equals("")) {
-            JSONObject data = new JSONObject(requestBody);
-
-            if (!data.isEmpty()) {
-                Map messagesList = new HashMap();
-                messagesList.put("passwordHash", Authentication.passwordHash(data.get("password").toString()));
-
-                return Response.status(Response.Status.OK).entity(messagesList).build();
-            }
-        }
-
-        return Response.status(Response.Status.BAD_REQUEST)
-                .type(MediaType.APPLICATION_JSON)
-                .entity("BAD_REQUEST")
                 .build();
     }
 

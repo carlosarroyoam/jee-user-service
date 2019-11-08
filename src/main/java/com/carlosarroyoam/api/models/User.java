@@ -41,7 +41,7 @@ public class User {
     private String last_name;
     private String email;
     private String password;
-    private Timestamp create_at;
+    private Timestamp created_at;
     private Timestamp updated_at;
 
     public int getId() {
@@ -85,20 +85,19 @@ public class User {
     }
 
     public Timestamp getCreateAt() {
-        return create_at;
+        return created_at;
     }
 
     public void setCreateAt(Timestamp create_at) {
-        this.create_at = create_at;
+        this.created_at = create_at;
     }
 
     public String getCreatedAtStringFormatted() {
-        if(Objects.equals(null, create_at))
+        if(Objects.equals(null, created_at))
             return "";
         
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy h:mm a");
-        String formattedDate = simpleDateFormat.format(create_at);
-        return formattedDate;
+        return simpleDateFormat.format(created_at);
     }
 
     public Timestamp getUpdatedAt() {
@@ -114,7 +113,6 @@ public class User {
             return "";
         
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy h:mm a");
-        String formattedDate = simpleDateFormat.format(updated_at);
-        return formattedDate;
+        return simpleDateFormat.format(updated_at);
     }
 }

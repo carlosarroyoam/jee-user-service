@@ -23,11 +23,10 @@
  */
 package com.carlosarroyoam.api.controllers;
 
-import com.carlosarroyoam.api.auth.Authentication;
 import com.carlosarroyoam.api.models.User;
-import com.carlosarroyoam.api.dao.UserDao;
+import com.carlosarroyoam.api.services.UserService;
+import java.util.Objects;
 import java.util.Optional;
-import javax.ejb.Stateful;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -38,14 +37,13 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import org.json.JSONObject;
 
 /**
  * This class handles all example-domain.com/user requests.
  *
  * @author Carlos Alberto Arroyo Martínez <carlosarroyoam@gmail.com>
  */
-@Stateful
+
 @Path("users")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
@@ -60,104 +58,102 @@ public class UserController {
     public Response getAll() {
         return Response.status(Response.Status.OK)
                 .type(MediaType.APPLICATION_JSON)
-                .entity(UserDao.getInstance().getAll())
+                .entity(UserService.getInstance().findAll())
                 .build();
     }
 
     /**
      *
-     * @param id
+     * @param id The User id to be requested.
      * @return The requested User.
      */
     @GET
     @Path(value = "/{id}")
     public Response getById(@PathParam("id") int id) {
-        Optional<User> user = UserDao.getInstance().get(id);
+        Optional<User> user = UserService.getInstance().findById(id);
 
-        if (user.isPresent()) {
-            return Response.status(Response.Status.OK)
-                    .type(MediaType.APPLICATION_JSON)
-                    .entity(user.get())
-                    .build();
-        } else {
+        if (!user.isPresent()) {
             return Response.status(Response.Status.NOT_FOUND)
                     .type(MediaType.APPLICATION_JSON)
                     .entity("NOT_FOUND")
                     .build();
         }
+
+        return Response.status(Response.Status.OK)
+                .type(MediaType.APPLICATION_JSON)
+                .entity(user.get())
+                .build();
     }
 
     /**
      *
-     * @param email
+     * @param email The User email to be requested.
      * @return The requested User.
      */
     @GET
     @Path("/byemail/{email}")
     public Response getByEmail(@PathParam("email") String email) {
-        Optional<User> user = UserDao.getInstance().get(email);
+        Optional<User> user = UserService.getInstance().findByEmail(email);
 
-        if (user.isPresent()) {
-            return Response.status(Response.Status.OK)
-                    .type(MediaType.APPLICATION_JSON)
-                    .entity(user.get())
-                    .build();
-        } else {
+        if (!user.isPresent()) {
             return Response.status(Response.Status.NOT_FOUND)
                     .type(MediaType.APPLICATION_JSON)
                     .entity("NOT_FOUND")
                     .build();
         }
+
+        return Response.status(Response.Status.OK)
+                .type(MediaType.APPLICATION_JSON)
+                .entity(user.get())
+                .build();
     }
 
     /**
      *
-     * @param requestBody
+     * @param user
      * @return The stored User.
      */
     @POST
     @Path("/")
-    public Response store(String requestBody) {
-        if (!requestBody.trim().equals("")) {
-            JSONObject data = new JSONObject(requestBody);
-
-            if (!data.isEmpty()) {
-                User user = new User();
-                user.setFirstName(data.getString("first_name"));
-                user.setLastName(data.getString("last_name"));
-                user.setEmail(data.getString("email"));
-                user.setPassword(Authentication.passwordHash(data.getString("password")));
-
-                Optional<User> createdUser = UserDao.getInstance().create(user);
-
-                if (createdUser.isPresent()) {
-                    return Response.status(Response.Status.CREATED)
-                            .type(MediaType.APPLICATION_JSON)
-                            .entity(createdUser.get())
-                            .build();
-                }
-
-                return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                        .type(MediaType.APPLICATION_JSON)
-                        .entity("INTERNAL_SERVER_ERROR")
-                        .build();
-            }
+    public Response store(User user) {
+        if (Objects.equals(null, user)) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .type(MediaType.APPLICATION_JSON)
+                    .entity("BAD_REQUEST")
+                    .build();
         }
-        
-        return Response.status(Response.Status.BAD_REQUEST)
+
+        Optional<User> createdUser = UserService.getInstance().save(user);
+
+        if (!createdUser.isPresent()) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .type(MediaType.APPLICATION_JSON)
+                    .entity("INTERNAL_SERVER_ERROR")
+                    .build();
+        }
+
+        return Response.status(Response.Status.CREATED)
                 .type(MediaType.APPLICATION_JSON)
-                .entity("BAD_REQUEST")
+                .entity(createdUser.get())
                 .build();
     }
-    
+
     /**
      *
-     * @param id
+     * @param id The User id to be updated.
+     * @param user The User to be updated.
      * @return The updated User.
      */
     @PUT
     @Path(value = "/{id}")
-    public Response update(@PathParam("id") int id) {
+    public Response update(@PathParam("id") int id, User user) {
+        if (Objects.equals(null, user)) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .type(MediaType.APPLICATION_JSON)
+                    .entity("BAD_REQUEST")
+                    .build();
+        }
+
         return Response.status(Response.Status.SERVICE_UNAVAILABLE)
                 .type(MediaType.APPLICATION_JSON)
                 .entity("SERVICE_UNAVAILABLE")
@@ -166,31 +162,31 @@ public class UserController {
 
     /**
      *
-     * @param id
+     * @param id The User id to be deleted.
      * @return A boolean, indicating if user was successfully deleted or not.
      */
     @DELETE
     @Path(value = "/{id}")
     public Response destroy(@PathParam("id") int id) {
-        Optional<User> userToDelete = UserDao.getInstance().get(id);
+        Optional<User> userToDelete = UserService.getInstance().findById(id);
 
-        if (userToDelete.isPresent()) {
-            if (UserDao.getInstance().delete(userToDelete.get())) {
-                return Response.status(Response.Status.OK)
-                        .type(MediaType.APPLICATION_JSON)
-                        .entity("deleted")
-                        .build();
-            } else {
-                return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                        .type(MediaType.APPLICATION_JSON)
-                        .entity("INTERNAL_SERVER_ERROR")
-                        .build();
-            }
+        if (!userToDelete.isPresent()) {
+            return Response.status(Response.Status.NOT_FOUND)
+                    .type(MediaType.APPLICATION_JSON)
+                    .entity("NOT_FOUND")
+                    .build();
         }
 
-        return Response.status(Response.Status.NOT_FOUND)
+        if (!UserService.getInstance().delete(userToDelete.get())) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .type(MediaType.APPLICATION_JSON)
+                    .entity("INTERNAL_SERVER_ERROR")
+                    .build();
+        }
+
+        return Response.status(Response.Status.OK)
                 .type(MediaType.APPLICATION_JSON)
-                .entity("NOT_FOUND")
+                .entity("USER_DELETED_SUCCESSFULLY")
                 .build();
     }
 
