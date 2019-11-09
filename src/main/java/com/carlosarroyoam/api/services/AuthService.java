@@ -21,58 +21,53 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.carlosarroyoam.api.controllers;
+package com.carlosarroyoam.api.services;
 
 import com.carlosarroyoam.api.auth.Passwords;
+import com.carlosarroyoam.api.exceptions.WrongPasswordException;
 import com.carlosarroyoam.api.models.User;
-import com.carlosarroyoam.api.services.AuthService;
-import com.carlosarroyoam.api.services.UserService;
-import java.util.Objects;
 import java.util.Optional;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.Produces;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 /**
- * This class handles all example-domain.com/authentication requests.
  *
  * @author Carlos Alberto Arroyo Martínez <carlosarroyoam@gmail.com>
  */
-@Consumes(MediaType.APPLICATION_JSON)
-@Produces(MediaType.APPLICATION_JSON)
-@Path("authentication")
-public class AuthenticationController {
+public class AuthService {
+
+    private final UserService userService;
+    private static AuthService authService;
 
     /**
-     * Authenticates a user.
-     * 
-     * @param user The User to be authenticated.
-     * @return The authenticated User.
+     * Gets this class instance, avoids to have multiple AuthService class
+     * instances.
+     *
+     * @return AuthService instance.
      */
-    @POST
-    @Path("auth")
-    public Response getToken(User user) {
-        return Response.status(Response.Status.OK)
-                .type(MediaType.APPLICATION_JSON)
-                .entity(AuthService.getInstance().auth(user).get())
-                .build();
+    public static AuthService getInstance() {
+        if (authService == null) {
+            authService = new AuthService();
+        }
+
+        return authService;
     }
 
     /**
-     * Resets user password.
-     * 
-     * @return
+     * Class constructor, gets UserService instance. Needs to be private in order to
+     * avoid being instanciated from external classes.
+     *
      */
-    @POST
-    @Path("passwordReset")
-    public Response recoverPassword() {
-        return Response.status(Response.Status.SERVICE_UNAVAILABLE)
-                .type(MediaType.APPLICATION_JSON)
-                .entity("SERVICE_UNAVAILABLE")
-                .build();
+    private AuthService() {
+        userService = UserService.getInstance();
+    }
+
+    public Optional<User> auth(User user) {
+        Optional<User> toAuthUser = userService.findByEmail(user.getEmail());
+
+        if (!Passwords.verifyHash(user.getPassword(), toAuthUser.get().getPassword())) {
+            throw new WrongPasswordException("Password is not correct for " + User.class.getSimpleName() + " with email = '" + user.getEmail() + "'.");
+        }
+
+        return toAuthUser;
     }
 
 }

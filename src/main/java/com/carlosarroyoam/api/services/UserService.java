@@ -25,43 +25,45 @@ package com.carlosarroyoam.api.services;
 
 import com.carlosarroyoam.api.auth.Passwords;
 import com.carlosarroyoam.api.dao.UserDao;
+import com.carlosarroyoam.api.exceptions.ContentNotCreatedException;
+import com.carlosarroyoam.api.exceptions.ResourceNotFoundException;
 import com.carlosarroyoam.api.models.User;
 import java.util.List;
 import java.util.Optional;
 
 /**
+ * User bussines logic service class.
  *
  * @author Carlos Alberto Arroyo Martínez <carlosarroyoam@gmail.com>
  */
-public class UserService implements IUserService{
+public class UserService implements Service<User> {
 
     private final UserDao userDao;
-    private static UserService userServiceImpl;
+    private static UserService userService;
 
     /**
-    * Gets this class instance, avoids to have multiple UserServiceImpl
-    * class instances.
-    *
-    * @return UserServiceImpl instance.
-    */
+     * Gets this class instance, avoids to have multiple UserServiceImpl class
+     * instances.
+     *
+     * @return UserServiceImpl instance.
+     */
     public static UserService getInstance() {
-        if (userServiceImpl == null) {
-            userServiceImpl = new UserService();
+        if (userService == null) {
+            userService = new UserService();
         }
 
-        return userServiceImpl;
+        return userService;
     }
 
     /**
-     * Class constructor, gets UserDao instance.
-     * Needs to be private in order to avoid being instanciated
-     * from external classes.
-     * 
+     * Class constructor, gets UserDao instance. Needs to be private in order to
+     * avoid being instanciated from external classes.
+     *
      */
-     private UserService() {
+    private UserService() {
         userDao = UserDao.getInstance();
     }
-    
+
     @Override
     public List<User> findAll() {
         return this.userDao.getAll();
@@ -69,28 +71,44 @@ public class UserService implements IUserService{
 
     @Override
     public Optional<User> findById(int id) {
-        return this.userDao.get(id);
+        Optional<User> user = this.userDao.get(id);
+
+        if (!user.isPresent()) {
+            throw new ResourceNotFoundException(User.class.getSimpleName() + " with id = '" + id + "' was not found.");
+        }
+
+        return user;
     }
 
-    @Override
     public Optional<User> findByEmail(String email) {
-        return this.userDao.get(email);
+        Optional<User> user = this.userDao.get(email);
+
+        if (!user.isPresent()) {
+            throw new ResourceNotFoundException(User.class.getSimpleName() + " with email = '" + email + "' was not found.");
+        }
+
+        return user;
     }
-    
+
     @Override
     public Optional<User> save(User user) {
-        user.setPassword(Passwords.toHash(user.getPassword()));
-        return this.userDao.create(user);
-    }
+        if (user.getId() > 0) {
+            return this.userDao.update(user);
+        }
 
-    @Override
-    public Optional<User> update(User user) {
-        return this.userDao.update(user);
+        user.setPassword(Passwords.toHash(user.getPassword()));
+
+        Optional<User> createdUser = this.userDao.create(user);
+        if (!createdUser.isPresent()) {
+            throw new ContentNotCreatedException(User.class.getSimpleName() + " was not created.");
+        }
+        
+        return createdUser;
     }
 
     @Override
     public boolean delete(User user) {
         return this.userDao.delete(user);
     }
-    
+
 }

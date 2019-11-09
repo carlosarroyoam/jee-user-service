@@ -50,6 +50,12 @@ public class ApplicationConfig extends Application {
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(com.carlosarroyoam.api.controllers.AuthenticationController.class);
         resources.add(com.carlosarroyoam.api.controllers.UserController.class);
+        resources.add(com.carlosarroyoam.api.exceptions.ContentNotCreatedExceptionMapper.class);
+        resources.add(com.carlosarroyoam.api.exceptions.EOFExceptionMapper.class);
+        resources.add(com.carlosarroyoam.api.exceptions.GenericExceptionMapper.class);
+        resources.add(com.carlosarroyoam.api.exceptions.ResourceNotFoundExceptionMapper.class);
+        resources.add(com.carlosarroyoam.api.exceptions.UnrecognizedPropertyExceptionMapper.class);
+        resources.add(com.carlosarroyoam.api.exceptions.WrongPasswordExceptionMapper.class);
     }
     
 }

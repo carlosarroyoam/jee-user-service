@@ -43,7 +43,6 @@ import javax.ws.rs.core.Response;
  *
  * @author Carlos Alberto Arroyo Martínez <carlosarroyoam@gmail.com>
  */
-
 @Path("users")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
@@ -57,7 +56,6 @@ public class UserController {
     @Path("/")
     public Response getAll() {
         return Response.status(Response.Status.OK)
-                .type(MediaType.APPLICATION_JSON)
                 .entity(UserService.getInstance().findAll())
                 .build();
     }
@@ -70,18 +68,8 @@ public class UserController {
     @GET
     @Path(value = "/{id}")
     public Response getById(@PathParam("id") int id) {
-        Optional<User> user = UserService.getInstance().findById(id);
-
-        if (!user.isPresent()) {
-            return Response.status(Response.Status.NOT_FOUND)
-                    .type(MediaType.APPLICATION_JSON)
-                    .entity("NOT_FOUND")
-                    .build();
-        }
-
         return Response.status(Response.Status.OK)
-                .type(MediaType.APPLICATION_JSON)
-                .entity(user.get())
+                .entity(UserService.getInstance().findById(id).get())
                 .build();
     }
 
@@ -93,18 +81,8 @@ public class UserController {
     @GET
     @Path("/byemail/{email}")
     public Response getByEmail(@PathParam("email") String email) {
-        Optional<User> user = UserService.getInstance().findByEmail(email);
-
-        if (!user.isPresent()) {
-            return Response.status(Response.Status.NOT_FOUND)
-                    .type(MediaType.APPLICATION_JSON)
-                    .entity("NOT_FOUND")
-                    .build();
-        }
-
         return Response.status(Response.Status.OK)
-                .type(MediaType.APPLICATION_JSON)
-                .entity(user.get())
+                .entity(UserService.getInstance().findByEmail(email).get())
                 .build();
     }
 
@@ -116,25 +94,8 @@ public class UserController {
     @POST
     @Path("/")
     public Response store(User user) {
-        if (Objects.equals(null, user)) {
-            return Response.status(Response.Status.BAD_REQUEST)
-                    .type(MediaType.APPLICATION_JSON)
-                    .entity("BAD_REQUEST")
-                    .build();
-        }
-
-        Optional<User> createdUser = UserService.getInstance().save(user);
-
-        if (!createdUser.isPresent()) {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .type(MediaType.APPLICATION_JSON)
-                    .entity("INTERNAL_SERVER_ERROR")
-                    .build();
-        }
-
         return Response.status(Response.Status.CREATED)
-                .type(MediaType.APPLICATION_JSON)
-                .entity(createdUser.get())
+                .entity(UserService.getInstance().save(user).get())
                 .build();
     }
 
@@ -149,13 +110,11 @@ public class UserController {
     public Response update(@PathParam("id") int id, User user) {
         if (Objects.equals(null, user)) {
             return Response.status(Response.Status.BAD_REQUEST)
-                    .type(MediaType.APPLICATION_JSON)
                     .entity("BAD_REQUEST")
                     .build();
         }
 
         return Response.status(Response.Status.SERVICE_UNAVAILABLE)
-                .type(MediaType.APPLICATION_JSON)
                 .entity("SERVICE_UNAVAILABLE")
                 .build();
     }
@@ -170,22 +129,13 @@ public class UserController {
     public Response destroy(@PathParam("id") int id) {
         Optional<User> userToDelete = UserService.getInstance().findById(id);
 
-        if (!userToDelete.isPresent()) {
-            return Response.status(Response.Status.NOT_FOUND)
-                    .type(MediaType.APPLICATION_JSON)
-                    .entity("NOT_FOUND")
-                    .build();
-        }
-
         if (!UserService.getInstance().delete(userToDelete.get())) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .type(MediaType.APPLICATION_JSON)
                     .entity("INTERNAL_SERVER_ERROR")
                     .build();
         }
 
         return Response.status(Response.Status.OK)
-                .type(MediaType.APPLICATION_JSON)
                 .entity("USER_DELETED_SUCCESSFULLY")
                 .build();
     }

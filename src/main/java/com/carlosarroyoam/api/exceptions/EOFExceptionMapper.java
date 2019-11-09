@@ -21,58 +21,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.carlosarroyoam.api.controllers;
+package com.carlosarroyoam.api.exceptions;
 
-import com.carlosarroyoam.api.auth.Passwords;
-import com.carlosarroyoam.api.models.User;
-import com.carlosarroyoam.api.services.AuthService;
-import com.carlosarroyoam.api.services.UserService;
-import java.util.Objects;
-import java.util.Optional;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.Produces;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
+import com.carlosarroyoam.api.models.ErrorMessage;
+import java.io.EOFException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.ext.ExceptionMapper;
+import javax.ws.rs.ext.Provider;
 
 /**
- * This class handles all example-domain.com/authentication requests.
  *
  * @author Carlos Alberto Arroyo Martínez <carlosarroyoam@gmail.com>
  */
-@Consumes(MediaType.APPLICATION_JSON)
-@Produces(MediaType.APPLICATION_JSON)
-@Path("authentication")
-public class AuthenticationController {
 
-    /**
-     * Authenticates a user.
-     * 
-     * @param user The User to be authenticated.
-     * @return The authenticated User.
-     */
-    @POST
-    @Path("auth")
-    public Response getToken(User user) {
-        return Response.status(Response.Status.OK)
+@Provider
+public class EOFExceptionMapper implements ExceptionMapper<EOFException> {
+
+    @Override
+    public Response toResponse(EOFException e) {
+        ErrorMessage errorMessage = new ErrorMessage("Bad Request.", e.getMessage(), 400, "https://carlosarroyoam.github.io/api/docs/");
+        
+        return Response.status(Response.Status.BAD_REQUEST)
                 .type(MediaType.APPLICATION_JSON)
-                .entity(AuthService.getInstance().auth(user).get())
+                .entity(errorMessage)
                 .build();
     }
-
-    /**
-     * Resets user password.
-     * 
-     * @return
-     */
-    @POST
-    @Path("passwordReset")
-    public Response recoverPassword() {
-        return Response.status(Response.Status.SERVICE_UNAVAILABLE)
-                .type(MediaType.APPLICATION_JSON)
-                .entity("SERVICE_UNAVAILABLE")
-                .build();
-    }
-
+    
 }

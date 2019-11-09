@@ -21,17 +21,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.carlosarroyoam.api.services;
-
-import com.carlosarroyoam.api.models.User;
-import java.util.Optional;
+package com.carlosarroyoam.api.exceptions;
 
 /**
  *
  * @author Carlos Alberto Arroyo Martínez <carlosarroyoam@gmail.com>
  */
-public interface IUserService extends IService<User>{
-    
-    Optional<User> findByEmail(String email);
+public class ContentNotCreatedException extends RuntimeException {
+
+    public ContentNotCreatedException(String message) {
+        super(message);
+    }
     
 }

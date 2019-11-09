@@ -32,15 +32,13 @@ import java.util.Optional;
  * @author Carlos Alberto Arroyo Martínez <carlosarroyoam@gmail.com>
  * @param <T>
  */
-public interface IService<T> {
+public interface Service<T> {
 
     List<T> findAll();
     
     Optional<T> findById(int id);
 
     Optional<T> save(T t);
-
-    Optional<T> update(T t);
 
     boolean delete(T t);
     
