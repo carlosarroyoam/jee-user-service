@@ -40,6 +40,6 @@ public interface Service<T> {
 
     Optional<T> save(T t);
 
-    boolean delete(T t);
+    boolean delete(int id);
     
 }

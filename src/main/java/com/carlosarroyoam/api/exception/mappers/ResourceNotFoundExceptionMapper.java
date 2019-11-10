@@ -21,54 +21,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.carlosarroyoam.api.controllers;
+package com.carlosarroyoam.api.exception.mappers;
 
-import com.carlosarroyoam.api.models.User;
-import com.carlosarroyoam.api.services.AuthService;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.Produces;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
+import com.carlosarroyoam.api.exceptions.ResourceNotFoundException;
+import com.carlosarroyoam.api.models.ErrorMessage;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.ext.ExceptionMapper;
+import javax.ws.rs.ext.Provider;
 
 /**
- * This class handles all example-domain.com/authentication requests.
  *
  * @author Carlos Alberto Arroyo Martínez <carlosarroyoam@gmail.com>
  */
-@Consumes(MediaType.APPLICATION_JSON)
-@Produces(MediaType.APPLICATION_JSON)
-@Path("authentication")
-public class AuthenticationController {
 
-    /**
-     * Authenticates a user.
-     * 
-     * @param user The User to be authenticated.
-     * @return The authenticated User.
-     */
-    @POST
-    @Path("auth")
-    public Response getToken(User user) {
-        return Response.status(Response.Status.OK)
+@Provider
+public class ResourceNotFoundExceptionMapper implements ExceptionMapper<ResourceNotFoundException> {
+
+    @Override
+    public Response toResponse(ResourceNotFoundException e) {
+        ErrorMessage errorMessage = new ErrorMessage("Resource Not Found", e.getMessage(), 404, "https://carlosarroyoam.github.io/api/docs/");
+        
+        return Response.status(Response.Status.NOT_FOUND)
                 .type(MediaType.APPLICATION_JSON)
-                .entity(AuthService.getInstance().auth(user).get())
+                .entity(errorMessage)
                 .build();
     }
-
-    /**
-     * Resets user password.
-     * 
-     * @return
-     */
-    @POST
-    @Path("passwordReset")
-    public Response recoverPassword() {
-        return Response.status(Response.Status.SERVICE_UNAVAILABLE)
-                .type(MediaType.APPLICATION_JSON)
-                .entity("SERVICE_UNAVAILABLE")
-                .build();
-    }
-
+    
 }

@@ -31,7 +31,7 @@ import javax.ws.rs.core.Application;
  * 
  * @author Carlos Alberto Arroyo Martínez <carlosarroyoam@gmail.com>
  */
-@javax.ws.rs.ApplicationPath("webservices")
+@javax.ws.rs.ApplicationPath("/web-services")
 public class ApplicationConfig extends Application {
 
     @Override
@@ -50,12 +50,15 @@ public class ApplicationConfig extends Application {
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(com.carlosarroyoam.api.controllers.AuthenticationController.class);
         resources.add(com.carlosarroyoam.api.controllers.UserController.class);
-        resources.add(com.carlosarroyoam.api.exceptions.ContentNotCreatedExceptionMapper.class);
-        resources.add(com.carlosarroyoam.api.exceptions.EOFExceptionMapper.class);
-        resources.add(com.carlosarroyoam.api.exceptions.GenericExceptionMapper.class);
-        resources.add(com.carlosarroyoam.api.exceptions.ResourceNotFoundExceptionMapper.class);
-        resources.add(com.carlosarroyoam.api.exceptions.UnrecognizedPropertyExceptionMapper.class);
-        resources.add(com.carlosarroyoam.api.exceptions.WrongPasswordExceptionMapper.class);
+        resources.add(com.carlosarroyoam.api.exception.mappers.EOFExceptionMapper.class);
+        resources.add(com.carlosarroyoam.api.exception.mappers.GenericExceptionMapper.class);
+        resources.add(com.carlosarroyoam.api.exception.mappers.ResourceNotCreatedExceptionMapper.class);
+        resources.add(com.carlosarroyoam.api.exception.mappers.ResourceNotDeletedExceptionMapper.class);
+        resources.add(com.carlosarroyoam.api.exception.mappers.ResourceNotFoundExceptionMapper.class);
+        resources.add(com.carlosarroyoam.api.exception.mappers.ResourceNotUpdatedExceptionMapper.class);
+        resources.add(com.carlosarroyoam.api.exception.mappers.UnrecognizedPropertyExceptionMapper.class);
+        resources.add(com.carlosarroyoam.api.exception.mappers.UserEmailNotRegisteredExceptionMapper.class);
+        resources.add(com.carlosarroyoam.api.exception.mappers.WrongUserPasswordExceptionMapper.class);
     }
     
 }

@@ -21,8 +21,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.carlosarroyoam.api.exceptions;
+package com.carlosarroyoam.api.exception.mappers;
 
+import com.carlosarroyoam.api.exceptions.ResourceNotCreatedException;
 import com.carlosarroyoam.api.models.ErrorMessage;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -35,13 +36,13 @@ import javax.ws.rs.ext.Provider;
  */
 
 @Provider
-public class ResourceNotFoundExceptionMapper implements ExceptionMapper<ResourceNotFoundException> {
+public class ResourceNotCreatedExceptionMapper implements ExceptionMapper<ResourceNotCreatedException> {
 
     @Override
-    public Response toResponse(ResourceNotFoundException e) {
-        ErrorMessage errorMessage = new ErrorMessage("Resource Not Found.", e.getMessage(), 404, "https://carlosarroyoam.github.io/api/docs/");
+    public Response toResponse(ResourceNotCreatedException e) {
+        ErrorMessage errorMessage = new ErrorMessage("Resource Not Created", e.getMessage(), 500, "https://carlosarroyoam.github.io/api/docs/");
         
-        return Response.status(Response.Status.NOT_FOUND)
+        return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                 .type(MediaType.APPLICATION_JSON)
                 .entity(errorMessage)
                 .build();

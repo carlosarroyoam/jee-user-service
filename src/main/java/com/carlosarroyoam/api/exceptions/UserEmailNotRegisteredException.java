@@ -23,28 +23,14 @@
  */
 package com.carlosarroyoam.api.exceptions;
 
-import com.carlosarroyoam.api.models.ErrorMessage;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.ext.ExceptionMapper;
-import javax.ws.rs.ext.Provider;
-
 /**
  *
  * @author Carlos Alberto Arroyo Martínez <carlosarroyoam@gmail.com>
  */
+public class UserEmailNotRegisteredException extends RuntimeException {
 
-@Provider
-public class ContentNotCreatedExceptionMapper implements ExceptionMapper<ContentNotCreatedException> {
-
-    @Override
-    public Response toResponse(ContentNotCreatedException e) {
-        ErrorMessage errorMessage = new ErrorMessage("Server Error", e.getMessage(), 500, "https://carlosarroyoam.github.io/api/docs/");
-        
-        return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                .type(MediaType.APPLICATION_JSON)
-                .entity(errorMessage)
-                .build();
+    public UserEmailNotRegisteredException(String message) {
+         super(message);
     }
     
 }

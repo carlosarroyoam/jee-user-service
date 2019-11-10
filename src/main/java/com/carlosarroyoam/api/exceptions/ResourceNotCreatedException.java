@@ -27,10 +27,10 @@ package com.carlosarroyoam.api.exceptions;
  *
  * @author Carlos Alberto Arroyo Martínez <carlosarroyoam@gmail.com>
  */
-public class WrongPasswordException extends RuntimeException {
+public class ResourceNotCreatedException extends RuntimeException {
 
-    public WrongPasswordException(String message) {
+    public ResourceNotCreatedException(String message) {
         super(message);
     }
-
+    
 }

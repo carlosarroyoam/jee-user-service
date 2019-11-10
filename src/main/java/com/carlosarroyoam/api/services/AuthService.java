@@ -23,8 +23,10 @@
  */
 package com.carlosarroyoam.api.services;
 
+import com.carlosarroyoam.api.exceptions.UserEmailNotRegisteredException;
 import com.carlosarroyoam.api.auth.Passwords;
-import com.carlosarroyoam.api.exceptions.WrongPasswordException;
+import com.carlosarroyoam.api.dao.UserDao;
+import com.carlosarroyoam.api.exceptions.WrongUserPasswordException;
 import com.carlosarroyoam.api.models.User;
 import java.util.Optional;
 
@@ -34,7 +36,7 @@ import java.util.Optional;
  */
 public class AuthService {
 
-    private final UserService userService;
+    private final UserDao userDao;
     private static AuthService authService;
 
     /**
@@ -52,19 +54,23 @@ public class AuthService {
     }
 
     /**
-     * Class constructor, gets UserService instance. Needs to be private in order to
-     * avoid being instanciated from external classes.
+     * Class constructor, gets UserService instance. Needs to be private in
+     * order to avoid being instanciated from external classes.
      *
      */
     private AuthService() {
-        userService = UserService.getInstance();
+        userDao = UserDao.getInstance();
     }
 
     public Optional<User> auth(User user) {
-        Optional<User> toAuthUser = userService.findByEmail(user.getEmail());
+        Optional<User> toAuthUser = userDao.get(user.getEmail());
+
+        if (!toAuthUser.isPresent()) {
+            throw new UserEmailNotRegisteredException("User with email = '" + user.getEmail() + "' is not registered");
+        }
 
         if (!Passwords.verifyHash(user.getPassword(), toAuthUser.get().getPassword())) {
-            throw new WrongPasswordException("Password is not correct for " + User.class.getSimpleName() + " with email = '" + user.getEmail() + "'.");
+            throw new WrongUserPasswordException("Incorrect password for user with email = '" + user.getEmail() + "'");
         }
 
         return toAuthUser;

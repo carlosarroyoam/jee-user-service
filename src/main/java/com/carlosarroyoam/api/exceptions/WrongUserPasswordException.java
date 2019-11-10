@@ -27,10 +27,10 @@ package com.carlosarroyoam.api.exceptions;
  *
  * @author Carlos Alberto Arroyo Martínez <carlosarroyoam@gmail.com>
  */
-public class ContentNotCreatedException extends RuntimeException {
+public class WrongUserPasswordException extends RuntimeException {
 
-    public ContentNotCreatedException(String message) {
+    public WrongUserPasswordException(String message) {
         super(message);
     }
-    
+
 }

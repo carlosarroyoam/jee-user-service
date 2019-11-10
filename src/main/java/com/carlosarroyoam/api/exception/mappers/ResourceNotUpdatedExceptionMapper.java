@@ -21,8 +21,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.carlosarroyoam.api.exceptions;
+package com.carlosarroyoam.api.exception.mappers;
 
+import com.carlosarroyoam.api.exceptions.ResourceNotUpdatedException;
 import com.carlosarroyoam.api.models.ErrorMessage;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -35,13 +36,13 @@ import javax.ws.rs.ext.Provider;
  */
 
 @Provider
-public class GenericExceptionMapper implements ExceptionMapper<Throwable> {
+public class ResourceNotUpdatedExceptionMapper implements ExceptionMapper<ResourceNotUpdatedException> {
 
     @Override
-    public Response toResponse(Throwable e) {
-        ErrorMessage errorMessage = new ErrorMessage("Server Error.", e.getMessage(), 500, "https://carlosarroyoam.github.io/api/docs/");
+    public Response toResponse(ResourceNotUpdatedException e) {
+        ErrorMessage errorMessage = new ErrorMessage("Resource Not Updated", e.getMessage(), 500, "https://carlosarroyoam.github.io/api/docs/");
         
-        return Response.status(Response.Status.NOT_FOUND)
+        return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                 .type(MediaType.APPLICATION_JSON)
                 .entity(errorMessage)
                 .build();

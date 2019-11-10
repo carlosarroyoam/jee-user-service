@@ -25,7 +25,6 @@ package com.carlosarroyoam.api.controllers;
 
 import com.carlosarroyoam.api.models.User;
 import com.carlosarroyoam.api.services.UserService;
-import java.util.Objects;
 import java.util.Optional;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -108,12 +107,6 @@ public class UserController {
     @PUT
     @Path(value = "/{id}")
     public Response update(@PathParam("id") int id, User user) {
-        if (Objects.equals(null, user)) {
-            return Response.status(Response.Status.BAD_REQUEST)
-                    .entity("BAD_REQUEST")
-                    .build();
-        }
-
         return Response.status(Response.Status.SERVICE_UNAVAILABLE)
                 .entity("SERVICE_UNAVAILABLE")
                 .build();
@@ -127,16 +120,10 @@ public class UserController {
     @DELETE
     @Path(value = "/{id}")
     public Response destroy(@PathParam("id") int id) {
-        Optional<User> userToDelete = UserService.getInstance().findById(id);
-
-        if (!UserService.getInstance().delete(userToDelete.get())) {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .entity("INTERNAL_SERVER_ERROR")
-                    .build();
-        }
+        boolean userToDelete = UserService.getInstance().delete(id);
 
         return Response.status(Response.Status.OK)
-                .entity("USER_DELETED_SUCCESSFULLY")
+                .entity(userToDelete)
                 .build();
     }
 

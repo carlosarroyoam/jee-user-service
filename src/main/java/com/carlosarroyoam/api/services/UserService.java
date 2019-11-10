@@ -25,8 +25,10 @@ package com.carlosarroyoam.api.services;
 
 import com.carlosarroyoam.api.auth.Passwords;
 import com.carlosarroyoam.api.dao.UserDao;
-import com.carlosarroyoam.api.exceptions.ContentNotCreatedException;
+import com.carlosarroyoam.api.exceptions.ResourceNotCreatedException;
+import com.carlosarroyoam.api.exceptions.ResourceNotDeletedException;
 import com.carlosarroyoam.api.exceptions.ResourceNotFoundException;
+import com.carlosarroyoam.api.exceptions.ResourceNotUpdatedException;
 import com.carlosarroyoam.api.models.User;
 import java.util.List;
 import java.util.Optional;
@@ -74,7 +76,7 @@ public class UserService implements Service<User> {
         Optional<User> user = this.userDao.get(id);
 
         if (!user.isPresent()) {
-            throw new ResourceNotFoundException(User.class.getSimpleName() + " with id = '" + id + "' was not found.");
+            throw new ResourceNotFoundException(User.class.getSimpleName() + " with id = '" + id + "' was not found");
         }
 
         return user;
@@ -84,7 +86,7 @@ public class UserService implements Service<User> {
         Optional<User> user = this.userDao.get(email);
 
         if (!user.isPresent()) {
-            throw new ResourceNotFoundException(User.class.getSimpleName() + " with email = '" + email + "' was not found.");
+            throw new ResourceNotFoundException(User.class.getSimpleName() + " with email = '" + email + "' was not found");
         }
 
         return user;
@@ -93,22 +95,40 @@ public class UserService implements Service<User> {
     @Override
     public Optional<User> save(User user) {
         if (user.getId() > 0) {
-            return this.userDao.update(user);
+            Optional<User> updatedUser = this.userDao.update(user);
+            
+            if (!updatedUser.isPresent()) {
+                throw new ResourceNotUpdatedException(User.class.getSimpleName() + " was not updated");
+            }
+            
+            return updatedUser;
         }
 
         user.setPassword(Passwords.toHash(user.getPassword()));
 
         Optional<User> createdUser = this.userDao.create(user);
         if (!createdUser.isPresent()) {
-            throw new ContentNotCreatedException(User.class.getSimpleName() + " was not created.");
+            throw new ResourceNotCreatedException(User.class.getSimpleName() + " was not created");
         }
-        
+
         return createdUser;
     }
 
     @Override
-    public boolean delete(User user) {
-        return this.userDao.delete(user);
+    public boolean delete(int id) {
+        Optional<User> userToDelete = this.userDao.get(id);
+        
+        if(!userToDelete.isPresent()){
+            throw new ResourceNotFoundException(User.class.getSimpleName() + " with id = '" + id + "' was not found");
+        }
+        
+        boolean userDeleted = this.userDao.delete(userToDelete.get());
+        
+        if (!userDeleted) {
+            throw new ResourceNotDeletedException(User.class.getSimpleName() + " was not deleted");
+        }
+
+        return userDeleted;
     }
 
 }
