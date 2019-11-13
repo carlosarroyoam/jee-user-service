@@ -76,7 +76,7 @@ public class UserService implements Service<User> {
         Optional<User> user = this.userDao.get(id);
 
         if (!user.isPresent()) {
-            throw new ResourceNotFoundException(User.class.getSimpleName() + " with id = '" + id + "' was not found");
+            throw new ResourceNotFoundException(String.format("%s with id = '%d' was not found", User.class.getSimpleName(), id));
         }
 
         return user;
@@ -86,7 +86,7 @@ public class UserService implements Service<User> {
         Optional<User> user = this.userDao.get(email);
 
         if (!user.isPresent()) {
-            throw new ResourceNotFoundException(User.class.getSimpleName() + " with email = '" + email + "' was not found");
+            throw new ResourceNotFoundException(String.format("%s with email = '%d' was not found", User.class.getSimpleName(), email));
         }
 
         return user;
@@ -96,11 +96,11 @@ public class UserService implements Service<User> {
     public Optional<User> save(User user) {
         if (user.getId() > 0) {
             Optional<User> updatedUser = this.userDao.update(user);
-            
+
             if (!updatedUser.isPresent()) {
-                throw new ResourceNotUpdatedException(User.class.getSimpleName() + " was not updated");
+                throw new ResourceNotUpdatedException(String.format("%s was not updated", User.class.getSimpleName()));
             }
-            
+
             return updatedUser;
         }
 
@@ -108,7 +108,7 @@ public class UserService implements Service<User> {
 
         Optional<User> createdUser = this.userDao.create(user);
         if (!createdUser.isPresent()) {
-            throw new ResourceNotCreatedException(User.class.getSimpleName() + " was not created");
+            throw new ResourceNotCreatedException(String.format("%s was not created", User.class.getSimpleName()));
         }
 
         return createdUser;
@@ -116,19 +116,13 @@ public class UserService implements Service<User> {
 
     @Override
     public boolean delete(int id) {
-        Optional<User> userToDelete = this.userDao.get(id);
-        
-        if(!userToDelete.isPresent()){
-            throw new ResourceNotFoundException(User.class.getSimpleName() + " with id = '" + id + "' was not found");
-        }
-        
-        boolean userDeleted = this.userDao.delete(userToDelete.get());
-        
-        if (!userDeleted) {
-            throw new ResourceNotDeletedException(User.class.getSimpleName() + " was not deleted");
+        Optional<User> userToDelete = findById(id);
+
+        if (!this.userDao.delete(userToDelete.get())) {
+            throw new ResourceNotDeletedException(String.format("%s was not deleted", User.class.getSimpleName()));
         }
 
-        return userDeleted;
+        return true;
     }
 
 }

@@ -66,11 +66,11 @@ public class AuthService {
         Optional<User> toAuthUser = userDao.get(user.getEmail());
 
         if (!toAuthUser.isPresent()) {
-            throw new UserEmailNotRegisteredException("User with email = '" + user.getEmail() + "' is not registered");
+            throw new UserEmailNotRegisteredException(String.format("User with email = '%s' is not registered", user.getEmail()));
         }
 
         if (!Passwords.verifyHash(user.getPassword(), toAuthUser.get().getPassword())) {
-            throw new WrongUserPasswordException("Incorrect password for user with email = '" + user.getEmail() + "'");
+            throw new WrongUserPasswordException(String.format("Bad password for user with email = '%s'", user.getEmail()));
         }
 
         return toAuthUser;
