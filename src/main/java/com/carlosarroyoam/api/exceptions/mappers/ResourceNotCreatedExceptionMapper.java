@@ -21,9 +21,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.carlosarroyoam.api.exception.mappers;
+package com.carlosarroyoam.api.exceptions.mappers;
 
-import com.carlosarroyoam.api.exceptions.WrongUserPasswordException;
+import com.carlosarroyoam.api.exceptions.ResourceNotCreatedException;
 import com.carlosarroyoam.api.models.ErrorMessage;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -36,13 +36,13 @@ import javax.ws.rs.ext.Provider;
  */
 
 @Provider
-public class WrongUserPasswordExceptionMapper implements ExceptionMapper<WrongUserPasswordException> {
+public class ResourceNotCreatedExceptionMapper implements ExceptionMapper<ResourceNotCreatedException> {
 
     @Override
-    public Response toResponse(WrongUserPasswordException e) {
-        ErrorMessage errorMessage = new ErrorMessage("Unauthorized", e.getMessage(), 401, "https://carlosarroyoam.github.io/api/docs/");
+    public Response toResponse(ResourceNotCreatedException e) {
+        ErrorMessage errorMessage = new ErrorMessage("Resource Not Created", e.getMessage(), 500, "https://carlosarroyoam.github.io/api/docs/");
         
-        return Response.status(Response.Status.UNAUTHORIZED)
+        return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                 .type(MediaType.APPLICATION_JSON)
                 .entity(errorMessage)
                 .build();

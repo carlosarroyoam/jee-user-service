@@ -26,6 +26,7 @@ package com.carlosarroyoam.api.models;
 
 import java.text.SimpleDateFormat;
 import java.sql.Timestamp;
+import java.util.Locale;
 import java.util.Objects;
 
 /**
@@ -96,8 +97,7 @@ public class User {
         if(Objects.equals(null, created_at))
             return "";
         
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy h:mm a");
-        return simpleDateFormat.format(created_at);
+        return dateToString(created_at);
     }
 
     public Timestamp getUpdatedAt() {
@@ -112,7 +112,11 @@ public class User {
         if(Objects.equals(null, updated_at))
             return "";
         
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy h:mm a");
-        return simpleDateFormat.format(updated_at);
+        return dateToString(updated_at);
+    }
+    
+    private String dateToString(Timestamp date){
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm a", new Locale("es", "MX"));
+        return simpleDateFormat.format(date);
     }
 }

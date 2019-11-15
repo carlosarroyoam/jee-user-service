@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.carlosarroyoam.api.exception.mappers;
+package com.carlosarroyoam.api.exceptions.mappers;
 
 import com.carlosarroyoam.api.exceptions.ResourceNotFoundException;
 import com.carlosarroyoam.api.models.ErrorMessage;

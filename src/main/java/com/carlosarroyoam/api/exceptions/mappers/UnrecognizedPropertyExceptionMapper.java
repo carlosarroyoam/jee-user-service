@@ -21,14 +21,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.carlosarroyoam.api.exception.mappers;
+package com.carlosarroyoam.api.exceptions.mappers;
 
-import com.carlosarroyoam.api.exceptions.UserEmailNotRegisteredException;
 import com.carlosarroyoam.api.models.ErrorMessage;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
+import org.codehaus.jackson.map.exc.UnrecognizedPropertyException;
 
 /**
  *
@@ -36,13 +36,13 @@ import javax.ws.rs.ext.Provider;
  */
 
 @Provider
-public class UserEmailNotRegisteredExceptionMapper implements ExceptionMapper<UserEmailNotRegisteredException> {
+public class UnrecognizedPropertyExceptionMapper implements ExceptionMapper<UnrecognizedPropertyException> {
 
     @Override
-    public Response toResponse(UserEmailNotRegisteredException e) {
-        ErrorMessage errorMessage = new ErrorMessage("User Not Found", e.getMessage(), 404, "https://carlosarroyoam.github.io/api/docs/");
+    public Response toResponse(UnrecognizedPropertyException e) {
+        ErrorMessage errorMessage = new ErrorMessage("Bad Request", e.getMessage(), 400, "https://carlosarroyoam.github.io/api/docs/");
         
-        return Response.status(Response.Status.NOT_FOUND)
+        return Response.status(Response.Status.BAD_REQUEST)
                 .type(MediaType.APPLICATION_JSON)
                 .entity(errorMessage)
                 .build();

@@ -42,6 +42,12 @@ import javax.ws.rs.core.Response;
 @Path("authentication")
 public class AuthenticationController {
 
+    private final AuthService authService;
+    
+    public AuthenticationController() {
+        this.authService = AuthService.getInstance();
+    }
+    
     /**
      * Authenticates a user.
      * 
@@ -53,7 +59,7 @@ public class AuthenticationController {
     public Response getToken(User user) {
         return Response.status(Response.Status.OK)
                 .type(MediaType.APPLICATION_JSON)
-                .entity(AuthService.getInstance().auth(user).get())
+                .entity(authService.auth(user).get())
                 .build();
     }
 

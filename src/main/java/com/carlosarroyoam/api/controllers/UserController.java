@@ -25,7 +25,6 @@ package com.carlosarroyoam.api.controllers;
 
 import com.carlosarroyoam.api.models.User;
 import com.carlosarroyoam.api.services.UserService;
-import java.util.Optional;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -47,6 +46,12 @@ import javax.ws.rs.core.Response;
 @Produces(MediaType.APPLICATION_JSON)
 public class UserController {
 
+    private final UserService userService;
+    
+    public UserController() {
+        this.userService = UserService.getInstance();
+    }
+    
     /**
      *
      * @return The list of users.
@@ -55,7 +60,7 @@ public class UserController {
     @Path("/")
     public Response getAll() {
         return Response.status(Response.Status.OK)
-                .entity(UserService.getInstance().findAll())
+                .entity(userService.findAll())
                 .build();
     }
 
@@ -68,7 +73,7 @@ public class UserController {
     @Path(value = "/{id}")
     public Response getById(@PathParam("id") int id) {
         return Response.status(Response.Status.OK)
-                .entity(UserService.getInstance().findById(id).get())
+                .entity(userService.findById(id).get())
                 .build();
     }
 
@@ -81,7 +86,7 @@ public class UserController {
     @Path("/byemail/{email}")
     public Response getByEmail(@PathParam("email") String email) {
         return Response.status(Response.Status.OK)
-                .entity(UserService.getInstance().findByEmail(email).get())
+                .entity(userService.findByEmail(email).get())
                 .build();
     }
 
@@ -94,7 +99,7 @@ public class UserController {
     @Path("/")
     public Response store(User user) {
         return Response.status(Response.Status.CREATED)
-                .entity(UserService.getInstance().save(user).get())
+                .entity(userService.save(user).get())
                 .build();
     }
 
@@ -107,8 +112,9 @@ public class UserController {
     @PUT
     @Path(value = "/{id}")
     public Response update(@PathParam("id") int id, User user) {
+        user.setId(id);
         return Response.status(Response.Status.SERVICE_UNAVAILABLE)
-                .entity("SERVICE_UNAVAILABLE")
+                .entity(userService.save(user).get())
                 .build();
     }
 
@@ -120,7 +126,7 @@ public class UserController {
     @DELETE
     @Path(value = "/{id}")
     public Response destroy(@PathParam("id") int id) {
-        boolean userToDelete = UserService.getInstance().delete(id);
+        boolean userToDelete = userService.delete(id);
 
         return Response.status(Response.Status.OK)
                 .entity(userToDelete)

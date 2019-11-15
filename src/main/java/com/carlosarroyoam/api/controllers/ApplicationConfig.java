@@ -50,15 +50,15 @@ public class ApplicationConfig extends Application {
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(com.carlosarroyoam.api.controllers.AuthenticationController.class);
         resources.add(com.carlosarroyoam.api.controllers.UserController.class);
-        resources.add(com.carlosarroyoam.api.exception.mappers.EOFExceptionMapper.class);
-        resources.add(com.carlosarroyoam.api.exception.mappers.GenericExceptionMapper.class);
-        resources.add(com.carlosarroyoam.api.exception.mappers.ResourceNotCreatedExceptionMapper.class);
-        resources.add(com.carlosarroyoam.api.exception.mappers.ResourceNotDeletedExceptionMapper.class);
-        resources.add(com.carlosarroyoam.api.exception.mappers.ResourceNotFoundExceptionMapper.class);
-        resources.add(com.carlosarroyoam.api.exception.mappers.ResourceNotUpdatedExceptionMapper.class);
-        resources.add(com.carlosarroyoam.api.exception.mappers.UnrecognizedPropertyExceptionMapper.class);
-        resources.add(com.carlosarroyoam.api.exception.mappers.UserEmailNotRegisteredExceptionMapper.class);
-        resources.add(com.carlosarroyoam.api.exception.mappers.WrongUserPasswordExceptionMapper.class);
+        resources.add(com.carlosarroyoam.api.exceptions.mappers.EOFExceptionMapper.class);
+        resources.add(com.carlosarroyoam.api.exceptions.mappers.GenericExceptionMapper.class);
+        resources.add(com.carlosarroyoam.api.exceptions.mappers.ResourceNotCreatedExceptionMapper.class);
+        resources.add(com.carlosarroyoam.api.exceptions.mappers.ResourceNotDeletedExceptionMapper.class);
+        resources.add(com.carlosarroyoam.api.exceptions.mappers.ResourceNotFoundExceptionMapper.class);
+        resources.add(com.carlosarroyoam.api.exceptions.mappers.ResourceNotUpdatedExceptionMapper.class);
+        resources.add(com.carlosarroyoam.api.exceptions.mappers.UnrecognizedPropertyExceptionMapper.class);
+        resources.add(com.carlosarroyoam.api.exceptions.mappers.UserEmailNotRegisteredExceptionMapper.class);
+        resources.add(com.carlosarroyoam.api.exceptions.mappers.WrongUserPasswordExceptionMapper.class);
     }
     
 }

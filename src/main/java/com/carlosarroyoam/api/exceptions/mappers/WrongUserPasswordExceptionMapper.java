@@ -21,10 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.carlosarroyoam.api.exception.mappers;
+package com.carlosarroyoam.api.exceptions.mappers;
 
+import com.carlosarroyoam.api.exceptions.WrongUserPasswordException;
 import com.carlosarroyoam.api.models.ErrorMessage;
-import java.io.EOFException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
@@ -36,13 +36,13 @@ import javax.ws.rs.ext.Provider;
  */
 
 @Provider
-public class EOFExceptionMapper implements ExceptionMapper<EOFException> {
+public class WrongUserPasswordExceptionMapper implements ExceptionMapper<WrongUserPasswordException> {
 
     @Override
-    public Response toResponse(EOFException e) {
-        ErrorMessage errorMessage = new ErrorMessage("Bad Request", e.getMessage(), 400, "https://carlosarroyoam.github.io/api/docs/");
+    public Response toResponse(WrongUserPasswordException e) {
+        ErrorMessage errorMessage = new ErrorMessage("Unauthorized", e.getMessage(), 401, "https://carlosarroyoam.github.io/api/docs/");
         
-        return Response.status(Response.Status.BAD_REQUEST)
+        return Response.status(Response.Status.UNAUTHORIZED)
                 .type(MediaType.APPLICATION_JSON)
                 .entity(errorMessage)
                 .build();
