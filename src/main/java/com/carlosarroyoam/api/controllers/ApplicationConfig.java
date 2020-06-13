@@ -31,7 +31,7 @@ import javax.ws.rs.core.Application;
  * 
  * @author Carlos Alberto Arroyo Martínez <carlosarroyoam@gmail.com>
  */
-@javax.ws.rs.ApplicationPath("/web-services")
+@javax.ws.rs.ApplicationPath("api/v1")
 public class ApplicationConfig extends Application {
 
     @Override
@@ -48,7 +48,7 @@ public class ApplicationConfig extends Application {
      * If required, comment out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
-        resources.add(com.carlosarroyoam.api.controllers.AuthenticationController.class);
+        resources.add(com.carlosarroyoam.api.controllers.AuthController.class);
         resources.add(com.carlosarroyoam.api.controllers.UserController.class);
         resources.add(com.carlosarroyoam.api.exceptions.mappers.EOFExceptionMapper.class);
         resources.add(com.carlosarroyoam.api.exceptions.mappers.GenericExceptionMapper.class);

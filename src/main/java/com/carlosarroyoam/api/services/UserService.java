@@ -38,7 +38,7 @@ import java.util.Optional;
  *
  * @author Carlos Alberto Arroyo Martínez <carlosarroyoam@gmail.com>
  */
-public class UserService implements Service<User> {
+public class UserService {
 
     private final UserDao userDao;
     private static UserService userService;
@@ -66,12 +66,11 @@ public class UserService implements Service<User> {
         userDao = UserDao.getInstance();
     }
 
-    @Override
+    
     public List<User> findAll() {
         return this.userDao.getAll();
     }
 
-    @Override
     public Optional<User> findById(int id) {
         Optional<User> user = this.userDao.get(id);
 
@@ -92,7 +91,6 @@ public class UserService implements Service<User> {
         return user;
     }
 
-    @Override
     public Optional<User> save(User user) {
         if (user.getId() > 0) {
             Optional<User> updatedUser = this.userDao.update(user);
@@ -114,7 +112,6 @@ public class UserService implements Service<User> {
         return createdUser;
     }
 
-    @Override
     public boolean delete(int id) {
         Optional<User> userToDelete = findById(id);
 

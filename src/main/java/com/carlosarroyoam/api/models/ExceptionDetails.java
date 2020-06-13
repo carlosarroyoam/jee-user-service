@@ -28,17 +28,17 @@ package com.carlosarroyoam.api.models;
  * 
  * @author Carlos Alberto Arroyo Martínez <carlosarroyoam@gmail.com>
  */
-public class ErrorMessage {
+public class ExceptionDetails {
     
     private String error;
     private String message;
     private int status;
     private String documentation;
 
-    public ErrorMessage() {
+    public ExceptionDetails() {
     }
     
-    public ErrorMessage(String error, String message, int status, String documentation) {
+    public ExceptionDetails(String error, String message, int status, String documentation) {
         this.error = error;
         this.message = message;
         this.status = status;

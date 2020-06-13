@@ -24,7 +24,7 @@
 package com.carlosarroyoam.api.exceptions.mappers;
 
 import com.carlosarroyoam.api.exceptions.WrongUserPasswordException;
-import com.carlosarroyoam.api.models.ErrorMessage;
+import com.carlosarroyoam.api.models.ExceptionDetails;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
@@ -40,7 +40,7 @@ public class WrongUserPasswordExceptionMapper implements ExceptionMapper<WrongUs
 
     @Override
     public Response toResponse(WrongUserPasswordException e) {
-        ErrorMessage errorMessage = new ErrorMessage("Unauthorized", e.getMessage(), 401, "https://carlosarroyoam.github.io/api/docs/");
+        ExceptionDetails errorMessage = new ExceptionDetails("Unauthorized", e.getMessage(), 401, "https://carlosarroyoam.github.io/api/docs/");
         
         return Response.status(Response.Status.UNAUTHORIZED)
                 .type(MediaType.APPLICATION_JSON)

@@ -24,7 +24,7 @@
 package com.carlosarroyoam.api.exceptions.mappers;
 
 import com.carlosarroyoam.api.exceptions.ResourceNotUpdatedException;
-import com.carlosarroyoam.api.models.ErrorMessage;
+import com.carlosarroyoam.api.models.ExceptionDetails;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
@@ -40,7 +40,7 @@ public class ResourceNotUpdatedExceptionMapper implements ExceptionMapper<Resour
 
     @Override
     public Response toResponse(ResourceNotUpdatedException e) {
-        ErrorMessage errorMessage = new ErrorMessage("Resource Not Updated", e.getMessage(), 500, "https://carlosarroyoam.github.io/api/docs/");
+        ExceptionDetails errorMessage = new ExceptionDetails("Resource Not Updated", e.getMessage(), 500, "https://carlosarroyoam.github.io/api/docs/");
         
         return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                 .type(MediaType.APPLICATION_JSON)

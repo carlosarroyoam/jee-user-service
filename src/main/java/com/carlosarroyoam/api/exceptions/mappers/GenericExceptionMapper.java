@@ -23,7 +23,7 @@
  */
 package com.carlosarroyoam.api.exceptions.mappers;
 
-import com.carlosarroyoam.api.models.ErrorMessage;
+import com.carlosarroyoam.api.models.ExceptionDetails;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
@@ -39,9 +39,14 @@ public class GenericExceptionMapper implements ExceptionMapper<Throwable> {
 
     @Override
     public Response toResponse(Throwable e) {
-        ErrorMessage errorMessage = new ErrorMessage("Server Error", e.getMessage(), 500, "https://carlosarroyoam.github.io/api/docs/");
+        ExceptionDetails errorMessage = new ExceptionDetails(
+                "Server Error",
+                e.getMessage(),
+                500,
+                "https://carlosarroyoam.github.io/api/docs/"
+        );
         
-        return Response.status(Response.Status.NOT_FOUND)
+        return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                 .type(MediaType.APPLICATION_JSON)
                 .entity(errorMessage)
                 .build();

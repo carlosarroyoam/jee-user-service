@@ -24,7 +24,7 @@
 package com.carlosarroyoam.api.exceptions.mappers;
 
 import com.carlosarroyoam.api.exceptions.UserEmailNotRegisteredException;
-import com.carlosarroyoam.api.models.ErrorMessage;
+import com.carlosarroyoam.api.models.ExceptionDetails;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
@@ -40,7 +40,7 @@ public class UserEmailNotRegisteredExceptionMapper implements ExceptionMapper<Us
 
     @Override
     public Response toResponse(UserEmailNotRegisteredException e) {
-        ErrorMessage errorMessage = new ErrorMessage("User Not Found", e.getMessage(), 404, "https://carlosarroyoam.github.io/api/docs/");
+        ExceptionDetails errorMessage = new ExceptionDetails("User Not Found", e.getMessage(), 404, "https://carlosarroyoam.github.io/api/docs/");
         
         return Response.status(Response.Status.NOT_FOUND)
                 .type(MediaType.APPLICATION_JSON)

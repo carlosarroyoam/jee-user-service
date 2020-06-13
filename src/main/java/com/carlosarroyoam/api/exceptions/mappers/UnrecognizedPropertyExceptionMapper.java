@@ -23,7 +23,7 @@
  */
 package com.carlosarroyoam.api.exceptions.mappers;
 
-import com.carlosarroyoam.api.models.ErrorMessage;
+import com.carlosarroyoam.api.models.ExceptionDetails;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
@@ -40,7 +40,7 @@ public class UnrecognizedPropertyExceptionMapper implements ExceptionMapper<Unre
 
     @Override
     public Response toResponse(UnrecognizedPropertyException e) {
-        ErrorMessage errorMessage = new ErrorMessage("Bad Request", e.getMessage(), 400, "https://carlosarroyoam.github.io/api/docs/");
+        ExceptionDetails errorMessage = new ExceptionDetails("Bad Request", e.getMessage(), 400, "https://carlosarroyoam.github.io/api/docs/");
         
         return Response.status(Response.Status.BAD_REQUEST)
                 .type(MediaType.APPLICATION_JSON)

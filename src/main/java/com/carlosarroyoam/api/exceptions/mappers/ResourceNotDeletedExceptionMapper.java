@@ -24,7 +24,7 @@
 package com.carlosarroyoam.api.exceptions.mappers;
 
 import com.carlosarroyoam.api.exceptions.ResourceNotDeletedException;
-import com.carlosarroyoam.api.models.ErrorMessage;
+import com.carlosarroyoam.api.models.ExceptionDetails;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
@@ -40,7 +40,7 @@ public class ResourceNotDeletedExceptionMapper implements ExceptionMapper<Resour
 
     @Override
     public Response toResponse(ResourceNotDeletedException e) {
-        ErrorMessage errorMessage = new ErrorMessage("Resource Not Deleted", e.getMessage(), 500, "https://carlosarroyoam.github.io/api/docs/");
+        ExceptionDetails errorMessage = new ExceptionDetails("Resource Not Deleted", e.getMessage(), 500, "https://carlosarroyoam.github.io/api/docs/");
         
         return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                 .type(MediaType.APPLICATION_JSON)

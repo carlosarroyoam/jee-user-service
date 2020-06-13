@@ -57,8 +57,8 @@ public class UserController {
      * @return The list of users.
      */
     @GET
-    @Path("/")
-    public Response getAll() {
+    @Path("")
+    public Response index() {
         return Response.status(Response.Status.OK)
                 .entity(userService.findAll())
                 .build();
@@ -70,8 +70,8 @@ public class UserController {
      * @return The requested User.
      */
     @GET
-    @Path(value = "/{id}")
-    public Response getById(@PathParam("id") int id) {
+    @Path(value ="{id}")
+    public Response show(@PathParam("id") int id) {
         return Response.status(Response.Status.OK)
                 .entity(userService.findById(id).get())
                 .build();
@@ -83,8 +83,8 @@ public class UserController {
      * @return The requested User.
      */
     @GET
-    @Path("/byemail/{email}")
-    public Response getByEmail(@PathParam("email") String email) {
+    @Path("byemail/{email}")
+    public Response showByEmail(@PathParam("email") String email) {
         return Response.status(Response.Status.OK)
                 .entity(userService.findByEmail(email).get())
                 .build();
@@ -96,7 +96,7 @@ public class UserController {
      * @return The stored User.
      */
     @POST
-    @Path("/")
+    @Path("")
     public Response store(User user) {
         return Response.status(Response.Status.CREATED)
                 .entity(userService.save(user).get())
@@ -110,7 +110,7 @@ public class UserController {
      * @return The updated User.
      */
     @PUT
-    @Path(value = "/{id}")
+    @Path(value = "{id}")
     public Response update(@PathParam("id") int id, User user) {
         user.setId(id);
         return Response.status(Response.Status.SERVICE_UNAVAILABLE)
@@ -124,7 +124,7 @@ public class UserController {
      * @return A boolean, indicating if user was successfully deleted or not.
      */
     @DELETE
-    @Path(value = "/{id}")
+    @Path(value = "{id}")
     public Response destroy(@PathParam("id") int id) {
         boolean userToDelete = userService.delete(id);
 

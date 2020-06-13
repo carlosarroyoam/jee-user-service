@@ -39,12 +39,12 @@ import javax.ws.rs.core.Response;
  */
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-@Path("authentication")
-public class AuthenticationController {
+@Path("auth")
+public class AuthController {
 
     private final AuthService authService;
     
-    public AuthenticationController() {
+    public AuthController() {
         this.authService = AuthService.getInstance();
     }
     
@@ -55,7 +55,7 @@ public class AuthenticationController {
      * @return The authenticated User.
      */
     @POST
-    @Path("auth")
+    @Path("login")
     public Response getToken(User user) {
         return Response.status(Response.Status.OK)
                 .type(MediaType.APPLICATION_JSON)
