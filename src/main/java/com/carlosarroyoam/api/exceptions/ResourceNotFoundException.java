@@ -23,14 +23,19 @@
  */
 package com.carlosarroyoam.api.exceptions;
 
+
 /**
  *
  * @author Carlos Alberto Arroyo Martínez <carlosarroyoam@gmail.com>
  */
 public class ResourceNotFoundException extends RuntimeException {
     
-    public ResourceNotFoundException(String message) {
-        super(message);
+    public ResourceNotFoundException(String resourceName, String email) {
+        super(String.format("%s with email = '%s' was not found", resourceName, email));
+    }
+    
+    public ResourceNotFoundException(String resourceName, int id) {
+        super(String.format("%s with id = '%d' was not found", resourceName, id));
     }
     
 }

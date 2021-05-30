@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package com.carlosarroyoam.api.database;
 
 /**
@@ -32,22 +31,22 @@ package com.carlosarroyoam.api.database;
  */
 public class DatabaseSchema {
 
-    public static final String DATABASE_NAME = "development";
+    public static final String DATABASE_NAME = "node_api";
 
     public static class UsersTable {
-
-        public static final String TABLE_NAME = "users";
+        public static final String TABLE_NAME = "user";
 
         public static class Cols {
-
             public static final String UUID = "id";
             public static final String FIRST_NAME = "first_name";
             public static final String LAST_NAME = "last_name";
             public static final String EMAIL = "email";
             public static final String PASSWORD = "password";
-            public static final String REMEMBER_TOKEN = "remember_token";
+            public static final String USERABLE_TYPE = "userable_type";
+            public static final String USERABLE_ID = "userable_id";
             public static final String CREATED_AT = "created_at";
             public static final String UPDATED_AT = "updated_at";
+            public static final String DELETED_AT = "deleted_at";
         }
     }
 }

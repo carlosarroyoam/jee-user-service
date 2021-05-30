@@ -75,7 +75,7 @@ public class UserService {
         Optional<User> user = this.userDao.get(id);
 
         if (!user.isPresent()) {
-            throw new ResourceNotFoundException(String.format("%s with id = '%d' was not found", User.class.getSimpleName(), id));
+            throw new ResourceNotFoundException(User.class.getSimpleName(), id);
         }
 
         return user;
@@ -85,7 +85,7 @@ public class UserService {
         Optional<User> user = this.userDao.get(email);
 
         if (!user.isPresent()) {
-            throw new ResourceNotFoundException(String.format("%s with email = '%d' was not found", User.class.getSimpleName(), email));
+            throw new ResourceNotFoundException(User.class.getSimpleName(), email);
         }
 
         return user;

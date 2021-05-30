@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package com.carlosarroyoam.api.models;
 
 import java.text.SimpleDateFormat;
@@ -31,10 +30,9 @@ import java.util.Objects;
 
 /**
  * User entity
- * 
+ *
  * @author Carlos Alberto Arroyo Martínez <carlosarroyoam@gmail.com>
  */
-
 public class User {
 
     private int id;
@@ -94,10 +92,11 @@ public class User {
     }
 
     public String getCreatedAtStringFormatted() {
-        if(Objects.equals(null, created_at))
+        if (Objects.equals(null, created_at)) {
             return "";
-        
-        return dateToString(created_at);
+        }
+
+        return timestampToString(created_at);
     }
 
     public Timestamp getUpdatedAt() {
@@ -109,14 +108,21 @@ public class User {
     }
 
     public String getUpdatedAtStringFormatted() {
-        if(Objects.equals(null, updated_at))
+        if (Objects.equals(null, updated_at)) {
             return "";
-        
-        return dateToString(updated_at);
+        }
+
+        return timestampToString(updated_at);
     }
-    
-    private String dateToString(Timestamp date){
+
+    /**
+     * Formats a {@code Timestamp} and returns it like a {@code String}.
+     *
+     * @param timestamp the {@code Timestamp} to be formated
+     * @return the string formated {@code Timestamp}
+     */
+    private String timestampToString(Timestamp timestamp) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm a", new Locale("es", "MX"));
-        return simpleDateFormat.format(date);
+        return simpleDateFormat.format(timestamp);
     }
 }

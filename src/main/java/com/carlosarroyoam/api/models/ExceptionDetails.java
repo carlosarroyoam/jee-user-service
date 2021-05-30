@@ -36,6 +36,7 @@ public class ExceptionDetails {
     private String documentation;
 
     public ExceptionDetails() {
+        this.documentation = "";
     }
     
     public ExceptionDetails(String error, String message, int status, String documentation) {
