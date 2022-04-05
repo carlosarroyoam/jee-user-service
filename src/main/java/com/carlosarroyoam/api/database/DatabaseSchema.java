@@ -29,7 +29,7 @@ package com.carlosarroyoam.api.database;
  *
  * @author Carlos Alberto Arroyo Martínez <carlosarroyoam@gmail.com>
  */
-public class DatabaseSchema {
+public abstract class DatabaseSchema {
 
     public static final String DATABASE_NAME = "node_api";
 
