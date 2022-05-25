@@ -1,17 +1,14 @@
-# java-ee-api
+# user-service-java-ee
 
 
 ## Description
 
-Repository contains java-ee-api source code.``
+Repository contains user-service source code, which is a Java EE 8 based service
+for user management.
 
 ## Developing
 
-Navigate to `http://localhost:8080/`.
-
-```
-$ 
-```
+Navigate to `http://localhost:8080/user-service/api`.
 
 ## License
 
