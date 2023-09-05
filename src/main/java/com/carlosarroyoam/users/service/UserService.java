@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.NotFoundException;
 
+import com.carlosarroyoam.users.constants.AppMessages;
 import com.carlosarroyoam.users.dao.UserDao;
 import com.carlosarroyoam.users.entity.User;
 
@@ -25,58 +26,65 @@ public class UserService {
 	}
 
 	public User findById(Long id) {
-		return userDao.findById(id);
+		User userById = userDao.findById(id);
+
+		if (userById == null) {
+			logger.warning(AppMessages.USER_NOT_EXISTS_EXCEPTION);
+			throw new NotFoundException(AppMessages.USER_NOT_EXISTS_EXCEPTION);
+		}
+
+		return userById;
 	}
 
 	public User create(User user) {
-		User findByUsername = userDao.findByUsername(user.getUsername());
+		User userByUsername = userDao.findByUsername(user.getUsername());
 
-		if (findByUsername != null) {
-			logger.warning("Username already exists.");
-			throw new BadRequestException("Username already exists.");
+		if (userByUsername != null) {
+			logger.warning(AppMessages.USERNAME_ALREADY_EXISTS_EXCEPTION);
+			throw new BadRequestException(AppMessages.USERNAME_ALREADY_EXISTS_EXCEPTION);
 		}
 
-		User findByEmail = userDao.findByEmail(user.getEmail());
+		User userByEmail = userDao.findByEmail(user.getEmail());
 
-		if (findByEmail != null) {
-			logger.warning("Email already exists.");
-			throw new BadRequestException("Email already exists.");
+		if (userByEmail != null) {
+			logger.warning(AppMessages.EMAIL_ALREADY_EXISTS_EXCEPTION);
+			throw new BadRequestException(AppMessages.EMAIL_ALREADY_EXISTS_EXCEPTION);
 		}
 
 		return userDao.create(user);
 	}
 
 	public User update(Long id, User user) {
-		User findById = userDao.findById(id);
+		User userById = userDao.findById(id);
 
-		if (findById == null) {
-			logger.warning("User not exists.");
-			throw new NotFoundException("User not exists.");
+		if (userById == null) {
+			logger.warning(AppMessages.USER_NOT_EXISTS_EXCEPTION);
+			throw new NotFoundException(AppMessages.USER_NOT_EXISTS_EXCEPTION);
 		}
 
-		User findByUsername = userDao.findByUsername(user.getUsername());
+		User userByUsername = userDao.findByUsername(user.getUsername());
 
-		if (!findByUsername.getId().equals(id)) {
-			logger.warning("Username already exists.");
-			throw new BadRequestException("Username already exists.");
+		if (!userByUsername.getId().equals(id)) {
+			logger.warning(AppMessages.USERNAME_ALREADY_EXISTS_EXCEPTION);
+			throw new BadRequestException(AppMessages.USERNAME_ALREADY_EXISTS_EXCEPTION);
 		}
 
-		User findByEmail = userDao.findByEmail(user.getEmail());
+		User userByEmail = userDao.findByEmail(user.getEmail());
 
-		if (!findByEmail.getId().equals(id)) {
-			logger.warning("Email already exists.");
-			throw new BadRequestException("Email already exists.");
+		if (!userByEmail.getId().equals(id)) {
+			logger.warning(AppMessages.EMAIL_ALREADY_EXISTS_EXCEPTION);
+			throw new BadRequestException(AppMessages.EMAIL_ALREADY_EXISTS_EXCEPTION);
 		}
 
 		return userDao.update(id, user);
 	}
 
 	public void delete(Long id) {
-		User findById = userDao.findById(id);
+		User userById = userDao.findById(id);
 
-		if (findById == null) {
-			logger.warning("User not exists.");
-			throw new NotFoundException("User not exists.");
+		if (userById == null) {
+			logger.warning(AppMessages.USER_NOT_EXISTS_EXCEPTION);
+			throw new NotFoundException(AppMessages.USER_NOT_EXISTS_EXCEPTION);
 		}
 
 		userDao.delete(id);
