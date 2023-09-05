@@ -15,9 +15,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @JsonbPropertyOrder({ "message", "error", "status", "path", "timestamp" })
 public class APIErrorDto {
+
 	private String message;
 	private String error;
 	private int status;
 	private String path;
 	private ZonedDateTime timestamp;
+
 }

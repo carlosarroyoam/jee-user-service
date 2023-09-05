@@ -15,12 +15,9 @@ import javax.ws.rs.ext.Provider;
 
 import com.carlosarroyoam.users.dto.APIErrorDto;
 
-/**
- * An {@link ExceptionMapper} implementation for all JPA
- * {@link PersistenceException}s.
- */
 @Provider
 public class PersistenceExceptionMapper implements ExceptionMapper<PersistenceException> {
+
 	@Context
 	private UriInfo uriInfo;
 
@@ -41,4 +38,5 @@ public class PersistenceExceptionMapper implements ExceptionMapper<PersistenceEx
 
 		throw exception;
 	}
+
 }

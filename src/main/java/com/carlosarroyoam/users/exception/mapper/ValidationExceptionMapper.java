@@ -14,12 +14,9 @@ import javax.ws.rs.ext.Provider;
 
 import com.carlosarroyoam.users.dto.APIErrorDto;
 
-/**
- * An {@link ExceptionMapper} implementation for all
- * {@link ValidationException}s.
- */
 @Provider
 public class ValidationExceptionMapper implements ExceptionMapper<ValidationException> {
+
 	@Context
 	private UriInfo uriInfo;
 
@@ -38,4 +35,5 @@ public class ValidationExceptionMapper implements ExceptionMapper<ValidationExce
 
 		return Response.status(status).entity(apiErrorDto).type(MediaType.APPLICATION_JSON).build();
 	}
+
 }

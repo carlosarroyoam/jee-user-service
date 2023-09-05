@@ -13,11 +13,9 @@ import javax.ws.rs.ext.Provider;
 
 import com.carlosarroyoam.users.dto.APIErrorDto;
 
-/**
- * An {@link ExceptionMapper} implementation for all {@link RuntimeException}s.
- */
 @Provider
 public class RuntimeExceptionMapper implements ExceptionMapper<RuntimeException> {
+
 	@Context
 	private UriInfo uriInfo;
 
@@ -37,4 +35,5 @@ public class RuntimeExceptionMapper implements ExceptionMapper<RuntimeException>
 
 		return Response.status(status).entity(apiErrorDto).type(MediaType.APPLICATION_JSON).build();
 	}
+
 }

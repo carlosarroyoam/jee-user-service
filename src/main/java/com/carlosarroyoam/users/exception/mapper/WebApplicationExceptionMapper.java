@@ -13,12 +13,9 @@ import javax.ws.rs.ext.Provider;
 
 import com.carlosarroyoam.users.dto.APIErrorDto;
 
-/**
- * An {@link ExceptionMapper} implementation for all
- * {@link WebApplicationException}s.
- */
 @Provider
 public class WebApplicationExceptionMapper implements ExceptionMapper<WebApplicationException> {
+
 	@Context
 	private UriInfo uriInfo;
 
@@ -35,4 +32,5 @@ public class WebApplicationExceptionMapper implements ExceptionMapper<WebApplica
 		return Response.status(exception.getResponse().getStatusInfo().getStatusCode()).entity(apiErrorDto)
 				.type(MediaType.APPLICATION_JSON).build();
 	}
+
 }
