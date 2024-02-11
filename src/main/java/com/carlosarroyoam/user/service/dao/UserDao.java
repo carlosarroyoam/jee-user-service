@@ -51,16 +51,14 @@ public class UserDao {
 		return Optional.ofNullable(findByEmail);
 	}
 
-	public User create(User user) {
+	public void create(User user) {
 		logger.log(Level.INFO, "Create user: {0}", user);
 		entityManager.persist(user);
-		return user;
 	}
 
-	public User update(Long userId, User user) {
-		logger.log(Level.INFO, "Update user with id: {0}", userId);
+	public void update(User user) {
+		logger.log(Level.INFO, "Update user with id: {0}", user.getId());
 		entityManager.merge(user);
-		return user;
 	}
 
 	public void delete(Long userId) {

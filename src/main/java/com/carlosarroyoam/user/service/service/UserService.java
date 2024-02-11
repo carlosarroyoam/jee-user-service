@@ -7,11 +7,11 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.NotFoundException;
 
-import com.carlosarroyoam.user.mapper.UserMapper;
 import com.carlosarroyoam.user.service.constants.AppMessages;
 import com.carlosarroyoam.user.service.dao.UserDao;
 import com.carlosarroyoam.user.service.dto.UserResponse;
 import com.carlosarroyoam.user.service.entity.User;
+import com.carlosarroyoam.user.service.mapper.UserMapper;
 
 @ApplicationScoped
 public class UserService {
@@ -53,8 +53,8 @@ public class UserService {
 			throw new BadRequestException(AppMessages.EMAIL_ALREADY_EXISTS_EXCEPTION);
 		}
 
-		User createdUser = userDao.create(user);
-		return userMapper.toDto(createdUser);
+		userDao.create(user);
+		return userMapper.toDto(user);
 	}
 
 	public UserResponse update(Long userId, User user) {
@@ -74,9 +74,9 @@ public class UserService {
 			logger.warning(AppMessages.EMAIL_ALREADY_EXISTS_EXCEPTION);
 			throw new BadRequestException(AppMessages.EMAIL_ALREADY_EXISTS_EXCEPTION);
 		}
-		
-		User updatedUser = userDao.update(userById.getId(), user);
-		return userMapper.toDto(updatedUser);
+
+		userDao.update(user);
+		return userMapper.toDto(user);
 	}
 
 	public void delete(Long userId) {
