@@ -1,17 +1,17 @@
-package com.carlosarroyoam.users.resource;
+package com.carlosarroyoam.user.service.producer;
 
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Disposes;
 import javax.enterprise.inject.Produces;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 
-@RequestScoped
+@ApplicationScoped
 public class EntityManagerProducer {
 
 	@Produces
 	public EntityManager createEntityManager() {
-		return Persistence.createEntityManagerFactory("com.carlosarroyoam.users").createEntityManager();
+		return Persistence.createEntityManagerFactory("com.carlosarroyoam.user-service").createEntityManager();
 	}
 
 	public void disposeEntityManager(@Disposes EntityManager entityManager) {

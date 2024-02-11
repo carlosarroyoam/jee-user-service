@@ -1,8 +1,9 @@
-package com.carlosarroyoam.users.exception.mapper;
+package com.carlosarroyoam.user.service.exception.mapper;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
+import javax.validation.ValidationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -11,21 +12,20 @@ import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
-import com.carlosarroyoam.users.dto.APIErrorDto;
+import com.carlosarroyoam.user.service.dto.APIErrorDto;
 
 @Provider
-public class RuntimeExceptionMapper implements ExceptionMapper<RuntimeException> {
+public class ValidationExceptionMapper implements ExceptionMapper<ValidationException> {
 
 	@Context
 	private UriInfo uriInfo;
 
 	@Override
-	public Response toResponse(RuntimeException exception) {
+	public Response toResponse(ValidationException exception) {
 		APIErrorDto apiErrorDto = new APIErrorDto();
-		Status status = Status.INTERNAL_SERVER_ERROR;
+		Status status = Status.BAD_REQUEST;
 
-		apiErrorDto.setMessage(
-				"The server encountered an unexpected condition that prevents it from completing the request");
+		apiErrorDto.setMessage(exception.getMessage());
 		apiErrorDto.setError(status.getReasonPhrase());
 		apiErrorDto.setStatus(status.getStatusCode());
 		apiErrorDto.setPath(uriInfo.getPath());

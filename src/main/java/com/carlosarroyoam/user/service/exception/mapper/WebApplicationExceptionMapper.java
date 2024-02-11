@@ -1,4 +1,4 @@
-package com.carlosarroyoam.users.exception.mapper;
+package com.carlosarroyoam.user.service.exception.mapper;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -11,7 +11,7 @@ import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
-import com.carlosarroyoam.users.dto.APIErrorDto;
+import com.carlosarroyoam.user.service.dto.APIErrorDto;
 
 @Provider
 public class WebApplicationExceptionMapper implements ExceptionMapper<WebApplicationException> {

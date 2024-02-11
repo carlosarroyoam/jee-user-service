@@ -3,10 +3,9 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
     version="2.0">
-    <persistence-unit name="com.carlosarroyoam.users" transaction-type="RESOURCE_LOCAL">
-        <description>Persistence Unit for Users Service</description>
+    <persistence-unit name="com.carlosarroyoam.user-service" transaction-type="RESOURCE_LOCAL">
+        <description>Persistence Unit for User Service</description>
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-        <class>com.carlosarroyoam.users.entity.User</class>
 
         <properties>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver" />

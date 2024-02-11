@@ -1,15 +1,5 @@
-# user-service-java-ee
+# Build
+mvn clean package && docker build -t com.carlosarroyoam/jee-user-service .
 
-
-## Description
-
-Repository contains user-service source code, which is a Java EE 8 based service
-for user management.
-
-## Developing
-
-Navigate to `http://localhost:8080/user-service/api`.
-
-## License
-
-This project is licenced under the [Apache 2.0](LICENSE).
+# RUN
+docker rm -f jee-user-service || true && docker run -d -p 8080:8080 -p 4848:4848 --name jee-user-service com.carlosarroyoam/jee-user-service 
