@@ -13,7 +13,7 @@ import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
-import com.carlosarroyoam.user.service.dto.APIErrorDto;
+import com.carlosarroyoam.user.service.dto.AppExceptionResponse;
 
 @Provider
 public class PersistenceExceptionMapper implements ExceptionMapper<PersistenceException> {
@@ -23,7 +23,7 @@ public class PersistenceExceptionMapper implements ExceptionMapper<PersistenceEx
 
 	@Override
 	public Response toResponse(PersistenceException exception) {
-		APIErrorDto apiErrorDto = new APIErrorDto();
+		AppExceptionResponse apiErrorDto = new AppExceptionResponse();
 		Status status = Status.NOT_FOUND;
 
 		if (exception instanceof EntityNotFoundException) {

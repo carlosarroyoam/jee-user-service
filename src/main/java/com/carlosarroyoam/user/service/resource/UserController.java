@@ -1,7 +1,7 @@
 package com.carlosarroyoam.user.service.resource;
 
 import java.net.URI;
-import java.util.Collection;
+import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.ws.rs.Consumes;
@@ -16,6 +16,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 
+import com.carlosarroyoam.user.service.dto.UserResponse;
 import com.carlosarroyoam.user.service.entity.User;
 import com.carlosarroyoam.user.service.service.UserService;
 
@@ -32,7 +33,7 @@ public class UserController {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response findAll() {
-		Collection<User> users = userService.findAll();
+		List<UserResponse> users = userService.findAll();
 		return Response.ok(users).build();
 	}
 
@@ -40,7 +41,7 @@ public class UserController {
 	@Path("/{userId}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response findById(@PathParam("userId") Long userId) {
-		User findById = userService.findById(userId);
+		UserResponse findById = userService.findById(userId);
 		return Response.ok(findById).build();
 	}
 
@@ -48,7 +49,7 @@ public class UserController {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response create(User user) {
-		User createdUser = userService.create(user);
+		UserResponse createdUser = userService.create(user);
 
 		URI location = UriBuilder.fromResource(UserController.class).path("/{userId}")
 				.resolveTemplate("userId", user.getId()).build();
@@ -61,7 +62,7 @@ public class UserController {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response update(@PathParam("userId") Long userId, User user) {
-		User updatedUser = userService.update(userId, user);
+		UserResponse updatedUser = userService.update(userId, user);
 		return Response.ok(updatedUser).build();
 	}
 

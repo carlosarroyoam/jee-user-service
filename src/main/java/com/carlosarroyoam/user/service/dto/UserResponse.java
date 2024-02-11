@@ -1,6 +1,6 @@
 package com.carlosarroyoam.user.service.dto;
 
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 
 import lombok.Data;
 
@@ -14,7 +14,7 @@ public class UserResponse {
 	private String username;
 	private String role;
 	private Boolean isActive;
-	private ZonedDateTime createdAt;
-	private ZonedDateTime updatedAt;
+	private LocalDateTime createdAt;
+	private LocalDateTime updatedAt;
 
 }

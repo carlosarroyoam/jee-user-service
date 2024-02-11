@@ -11,7 +11,7 @@ import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
-import com.carlosarroyoam.user.service.dto.APIErrorDto;
+import com.carlosarroyoam.user.service.dto.AppExceptionResponse;
 
 @Provider
 public class RuntimeExceptionMapper implements ExceptionMapper<RuntimeException> {
@@ -21,7 +21,7 @@ public class RuntimeExceptionMapper implements ExceptionMapper<RuntimeException>
 
 	@Override
 	public Response toResponse(RuntimeException exception) {
-		APIErrorDto apiErrorDto = new APIErrorDto();
+		AppExceptionResponse apiErrorDto = new AppExceptionResponse();
 		Status status = Status.INTERNAL_SERVER_ERROR;
 
 		apiErrorDto.setMessage(
