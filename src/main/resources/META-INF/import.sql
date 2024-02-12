@@ -1,0 +1,1 @@
+INSERT INTO users(id, name, age, username, email, password, role, is_active, created_at, updated_at) VALUES (1, 'Carlos Alberto Arroyo Martínez', 28, "carroyom", "carroyom@mail.com", "$2y$10$nl0PdraJnpNFSBzidF5CC.oSLTH1LUT5XI0nnLJjZ28ysvN6OZH5G", "App//Admin", CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);

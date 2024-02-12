@@ -6,6 +6,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
@@ -16,13 +17,11 @@ import com.carlosarroyoam.user.service.entity.User;
 @Transactional
 public class UserDao {
 
-	private final Logger logger;
-	private final EntityManager entityManager;
+	@Inject
+	private Logger logger;
 
-	public UserDao(Logger logger, EntityManager entityManager) {
-		this.logger = logger;
-		this.entityManager = entityManager;
-	}
+	@Inject
+	private EntityManager entityManager;
 
 	public List<User> findAll() {
 		logger.info("Find all users");

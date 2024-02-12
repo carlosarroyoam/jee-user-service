@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.NotFoundException;
 
@@ -16,15 +17,14 @@ import com.carlosarroyoam.user.service.mapper.UserMapper;
 @ApplicationScoped
 public class UserService {
 
-	private final Logger logger;
-	private final UserDao userDao;
-	private final UserMapper userMapper;
+	@Inject
+	private Logger logger;
 
-	public UserService(Logger logger, UserDao userDao, UserMapper userMapper) {
-		this.logger = logger;
-		this.userDao = userDao;
-		this.userMapper = userMapper;
-	}
+	@Inject
+	private UserDao userDao;
+
+	@Inject
+	private UserMapper userMapper;
 
 	public List<UserResponse> findAll() {
 		List<User> users = userDao.findAll();

@@ -10,7 +10,7 @@ import org.mapstruct.ReportingPolicy;
 import com.carlosarroyoam.user.service.dto.UserResponse;
 import com.carlosarroyoam.user.service.entity.User;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.JAKARTA_CDI, nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(componentModel = MappingConstants.ComponentModel.JSR330, nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface UserMapper {
 
 	UserResponse toDto(User user);

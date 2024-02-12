@@ -1,1 +1,0 @@
-INSERT INTO users(id, name, age, username, email, password, role, is_active, created_at, updated_at) VALUES (1, 'Carlos Alberto Arroyo Martínez', 28, "carroyom", "carroyom@mail.com", "", "App//Admin", CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
