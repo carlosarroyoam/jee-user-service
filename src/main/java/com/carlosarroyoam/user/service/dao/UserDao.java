@@ -45,8 +45,7 @@ public class UserDao {
 	public Optional<User> findByEmail(String email) {
 		logger.log(Level.INFO, "Find user with mail: {0}", email);
 		TypedQuery<User> query = entityManager.createNamedQuery(User.FIND_BY_EMAIL, User.class);
-		query.setParameter("email", email);
-		User findByEmail = entityManager.getReference(User.class, email);
+		User findByEmail = query.setParameter("email", email).getSingleResult();
 		return Optional.ofNullable(findByEmail);
 	}
 
