@@ -1,6 +1,8 @@
 package com.carlosarroyoam.user.service.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -63,20 +65,26 @@ public class UserService {
 			throw new NotFoundException(AppMessages.USER_NOT_FOUND_EXCEPTION);
 		});
 
-		boolean existsWithUsername = userDao.findByUsername(user.getUsername()).isPresent();
-		if (existsWithUsername) {
+		Optional<User> userByUsername = userDao.findByUsername(user.getUsername());
+		if (userByUsername.isPresent() && !userByUsername.get().getId().equals(userId)) {
 			logger.warning(AppMessages.USERNAME_ALREADY_EXISTS_EXCEPTION);
 			throw new BadRequestException(AppMessages.USERNAME_ALREADY_EXISTS_EXCEPTION);
 		}
 
-		boolean existsWithEmail = userDao.findByEmail(user.getEmail()).isPresent();
-		if (existsWithEmail) {
+		Optional<User> userByEmail = userDao.findByEmail(user.getEmail());
+		if (userByEmail.isPresent() && !userByEmail.get().getId().equals(userId)) {
 			logger.warning(AppMessages.EMAIL_ALREADY_EXISTS_EXCEPTION);
 			throw new BadRequestException(AppMessages.EMAIL_ALREADY_EXISTS_EXCEPTION);
 		}
 
-		userDao.update(user);
-		return userMapper.toDto(user);
+		userById.setName(user.getName());
+		userById.setAge(user.getAge());
+		userById.setUsername(user.getUsername());
+		userById.setEmail(user.getEmail());
+		userById.setUpdatedAt(LocalDateTime.now());
+
+		userDao.update(userById);
+		return userMapper.toDto(userById);
 	}
 
 	public void delete(Long userId) {
