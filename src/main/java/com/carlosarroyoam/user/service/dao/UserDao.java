@@ -29,7 +29,7 @@ public class UserDao {
 
 	public Optional<User> findById(Long userId) {
 		logger.log(Level.INFO, "Find user with id: {0}", userId);
-		User findById = entityManager.getReference(User.class, userId);
+		User findById = entityManager.find(User.class, userId);
 		return Optional.ofNullable(findById);
 	}
 
