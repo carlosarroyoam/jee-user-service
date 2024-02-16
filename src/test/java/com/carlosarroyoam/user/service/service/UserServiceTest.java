@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.carlosarroyoam.user.service.dao.UserDao;
@@ -25,11 +26,11 @@ class UserServiceTest {
 	@Mock
 	private Logger logger;
 
-	@Mock
-	private UserDao userDao;
+	@Spy
+	private UserMapper userMapper;
 
 	@Mock
-	private UserMapper userMapper;
+	private UserDao userDao;
 
 	@InjectMocks
 	private UserService userService;
