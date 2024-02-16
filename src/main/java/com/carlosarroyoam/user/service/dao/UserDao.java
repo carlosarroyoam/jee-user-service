@@ -9,12 +9,10 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-import javax.transaction.Transactional;
 
 import com.carlosarroyoam.user.service.entity.User;
 
 @ApplicationScoped
-@Transactional
 public class UserDao {
 
 	@Inject

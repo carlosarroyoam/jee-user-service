@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.NotFoundException;
 
@@ -42,6 +43,7 @@ public class UserService {
 		return userMapper.toDto(userById);
 	}
 
+	@Transactional
 	public UserResponse create(User user) {
 		boolean existsWithUsername = userDao.findByUsername(user.getUsername()).isPresent();
 		if (existsWithUsername) {
@@ -59,6 +61,7 @@ public class UserService {
 		return userMapper.toDto(user);
 	}
 
+	@Transactional
 	public UserResponse update(Long userId, User user) {
 		User userById = userDao.findById(userId).orElseThrow(() -> {
 			logger.warning(AppMessages.USER_NOT_FOUND_EXCEPTION);
@@ -87,6 +90,7 @@ public class UserService {
 		return userMapper.toDto(userById);
 	}
 
+	@Transactional
 	public void delete(Long userId) {
 		User userById = userDao.findById(userId).orElseThrow(() -> {
 			logger.warning(AppMessages.USER_NOT_FOUND_EXCEPTION);

@@ -21,19 +21,17 @@ public class ValidationExceptionMapper implements ExceptionMapper<ValidationExce
 	private UriInfo uriInfo;
 
 	@Override
-	public Response toResponse(ValidationException exception) {
-		AppExceptionResponse apiErrorDto = new AppExceptionResponse();
+	public Response toResponse(ValidationException ex) {
 		Status status = Status.BAD_REQUEST;
 
-		apiErrorDto.setMessage(exception.getMessage());
-		apiErrorDto.setError(status.getReasonPhrase());
-		apiErrorDto.setStatus(status.getStatusCode());
-		apiErrorDto.setPath(uriInfo.getPath());
-		apiErrorDto.setTimestamp(ZonedDateTime.now(ZoneId.of("UTC")).withFixedOffsetZone());
+		AppExceptionResponse appExceptionResponse = new AppExceptionResponse();
+		appExceptionResponse.setMessage("Request data is not valid");
+		appExceptionResponse.setCode(status.getStatusCode());
+		appExceptionResponse.setStatus(status.getReasonPhrase());
+		appExceptionResponse.setPath(uriInfo.getPath());
+		appExceptionResponse.setTimestamp(ZonedDateTime.now(ZoneId.of("UTC")).withFixedOffsetZone());
 
-		exception.printStackTrace();
-
-		return Response.status(status).entity(apiErrorDto).type(MediaType.APPLICATION_JSON).build();
+		return Response.status(status).entity(appExceptionResponse).type(MediaType.APPLICATION_JSON).build();
 	}
 
 }

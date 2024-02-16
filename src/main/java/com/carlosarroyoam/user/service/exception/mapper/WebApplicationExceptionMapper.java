@@ -7,6 +7,7 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
@@ -20,17 +21,17 @@ public class WebApplicationExceptionMapper implements ExceptionMapper<WebApplica
 	private UriInfo uriInfo;
 
 	@Override
-	public Response toResponse(WebApplicationException exception) {
-		AppExceptionResponse apiErrorDto = new AppExceptionResponse();
+	public Response toResponse(WebApplicationException ex) {
+		Status status = Status.fromStatusCode(ex.getResponse().getStatus());
 
-		apiErrorDto.setMessage(exception.getMessage());
-		apiErrorDto.setError(exception.getResponse().getStatusInfo().getReasonPhrase());
-		apiErrorDto.setStatus(exception.getResponse().getStatusInfo().getStatusCode());
-		apiErrorDto.setPath(uriInfo.getPath());
-		apiErrorDto.setTimestamp(ZonedDateTime.now(ZoneId.of("UTC")).withFixedOffsetZone());
+		AppExceptionResponse appExceptionResponse = new AppExceptionResponse();
+		appExceptionResponse.setMessage(ex.getMessage());
+		appExceptionResponse.setCode(status.getStatusCode());
+		appExceptionResponse.setStatus(status.getReasonPhrase());
+		appExceptionResponse.setPath(uriInfo.getPath());
+		appExceptionResponse.setTimestamp(ZonedDateTime.now(ZoneId.of("UTC")).withFixedOffsetZone());
 
-		return Response.status(exception.getResponse().getStatusInfo().getStatusCode()).entity(apiErrorDto)
-				.type(MediaType.APPLICATION_JSON).build();
+		return Response.status(status).entity(appExceptionResponse).type(MediaType.APPLICATION_JSON).build();
 	}
 
 }

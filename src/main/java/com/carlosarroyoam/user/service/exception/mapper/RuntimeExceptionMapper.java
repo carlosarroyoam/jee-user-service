@@ -20,20 +20,19 @@ public class RuntimeExceptionMapper implements ExceptionMapper<RuntimeException>
 	private UriInfo uriInfo;
 
 	@Override
-	public Response toResponse(RuntimeException exception) {
-		AppExceptionResponse apiErrorDto = new AppExceptionResponse();
+	public Response toResponse(RuntimeException ex) {
 		Status status = Status.INTERNAL_SERVER_ERROR;
 
-		apiErrorDto.setMessage(
-				"The server encountered an unexpected condition that prevents it from completing the request");
-		apiErrorDto.setError(status.getReasonPhrase());
-		apiErrorDto.setStatus(status.getStatusCode());
-		apiErrorDto.setPath(uriInfo.getPath());
-		apiErrorDto.setTimestamp(ZonedDateTime.now(ZoneId.of("UTC")).withFixedOffsetZone());
+		AppExceptionResponse appExceptionResponse = new AppExceptionResponse();
+		appExceptionResponse.setMessage("Whoops! Something went wrong");
+		appExceptionResponse.setCode(status.getStatusCode());
+		appExceptionResponse.setStatus(status.getReasonPhrase());
+		appExceptionResponse.setPath(uriInfo.getPath());
+		appExceptionResponse.setTimestamp(ZonedDateTime.now(ZoneId.of("UTC")).withFixedOffsetZone());
 
-		exception.printStackTrace();
+		ex.printStackTrace();
 
-		return Response.status(status).entity(apiErrorDto).type(MediaType.APPLICATION_JSON).build();
+		return Response.status(status).entity(appExceptionResponse).type(MediaType.APPLICATION_JSON).build();
 	}
 
 }
