@@ -9,7 +9,7 @@ public class UserResponse {
 
 	private Long id;
 	private String name;
-	private Integer age;
+	private Byte age;
 	private String email;
 	private String username;
 	private String role;
