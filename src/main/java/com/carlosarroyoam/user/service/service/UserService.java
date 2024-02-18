@@ -91,13 +91,13 @@ public class UserService {
 	}
 
 	@Transactional
-	public void delete(Long userId) {
+	public void deleteById(Long userId) {
 		User userById = userDao.findById(userId).orElseThrow(() -> {
 			logger.warning(AppMessages.USER_NOT_FOUND_EXCEPTION);
 			throw new NotFoundException(AppMessages.USER_NOT_FOUND_EXCEPTION);
 		});
 
-		userDao.delete(userById.getId());
+		userDao.deleteById(userById.getId());
 	}
 
 }

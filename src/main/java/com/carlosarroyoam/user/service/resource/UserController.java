@@ -66,8 +66,8 @@ public class UserController {
 
 	@DELETE
 	@Path("/{userId}")
-	public Response delete(@PathParam("userId") Long userId) {
-		userService.delete(userId);
+	public Response deleteById(@PathParam("userId") Long userId) {
+		userService.deleteById(userId);
 		return Response.noContent().build();
 	}
 

@@ -57,7 +57,7 @@ public class UserDao {
 		entityManager.merge(user);
 	}
 
-	public void delete(Long userId) {
+	public void deleteById(Long userId) {
 		logger.log(Level.INFO, "Delete user with id: {0}", userId);
 		User user = entityManager.getReference(User.class, userId);
 		entityManager.remove(user);
