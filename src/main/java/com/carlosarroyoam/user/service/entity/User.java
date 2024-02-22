@@ -4,9 +4,12 @@ import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
@@ -43,8 +46,12 @@ public class User {
 	@Column(name = "password", length = 128, nullable = false)
 	private String password;
 
-	@Column(name = "role", length = 32, nullable = false)
-	private String role;
+	@Column(name = "role_id", nullable = false, insertable = false, updatable = false)
+	private Long roleId;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false)
+	private Role role;
 
 	@Column(name = "is_active", nullable = false)
 	private Boolean isActive;
