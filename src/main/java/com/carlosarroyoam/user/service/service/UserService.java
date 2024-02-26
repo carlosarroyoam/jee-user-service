@@ -57,6 +57,11 @@ public class UserService {
 			throw new BadRequestException(AppMessages.EMAIL_ALREADY_EXISTS_EXCEPTION);
 		}
 
+		LocalDateTime now = LocalDateTime.now();
+		user.setIsActive(Boolean.FALSE);
+		user.setCreatedAt(now);
+		user.setUpdatedAt(now);
+
 		userDao.create(user);
 		return userMapper.toDto(user);
 	}
