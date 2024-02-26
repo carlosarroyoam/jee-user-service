@@ -23,7 +23,7 @@ import com.carlosarroyoam.user.service.service.UserService;
 
 @Path("/users")
 @ApplicationScoped
-public class UserController {
+public class UserResource {
 
 	@Inject
 	private UserService userService;
@@ -39,8 +39,8 @@ public class UserController {
 	@Path("/{userId}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response findById(@PathParam("userId") Long userId) {
-		UserResponse findById = userService.findById(userId);
-		return Response.ok(findById).build();
+		UserResponse userById = userService.findById(userId);
+		return Response.ok(userById).build();
 	}
 
 	@POST
@@ -49,7 +49,7 @@ public class UserController {
 	public Response create(User user) {
 		UserResponse createdUser = userService.create(user);
 
-		URI location = UriBuilder.fromResource(UserController.class).path("/{userId}")
+		URI location = UriBuilder.fromResource(UserResource.class).path("/{userId}")
 				.resolveTemplate("userId", user.getId()).build();
 
 		return Response.created(location).entity(createdUser).build();
