@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -52,7 +51,7 @@ public class User {
 	@Column(name = "role_id", nullable = false)
 	private Integer roleId;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "role_id", referencedColumnName = "id", insertable = false, updatable = false)
 	private Role role;
 
