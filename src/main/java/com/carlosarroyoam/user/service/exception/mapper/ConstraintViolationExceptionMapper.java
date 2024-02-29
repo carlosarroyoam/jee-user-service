@@ -2,8 +2,10 @@ package com.carlosarroyoam.user.service.exception.mapper;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.stream.Collectors;
 
-import javax.validation.ValidationException;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -15,13 +17,13 @@ import javax.ws.rs.ext.Provider;
 import com.carlosarroyoam.user.service.dto.AppExceptionResponse;
 
 @Provider
-public class ValidationExceptionMapper implements ExceptionMapper<ValidationException> {
+public class ConstraintViolationExceptionMapper implements ExceptionMapper<ConstraintViolationException> {
 
 	@Context
 	private UriInfo uriInfo;
 
 	@Override
-	public Response toResponse(ValidationException ex) {
+	public Response toResponse(ConstraintViolationException ex) {
 		Status status = Status.BAD_REQUEST;
 
 		AppExceptionResponse appExceptionResponse = new AppExceptionResponse();
@@ -29,7 +31,9 @@ public class ValidationExceptionMapper implements ExceptionMapper<ValidationExce
 		appExceptionResponse.setCode(status.getStatusCode());
 		appExceptionResponse.setStatus(status.getReasonPhrase());
 		appExceptionResponse.setPath(uriInfo.getPath());
-		appExceptionResponse.setTimestamp(ZonedDateTime.now(ZoneId.of("UTC")).withFixedOffsetZone());
+		appExceptionResponse.setTimestamp(ZonedDateTime.now(ZoneId.of("UTC")));
+		appExceptionResponse.setDetails(
+				ex.getConstraintViolations().stream().map(ConstraintViolation::getMessage).collect(Collectors.toSet()));
 
 		return Response.status(status).entity(appExceptionResponse).type(MediaType.APPLICATION_JSON).build();
 	}

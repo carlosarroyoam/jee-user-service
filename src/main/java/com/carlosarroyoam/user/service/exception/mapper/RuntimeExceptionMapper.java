@@ -28,7 +28,7 @@ public class RuntimeExceptionMapper implements ExceptionMapper<RuntimeException>
 		appExceptionResponse.setCode(status.getStatusCode());
 		appExceptionResponse.setStatus(status.getReasonPhrase());
 		appExceptionResponse.setPath(uriInfo.getPath());
-		appExceptionResponse.setTimestamp(ZonedDateTime.now(ZoneId.of("UTC")).withFixedOffsetZone());
+		appExceptionResponse.setTimestamp(ZonedDateTime.now(ZoneId.of("UTC")));
 
 		ex.printStackTrace();
 

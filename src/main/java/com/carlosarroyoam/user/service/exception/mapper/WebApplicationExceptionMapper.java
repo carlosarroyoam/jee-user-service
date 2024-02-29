@@ -29,7 +29,7 @@ public class WebApplicationExceptionMapper implements ExceptionMapper<WebApplica
 		appExceptionResponse.setCode(status.getStatusCode());
 		appExceptionResponse.setStatus(status.getReasonPhrase());
 		appExceptionResponse.setPath(uriInfo.getPath());
-		appExceptionResponse.setTimestamp(ZonedDateTime.now(ZoneId.of("UTC")).withFixedOffsetZone());
+		appExceptionResponse.setTimestamp(ZonedDateTime.now(ZoneId.of("UTC")));
 
 		return Response.status(status).entity(appExceptionResponse).type(MediaType.APPLICATION_JSON).build();
 	}
