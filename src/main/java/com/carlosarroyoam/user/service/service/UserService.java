@@ -11,7 +11,7 @@ import javax.transaction.Transactional;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.NotFoundException;
 
-import com.carlosarroyoam.user.service.constants.AppMessages;
+import com.carlosarroyoam.user.service.constant.AppMessages;
 import com.carlosarroyoam.user.service.dao.UserDao;
 import com.carlosarroyoam.user.service.dto.UserResponse;
 import com.carlosarroyoam.user.service.entity.User;
