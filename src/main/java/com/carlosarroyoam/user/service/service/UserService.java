@@ -67,7 +67,7 @@ public class UserService {
 	}
 
 	@Transactional
-	public UserResponse update(Long userId, User user) {
+	public void update(Long userId, User user) {
 		User userById = userDao.findById(userId).orElseThrow(() -> {
 			logger.warning(AppMessages.USER_NOT_FOUND_EXCEPTION);
 			throw new NotFoundException(AppMessages.USER_NOT_FOUND_EXCEPTION);
@@ -92,7 +92,6 @@ public class UserService {
 		userById.setUpdatedAt(LocalDateTime.now());
 
 		userDao.update(userById);
-		return userMapper.toDto(userById);
 	}
 
 	@Transactional

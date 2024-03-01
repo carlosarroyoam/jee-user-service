@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -45,23 +46,19 @@ public class UserResource {
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response create(User user) {
+	public Response create(@Valid User user) {
 		UserResponse createdUser = userService.create(user);
-
-		URI location = UriBuilder.fromResource(UserResource.class).path("/{userId}")
-				.resolveTemplate("userId", user.getId()).build();
-
-		return Response.created(location).entity(createdUser).build();
+		URI locationUri = UriBuilder.fromResource(UserResource.class).path("/{userId}")
+				.resolveTemplate("userId", createdUser.getId()).build();
+		return Response.created(locationUri).build();
 	}
 
 	@PUT
 	@Path("/{userId}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response update(@PathParam("userId") Long userId, User user) {
-		UserResponse updatedUser = userService.update(userId, user);
-		return Response.ok(updatedUser).build();
+	public Response update(@PathParam("userId") Long userId, @Valid User user) {
+		userService.update(userId, user);
+		return Response.noContent().build();
 	}
 
 	@DELETE
