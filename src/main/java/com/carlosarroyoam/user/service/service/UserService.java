@@ -13,6 +13,8 @@ import javax.ws.rs.NotFoundException;
 
 import com.carlosarroyoam.user.service.constant.AppMessages;
 import com.carlosarroyoam.user.service.dao.UserDao;
+import com.carlosarroyoam.user.service.dto.CreateUserRequest;
+import com.carlosarroyoam.user.service.dto.UpdateUserRequest;
 import com.carlosarroyoam.user.service.dto.UserResponse;
 import com.carlosarroyoam.user.service.entity.User;
 import com.carlosarroyoam.user.service.mapper.UserMapper;
@@ -44,20 +46,22 @@ public class UserService {
 	}
 
 	@Transactional
-	public UserResponse create(User user) {
-		boolean existsWithUsername = userDao.findByUsername(user.getUsername()).isPresent();
+	public UserResponse create(CreateUserRequest createUserRequest) {
+		boolean existsWithUsername = userDao.findByUsername(createUserRequest.getUsername()).isPresent();
 		if (existsWithUsername) {
 			logger.warning(AppMessages.USERNAME_ALREADY_EXISTS_EXCEPTION);
 			throw new BadRequestException(AppMessages.USERNAME_ALREADY_EXISTS_EXCEPTION);
 		}
 
-		boolean existsWithEmail = userDao.findByEmail(user.getEmail()).isPresent();
+		boolean existsWithEmail = userDao.findByEmail(createUserRequest.getEmail()).isPresent();
 		if (existsWithEmail) {
 			logger.warning(AppMessages.EMAIL_ALREADY_EXISTS_EXCEPTION);
 			throw new BadRequestException(AppMessages.EMAIL_ALREADY_EXISTS_EXCEPTION);
 		}
 
 		LocalDateTime now = LocalDateTime.now();
+		User user = userMapper.toEntity(createUserRequest);
+
 		user.setIsActive(Boolean.FALSE);
 		user.setCreatedAt(now);
 		user.setUpdatedAt(now);
@@ -67,28 +71,28 @@ public class UserService {
 	}
 
 	@Transactional
-	public void update(Long userId, User user) {
+	public void update(Long userId, UpdateUserRequest updateUserRequest) {
 		User userById = userDao.findById(userId).orElseThrow(() -> {
 			logger.warning(AppMessages.USER_NOT_FOUND_EXCEPTION);
 			throw new NotFoundException(AppMessages.USER_NOT_FOUND_EXCEPTION);
 		});
 
-		Optional<User> userByUsername = userDao.findByUsername(user.getUsername());
+		Optional<User> userByUsername = userDao.findByUsername(updateUserRequest.getUsername());
 		if (userByUsername.isPresent() && !userByUsername.get().getId().equals(userId)) {
 			logger.warning(AppMessages.USERNAME_ALREADY_EXISTS_EXCEPTION);
 			throw new BadRequestException(AppMessages.USERNAME_ALREADY_EXISTS_EXCEPTION);
 		}
 
-		Optional<User> userByEmail = userDao.findByEmail(user.getEmail());
+		Optional<User> userByEmail = userDao.findByEmail(updateUserRequest.getEmail());
 		if (userByEmail.isPresent() && !userByEmail.get().getId().equals(userId)) {
 			logger.warning(AppMessages.EMAIL_ALREADY_EXISTS_EXCEPTION);
 			throw new BadRequestException(AppMessages.EMAIL_ALREADY_EXISTS_EXCEPTION);
 		}
 
-		userById.setName(user.getName());
-		userById.setAge(user.getAge());
-		userById.setUsername(user.getUsername());
-		userById.setEmail(user.getEmail());
+		userById.setName(updateUserRequest.getName());
+		userById.setAge(updateUserRequest.getAge());
+		userById.setUsername(updateUserRequest.getUsername());
+		userById.setEmail(updateUserRequest.getEmail());
 		userById.setUpdatedAt(LocalDateTime.now());
 
 		userDao.update(userById);

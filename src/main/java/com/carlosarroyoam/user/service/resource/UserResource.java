@@ -18,6 +18,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 
+import com.carlosarroyoam.user.service.dto.CreateUserRequest;
+import com.carlosarroyoam.user.service.dto.UpdateUserRequest;
 import com.carlosarroyoam.user.service.dto.UserResponse;
 import com.carlosarroyoam.user.service.entity.User;
 import com.carlosarroyoam.user.service.service.UserService;
@@ -46,8 +48,8 @@ public class UserResource {
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response create(@Valid User user) {
-		UserResponse createdUser = userService.create(user);
+	public Response create(@Valid CreateUserRequest createUserRequest) {
+		UserResponse createdUser = userService.create(createUserRequest);
 		URI locationUri = UriBuilder.fromResource(UserResource.class).path("/{userId}")
 				.resolveTemplate("userId", createdUser.getId()).build();
 		return Response.created(locationUri).build();
@@ -56,8 +58,8 @@ public class UserResource {
 	@PUT
 	@Path("/{userId}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response update(@PathParam("userId") Long userId, @Valid User user) {
-		userService.update(userId, user);
+	public Response update(@PathParam("userId") Long userId, @Valid UpdateUserRequest updateUserRequest) {
+		userService.update(userId, updateUserRequest);
 		return Response.noContent().build();
 	}
 
