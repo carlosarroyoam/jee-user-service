@@ -29,22 +29,30 @@ public class UserDao {
 
 	public Optional<User> findById(Long userId) {
 		logger.log(Level.INFO, "Find user with id: {0}", userId);
-		User findById = entityManager.find(User.class, userId);
-		return Optional.ofNullable(findById);
+		User userById = entityManager.find(User.class, userId);
+		return Optional.ofNullable(userById);
 	}
 
 	public Optional<User> findByUsername(String username) {
 		logger.log(Level.INFO, "Find user with username: {0}", username);
 		TypedQuery<User> query = entityManager.createNamedQuery(User.FIND_BY_USERNAME, User.class);
-		User findByUsername = query.setParameter("username", username).getSingleResult();
-		return Optional.ofNullable(findByUsername);
+		List<User> results = query.setParameter("username", username).getResultList();
+
+		if (results.isEmpty())
+			return Optional.empty();
+
+		return Optional.of(results.get(0));
 	}
 
 	public Optional<User> findByEmail(String email) {
 		logger.log(Level.INFO, "Find user with mail: {0}", email);
 		TypedQuery<User> query = entityManager.createNamedQuery(User.FIND_BY_EMAIL, User.class);
-		User findByEmail = query.setParameter("email", email).getSingleResult();
-		return Optional.ofNullable(findByEmail);
+		List<User> results = query.setParameter("email", email).getResultList();
+
+		if (results.isEmpty())
+			return Optional.empty();
+
+		return Optional.of(results.get(0));
 	}
 
 	public void create(User user) {

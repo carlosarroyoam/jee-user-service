@@ -27,7 +27,7 @@ public class User {
 	public static final String FIND_BY_EMAIL = "User.findByEmail";
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
 	@Column(name = "name", length = 128, nullable = false)

@@ -21,7 +21,6 @@ import javax.ws.rs.core.UriBuilder;
 import com.carlosarroyoam.user.service.dto.CreateUserRequest;
 import com.carlosarroyoam.user.service.dto.UpdateUserRequest;
 import com.carlosarroyoam.user.service.dto.UserResponse;
-import com.carlosarroyoam.user.service.entity.User;
 import com.carlosarroyoam.user.service.service.UserService;
 
 @Path("/users")

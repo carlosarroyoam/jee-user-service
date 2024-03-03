@@ -47,14 +47,14 @@ public class UserService {
 
 	@Transactional
 	public UserResponse create(CreateUserRequest createUserRequest) {
-		boolean existsWithUsername = userDao.findByUsername(createUserRequest.getUsername()).isPresent();
-		if (existsWithUsername) {
+		boolean existsByUsername = userDao.findByUsername(createUserRequest.getUsername()).isPresent();
+		if (existsByUsername) {
 			logger.warning(AppMessages.USERNAME_ALREADY_EXISTS_EXCEPTION);
 			throw new BadRequestException(AppMessages.USERNAME_ALREADY_EXISTS_EXCEPTION);
 		}
 
-		boolean existsWithEmail = userDao.findByEmail(createUserRequest.getEmail()).isPresent();
-		if (existsWithEmail) {
+		boolean existsByEmail = userDao.findByEmail(createUserRequest.getEmail()).isPresent();
+		if (existsByEmail) {
 			logger.warning(AppMessages.EMAIL_ALREADY_EXISTS_EXCEPTION);
 			throw new BadRequestException(AppMessages.EMAIL_ALREADY_EXISTS_EXCEPTION);
 		}
