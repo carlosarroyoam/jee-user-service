@@ -56,19 +56,49 @@ public class UserDao {
 	}
 
 	public void create(User user) {
-		logger.log(Level.INFO, "Create user: {0}", user);
-		entityManager.persist(user);
+		try {
+			logger.log(Level.INFO, "Create user: {0}", user);
+			entityManager.getTransaction().begin();
+			entityManager.persist(user);
+			entityManager.getTransaction().commit();
+		} catch (Exception e) {
+			if (entityManager.getTransaction().isActive()) {
+				entityManager.getTransaction().rollback();
+			}
+
+			throw e;
+		}
 	}
 
 	public void update(User user) {
-		logger.log(Level.INFO, "Update user with id: {0}", user.getId());
-		entityManager.merge(user);
+		try {
+			logger.log(Level.INFO, "Update user with id: {0}", user.getId());
+			entityManager.getTransaction().begin();
+			entityManager.merge(user);
+			entityManager.getTransaction().commit();
+		} catch (Exception e) {
+			if (entityManager.getTransaction().isActive()) {
+				entityManager.getTransaction().rollback();
+			}
+
+			throw e;
+		}
 	}
 
 	public void deleteById(Long userId) {
-		logger.log(Level.INFO, "Delete user with id: {0}", userId);
-		User user = entityManager.getReference(User.class, userId);
-		entityManager.remove(user);
+		try {
+			logger.log(Level.INFO, "Delete user with id: {0}", userId);
+			entityManager.getTransaction().begin();
+			User user = entityManager.getReference(User.class, userId);
+			entityManager.remove(user);
+			entityManager.getTransaction().commit();
+		} catch (Exception e) {
+			if (entityManager.getTransaction().isActive()) {
+				entityManager.getTransaction().rollback();
+			}
+
+			throw e;
+		}
 	}
 
 }

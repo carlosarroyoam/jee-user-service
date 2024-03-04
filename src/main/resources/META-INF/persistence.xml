@@ -6,6 +6,7 @@
 	<persistence-unit name="com.carlosarroyoam.user-service" transaction-type="RESOURCE_LOCAL">
 		<description>Persistence Unit for User Service</description>
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver" />
@@ -14,7 +15,7 @@
 			<property name="javax.persistence.jdbc.password" value="toor" />
 			<property name="javax.persistence.sql-load-script-source" value="META-INF/import.sql"/>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect" />
-			<property name="hibernate.hbm2ddl.auto" value="validate" />
+			<property name="hibernate.hbm2ddl.auto" value="create" />
 			<property name="show_sql" value="true" />
 		</properties>
 	</persistence-unit>
