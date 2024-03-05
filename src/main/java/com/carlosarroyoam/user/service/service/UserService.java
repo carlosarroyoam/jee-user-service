@@ -45,21 +45,18 @@ public class UserService {
 	}
 
 	public UserResponse create(CreateUserRequest createUserRequest) {
-		boolean existsByUsername = userDao.findByUsername(createUserRequest.getUsername()).isPresent();
-		if (existsByUsername) {
+		if (userDao.findByUsername(createUserRequest.getUsername()).isPresent()) {
 			logger.warning(AppMessages.USERNAME_ALREADY_EXISTS_EXCEPTION);
 			throw new BadRequestException(AppMessages.USERNAME_ALREADY_EXISTS_EXCEPTION);
 		}
 
-		boolean existsByEmail = userDao.findByEmail(createUserRequest.getEmail()).isPresent();
-		if (existsByEmail) {
+		if (userDao.findByEmail(createUserRequest.getEmail()).isPresent()) {
 			logger.warning(AppMessages.EMAIL_ALREADY_EXISTS_EXCEPTION);
 			throw new BadRequestException(AppMessages.EMAIL_ALREADY_EXISTS_EXCEPTION);
 		}
 
 		LocalDateTime now = LocalDateTime.now();
 		User user = userMapper.toEntity(createUserRequest);
-
 		user.setIsActive(Boolean.FALSE);
 		user.setCreatedAt(now);
 		user.setUpdatedAt(now);
