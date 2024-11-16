@@ -101,5 +101,4 @@
 		</plugins>
 		<finalName>jee-user-service</finalName>
 	</build>
-
 </project>

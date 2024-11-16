@@ -14,7 +14,6 @@ import com.carlosarroyoam.user.service.entity.User;
 
 @ApplicationScoped
 public class UserDao {
-
 	@Inject
 	private Logger logger;
 
@@ -100,5 +99,4 @@ public class UserDao {
 			throw e;
 		}
 	}
-
 }

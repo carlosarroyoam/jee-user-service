@@ -15,7 +15,6 @@ import com.carlosarroyoam.user.service.dto.AppExceptionResponse;
 
 @Provider
 public class RuntimeExceptionMapper implements ExceptionMapper<RuntimeException> {
-
 	@Context
 	private UriInfo uriInfo;
 
@@ -34,5 +33,4 @@ public class RuntimeExceptionMapper implements ExceptionMapper<RuntimeException>
 
 		return Response.status(status).entity(appExceptionResponse).type(MediaType.APPLICATION_JSON).build();
 	}
-
 }

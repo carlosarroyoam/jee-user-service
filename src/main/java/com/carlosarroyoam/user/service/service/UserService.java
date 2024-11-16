@@ -20,7 +20,6 @@ import com.carlosarroyoam.user.service.mapper.UserMapper;
 
 @ApplicationScoped
 public class UserService {
-
 	@Inject
 	private Logger logger;
 
@@ -100,5 +99,4 @@ public class UserService {
 
 		userDao.deleteById(userById.getId());
 	}
-
 }

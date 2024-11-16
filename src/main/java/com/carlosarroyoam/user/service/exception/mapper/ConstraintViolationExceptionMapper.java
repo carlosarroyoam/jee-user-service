@@ -18,7 +18,6 @@ import com.carlosarroyoam.user.service.dto.AppExceptionResponse;
 
 @Provider
 public class ConstraintViolationExceptionMapper implements ExceptionMapper<ConstraintViolationException> {
-
 	@Context
 	private UriInfo uriInfo;
 
@@ -37,5 +36,4 @@ public class ConstraintViolationExceptionMapper implements ExceptionMapper<Const
 
 		return Response.status(status).entity(appExceptionResponse).type(MediaType.APPLICATION_JSON).build();
 	}
-
 }

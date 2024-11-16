@@ -22,7 +22,6 @@ import com.carlosarroyoam.user.service.mapper.UserMapper;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {
-
 	@Mock
 	private Logger logger;
 
@@ -44,5 +43,4 @@ class UserServiceTest {
 		assertThat(users, is(notNullValue()));
 		assertThat(users.size(), is(0));
 	}
-
 }

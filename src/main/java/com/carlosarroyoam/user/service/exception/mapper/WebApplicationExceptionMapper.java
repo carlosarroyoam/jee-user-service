@@ -16,7 +16,6 @@ import com.carlosarroyoam.user.service.dto.AppExceptionResponse;
 
 @Provider
 public class WebApplicationExceptionMapper implements ExceptionMapper<WebApplicationException> {
-
 	@Context
 	private UriInfo uriInfo;
 
@@ -33,5 +32,4 @@ public class WebApplicationExceptionMapper implements ExceptionMapper<WebApplica
 
 		return Response.status(status).entity(appExceptionResponse).type(MediaType.APPLICATION_JSON).build();
 	}
-
 }

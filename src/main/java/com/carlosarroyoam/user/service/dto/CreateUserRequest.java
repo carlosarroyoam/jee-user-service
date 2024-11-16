@@ -11,7 +11,6 @@ import lombok.Data;
 
 @Data
 public class CreateUserRequest {
-
 	@NotBlank(message = "Name should not be blank")
 	@Size(min = 3, max = 128, message = "Name should be between 3 and 128")
 	private String name;
@@ -36,5 +35,4 @@ public class CreateUserRequest {
 
 	@NotNull(message = "Role_id should not be null")
 	private Integer roleId;
-
 }

@@ -26,7 +26,6 @@ import com.carlosarroyoam.user.service.service.UserService;
 @Path("/users")
 @ApplicationScoped
 public class UserResource {
-
 	@Inject
 	private UserService userService;
 
@@ -68,5 +67,4 @@ public class UserResource {
 		userService.deleteById(userId);
 		return Response.noContent().build();
 	}
-
 }

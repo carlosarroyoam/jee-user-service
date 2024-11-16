@@ -21,7 +21,6 @@ import lombok.Data;
 @NamedQuery(name = User.FIND_BY_EMAIL, query = "SELECT u FROM User u WHERE u.email = :email")
 @Data
 public class User {
-
 	public static final String FIND_ALL = "User.findAll";
 	public static final String FIND_BY_USERNAME = "User.findByUsername";
 	public static final String FIND_BY_EMAIL = "User.findByEmail";
@@ -60,5 +59,4 @@ public class User {
 
 	@Column(name = "updated_at", nullable = false)
 	private LocalDateTime updatedAt;
-
 }

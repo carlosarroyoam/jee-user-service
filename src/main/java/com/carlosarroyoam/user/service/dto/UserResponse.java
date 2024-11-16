@@ -6,7 +6,6 @@ import lombok.Data;
 
 @Data
 public class UserResponse {
-
 	private Long id;
 	private String name;
 	private Byte age;
@@ -16,5 +15,4 @@ public class UserResponse {
 	private Integer roleId;
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
-
 }

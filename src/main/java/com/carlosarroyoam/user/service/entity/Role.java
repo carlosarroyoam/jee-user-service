@@ -17,7 +17,6 @@ import lombok.Data;
 @Table(name = "roles")
 @Data
 public class Role {
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
@@ -30,5 +29,4 @@ public class Role {
 
 	@OneToMany(mappedBy = "role")
 	private List<User> users = new ArrayList<>();
-
 }

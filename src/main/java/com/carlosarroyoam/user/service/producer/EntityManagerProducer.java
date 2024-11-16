@@ -7,7 +7,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 
 public class EntityManagerProducer {
-
 	@Produces
 	@RequestScoped
 	public EntityManager createEntityManager() {
@@ -19,5 +18,4 @@ public class EntityManagerProducer {
 			entityManager.close();
 		}
 	}
-
 }

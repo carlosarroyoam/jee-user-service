@@ -11,9 +11,7 @@ import com.carlosarroyoam.user.service.entity.Role;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.JSR330, nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface RoleMapper {
-
 	RoleResponse toDto(Role role);
 
 	List<RoleResponse> toDtos(List<Role> roles);
-
 }
