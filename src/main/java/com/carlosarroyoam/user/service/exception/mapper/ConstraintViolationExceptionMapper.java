@@ -24,16 +24,17 @@ public class ConstraintViolationExceptionMapper
   public Response toResponse(ConstraintViolationException ex) {
     Status status = Status.BAD_REQUEST;
 
-    AppExceptionResponse appExceptionResponse = new AppExceptionResponse();
-    appExceptionResponse.setMessage("Request data is not valid");
-    appExceptionResponse.setCode(status.getStatusCode());
-    appExceptionResponse.setStatus(status.getReasonPhrase());
-    appExceptionResponse.setPath(uriInfo.getPath());
-    appExceptionResponse.setTimestamp(ZonedDateTime.now(ZoneId.of("UTC")));
-    appExceptionResponse.setDetails(ex.getConstraintViolations()
-        .stream()
-        .map(ConstraintViolation::getMessage)
-        .collect(Collectors.toSet()));
+    AppExceptionResponse appExceptionResponse = AppExceptionResponse.builder()
+        .message("Request data is not valid")
+        .code(status.getStatusCode())
+        .status(status.getReasonPhrase())
+        .path(uriInfo.getPath())
+        .timestamp(ZonedDateTime.now(ZoneId.of("UTC")))
+        .details(ex.getConstraintViolations()
+            .stream()
+            .map(ConstraintViolation::getMessage)
+            .collect(Collectors.toSet()))
+        .build();
 
     return Response.status(status)
         .entity(appExceptionResponse)

@@ -10,7 +10,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "users")
@@ -18,6 +21,9 @@ import lombok.Data;
 @NamedQuery(name = User.FIND_BY_USERNAME, query = "SELECT u FROM User u WHERE u.username = :username")
 @NamedQuery(name = User.FIND_BY_EMAIL, query = "SELECT u FROM User u WHERE u.email = :email")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class User {
   public static final String FIND_ALL = "User.findAll";
   public static final String FIND_BY_USERNAME = "User.findByUsername";

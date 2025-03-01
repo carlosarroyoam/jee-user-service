@@ -21,12 +21,13 @@ public class WebApplicationExceptionMapper implements ExceptionMapper<WebApplica
   public Response toResponse(WebApplicationException ex) {
     Status status = Status.fromStatusCode(ex.getResponse().getStatus());
 
-    AppExceptionResponse appExceptionResponse = new AppExceptionResponse();
-    appExceptionResponse.setMessage(ex.getMessage());
-    appExceptionResponse.setCode(status.getStatusCode());
-    appExceptionResponse.setStatus(status.getReasonPhrase());
-    appExceptionResponse.setPath(uriInfo.getPath());
-    appExceptionResponse.setTimestamp(ZonedDateTime.now(ZoneId.of("UTC")));
+    AppExceptionResponse appExceptionResponse = AppExceptionResponse.builder()
+        .message(ex.getMessage())
+        .code(status.getStatusCode())
+        .status(status.getReasonPhrase())
+        .path(uriInfo.getPath())
+        .timestamp(ZonedDateTime.now(ZoneId.of("UTC")))
+        .build();
 
     return Response.status(status)
         .entity(appExceptionResponse)

@@ -20,12 +20,13 @@ public class RuntimeExceptionMapper implements ExceptionMapper<RuntimeException>
   public Response toResponse(RuntimeException ex) {
     Status status = Status.INTERNAL_SERVER_ERROR;
 
-    AppExceptionResponse appExceptionResponse = new AppExceptionResponse();
-    appExceptionResponse.setMessage("Whoops! Something went wrong");
-    appExceptionResponse.setCode(status.getStatusCode());
-    appExceptionResponse.setStatus(status.getReasonPhrase());
-    appExceptionResponse.setPath(uriInfo.getPath());
-    appExceptionResponse.setTimestamp(ZonedDateTime.now(ZoneId.of("UTC")));
+    AppExceptionResponse appExceptionResponse = AppExceptionResponse.builder()
+        .message("Whoops! Something went wrong")
+        .code(status.getStatusCode())
+        .status(status.getReasonPhrase())
+        .path(uriInfo.getPath())
+        .timestamp(ZonedDateTime.now(ZoneId.of("UTC")))
+        .build();
 
     ex.printStackTrace();
 
