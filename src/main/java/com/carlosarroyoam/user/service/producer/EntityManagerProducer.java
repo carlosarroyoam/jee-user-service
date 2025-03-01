@@ -7,15 +7,16 @@ import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 
 public class EntityManagerProducer {
-	@Produces
-	@RequestScoped
-	public EntityManager createEntityManager() {
-		return Persistence.createEntityManagerFactory("com.carlosarroyoam.user-service").createEntityManager();
-	}
+  @Produces
+  @RequestScoped
+  public EntityManager createEntityManager() {
+    return Persistence.createEntityManagerFactory("com.carlosarroyoam.user-service")
+        .createEntityManager();
+  }
 
-	public void disposeEntityManager(@Disposes EntityManager entityManager) {
-		if (entityManager.isOpen()) {
-			entityManager.close();
-		}
-	}
+  public void disposeEntityManager(@Disposes EntityManager entityManager) {
+    if (entityManager.isOpen()) {
+      entityManager.close();
+    }
+  }
 }
