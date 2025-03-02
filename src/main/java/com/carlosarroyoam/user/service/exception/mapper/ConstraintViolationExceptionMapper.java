@@ -1,6 +1,6 @@
 package com.carlosarroyoam.user.service.exception.mapper;
 
-import com.carlosarroyoam.user.service.dto.AppExceptionResponse;
+import com.carlosarroyoam.user.service.dto.AppExceptionDto;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.stream.Collectors;
@@ -24,7 +24,7 @@ public class ConstraintViolationExceptionMapper
   public Response toResponse(ConstraintViolationException ex) {
     Status status = Status.BAD_REQUEST;
 
-    AppExceptionResponse appExceptionResponse = AppExceptionResponse.builder()
+    AppExceptionDto appExceptionDto = AppExceptionDto.builder()
         .message("Request data is not valid")
         .code(status.getStatusCode())
         .status(status.getReasonPhrase())
@@ -36,9 +36,6 @@ public class ConstraintViolationExceptionMapper
             .collect(Collectors.toSet()))
         .build();
 
-    return Response.status(status)
-        .entity(appExceptionResponse)
-        .type(MediaType.APPLICATION_JSON)
-        .build();
+    return Response.status(status).entity(appExceptionDto).type(MediaType.APPLICATION_JSON).build();
   }
 }

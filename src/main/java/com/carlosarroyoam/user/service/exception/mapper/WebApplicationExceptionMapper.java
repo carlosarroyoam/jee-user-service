@@ -1,6 +1,6 @@
 package com.carlosarroyoam.user.service.exception.mapper;
 
-import com.carlosarroyoam.user.service.dto.AppExceptionResponse;
+import com.carlosarroyoam.user.service.dto.AppExceptionDto;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import javax.ws.rs.WebApplicationException;
@@ -21,7 +21,7 @@ public class WebApplicationExceptionMapper implements ExceptionMapper<WebApplica
   public Response toResponse(WebApplicationException ex) {
     Status status = Status.fromStatusCode(ex.getResponse().getStatus());
 
-    AppExceptionResponse appExceptionResponse = AppExceptionResponse.builder()
+    AppExceptionDto appExceptionDto = AppExceptionDto.builder()
         .message(ex.getMessage())
         .code(status.getStatusCode())
         .status(status.getReasonPhrase())
@@ -29,9 +29,6 @@ public class WebApplicationExceptionMapper implements ExceptionMapper<WebApplica
         .timestamp(ZonedDateTime.now(ZoneId.of("UTC")))
         .build();
 
-    return Response.status(status)
-        .entity(appExceptionResponse)
-        .type(MediaType.APPLICATION_JSON)
-        .build();
+    return Response.status(status).entity(appExceptionDto).type(MediaType.APPLICATION_JSON).build();
   }
 }

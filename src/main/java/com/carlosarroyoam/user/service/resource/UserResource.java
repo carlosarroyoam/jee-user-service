@@ -1,8 +1,8 @@
 package com.carlosarroyoam.user.service.resource;
 
-import com.carlosarroyoam.user.service.dto.CreateUserRequest;
-import com.carlosarroyoam.user.service.dto.UpdateUserRequest;
-import com.carlosarroyoam.user.service.dto.UserResponse;
+import com.carlosarroyoam.user.service.dto.CreateUserRequestDto;
+import com.carlosarroyoam.user.service.dto.UpdateUserRequestDto;
+import com.carlosarroyoam.user.service.dto.UserDto;
 import com.carlosarroyoam.user.service.service.UserService;
 import java.net.URI;
 import java.util.List;
@@ -30,7 +30,7 @@ public class UserResource {
   @GET
   @Produces(MediaType.APPLICATION_JSON)
   public Response findAll() {
-    List<UserResponse> users = userService.findAll();
+    List<UserDto> users = userService.findAll();
     return Response.ok(users).build();
   }
 
@@ -38,14 +38,14 @@ public class UserResource {
   @Path("/{userId}")
   @Produces(MediaType.APPLICATION_JSON)
   public Response findById(@PathParam("userId") Long userId) {
-    UserResponse userById = userService.findById(userId);
+    UserDto userById = userService.findById(userId);
     return Response.ok(userById).build();
   }
 
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
-  public Response create(@Valid CreateUserRequest createUserRequest) {
-    UserResponse createdUser = userService.create(createUserRequest);
+  public Response create(@Valid CreateUserRequestDto requestDto) {
+    UserDto createdUser = userService.create(requestDto);
     URI locationUri = UriBuilder.fromResource(UserResource.class)
         .path("/{userId}")
         .resolveTemplate("userId", createdUser.getId())
@@ -56,9 +56,8 @@ public class UserResource {
   @PUT
   @Path("/{userId}")
   @Consumes(MediaType.APPLICATION_JSON)
-  public Response update(@PathParam("userId") Long userId,
-      @Valid UpdateUserRequest updateUserRequest) {
-    userService.update(userId, updateUserRequest);
+  public Response update(@PathParam("userId") Long userId, @Valid UpdateUserRequestDto requestDto) {
+    userService.update(userId, requestDto);
     return Response.noContent().build();
   }
 

@@ -2,9 +2,9 @@ package com.carlosarroyoam.user.service.service;
 
 import com.carlosarroyoam.user.service.constant.AppMessages;
 import com.carlosarroyoam.user.service.dao.UserDao;
-import com.carlosarroyoam.user.service.dto.CreateUserRequest;
-import com.carlosarroyoam.user.service.dto.UpdateUserRequest;
-import com.carlosarroyoam.user.service.dto.UserResponse;
+import com.carlosarroyoam.user.service.dto.CreateUserRequestDto;
+import com.carlosarroyoam.user.service.dto.UpdateUserRequestDto;
+import com.carlosarroyoam.user.service.dto.UserDto;
 import com.carlosarroyoam.user.service.entity.User;
 import com.carlosarroyoam.user.service.mapper.UserMapper;
 import java.time.LocalDateTime;
@@ -27,12 +27,12 @@ public class UserService {
   @Inject
   private UserMapper userMapper;
 
-  public List<UserResponse> findAll() {
+  public List<UserDto> findAll() {
     List<User> users = userDao.findAll();
     return userMapper.toDtos(users);
   }
 
-  public UserResponse findById(Long userId) {
+  public UserDto findById(Long userId) {
     User userById = userDao.findById(userId).orElseThrow(() -> {
       logger.warning(AppMessages.USER_NOT_FOUND_EXCEPTION);
       throw new NotFoundException(AppMessages.USER_NOT_FOUND_EXCEPTION);
@@ -41,19 +41,19 @@ public class UserService {
     return userMapper.toDto(userById);
   }
 
-  public UserResponse create(CreateUserRequest createUserRequest) {
-    if (userDao.findByUsername(createUserRequest.getUsername()).isPresent()) {
+  public UserDto create(CreateUserRequestDto requestDto) {
+    if (userDao.findByUsername(requestDto.getUsername()).isPresent()) {
       logger.warning(AppMessages.USERNAME_ALREADY_EXISTS_EXCEPTION);
       throw new BadRequestException(AppMessages.USERNAME_ALREADY_EXISTS_EXCEPTION);
     }
 
-    if (userDao.findByEmail(createUserRequest.getEmail()).isPresent()) {
+    if (userDao.findByEmail(requestDto.getEmail()).isPresent()) {
       logger.warning(AppMessages.EMAIL_ALREADY_EXISTS_EXCEPTION);
       throw new BadRequestException(AppMessages.EMAIL_ALREADY_EXISTS_EXCEPTION);
     }
 
     LocalDateTime now = LocalDateTime.now();
-    User user = userMapper.toEntity(createUserRequest);
+    User user = userMapper.toEntity(requestDto);
     user.setIsActive(Boolean.FALSE);
     user.setCreatedAt(now);
     user.setUpdatedAt(now);
@@ -62,28 +62,28 @@ public class UserService {
     return userMapper.toDto(user);
   }
 
-  public void update(Long userId, UpdateUserRequest updateUserRequest) {
+  public void update(Long userId, UpdateUserRequestDto requestDto) {
     User userById = userDao.findById(userId).orElseThrow(() -> {
       logger.warning(AppMessages.USER_NOT_FOUND_EXCEPTION);
       throw new NotFoundException(AppMessages.USER_NOT_FOUND_EXCEPTION);
     });
 
-    Optional<User> userByUsername = userDao.findByUsername(updateUserRequest.getUsername());
+    Optional<User> userByUsername = userDao.findByUsername(requestDto.getUsername());
     if (userByUsername.isPresent() && !userByUsername.get().getId().equals(userId)) {
       logger.warning(AppMessages.USERNAME_ALREADY_EXISTS_EXCEPTION);
       throw new BadRequestException(AppMessages.USERNAME_ALREADY_EXISTS_EXCEPTION);
     }
 
-    Optional<User> userByEmail = userDao.findByEmail(updateUserRequest.getEmail());
+    Optional<User> userByEmail = userDao.findByEmail(requestDto.getEmail());
     if (userByEmail.isPresent() && !userByEmail.get().getId().equals(userId)) {
       logger.warning(AppMessages.EMAIL_ALREADY_EXISTS_EXCEPTION);
       throw new BadRequestException(AppMessages.EMAIL_ALREADY_EXISTS_EXCEPTION);
     }
 
-    userById.setName(updateUserRequest.getName());
-    userById.setAge(updateUserRequest.getAge());
-    userById.setUsername(updateUserRequest.getUsername());
-    userById.setEmail(updateUserRequest.getEmail());
+    userById.setName(requestDto.getName());
+    userById.setAge(requestDto.getAge());
+    userById.setUsername(requestDto.getUsername());
+    userById.setEmail(requestDto.getEmail());
     userById.setUpdatedAt(LocalDateTime.now());
 
     userDao.update(userById);

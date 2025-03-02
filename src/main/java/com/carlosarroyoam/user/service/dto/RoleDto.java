@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class RoleResponse {
+public class RoleDto {
   private Integer id;
   private String title;
   private String description;

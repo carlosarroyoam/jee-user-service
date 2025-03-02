@@ -6,7 +6,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.when;
 
 import com.carlosarroyoam.user.service.dao.UserDao;
-import com.carlosarroyoam.user.service.dto.UserResponse;
+import com.carlosarroyoam.user.service.dto.UserDto;
 import com.carlosarroyoam.user.service.mapper.UserMapper;
 import java.util.Collections;
 import java.util.List;
@@ -36,7 +36,7 @@ class UserServiceTest {
   void shouldReturnListOfUsers() {
     when(userDao.findAll()).thenReturn(Collections.emptyList());
 
-    List<UserResponse> users = userService.findAll();
+    List<UserDto> users = userService.findAll();
 
     assertThat(users, is(notNullValue()));
     assertThat(users.size(), is(0));

@@ -1,6 +1,6 @@
 package com.carlosarroyoam.user.service.exception.mapper;
 
-import com.carlosarroyoam.user.service.dto.AppExceptionResponse;
+import com.carlosarroyoam.user.service.dto.AppExceptionDto;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import javax.ws.rs.core.Context;
@@ -20,7 +20,7 @@ public class RuntimeExceptionMapper implements ExceptionMapper<RuntimeException>
   public Response toResponse(RuntimeException ex) {
     Status status = Status.INTERNAL_SERVER_ERROR;
 
-    AppExceptionResponse appExceptionResponse = AppExceptionResponse.builder()
+    AppExceptionDto appExceptionDto = AppExceptionDto.builder()
         .message("Whoops! Something went wrong")
         .code(status.getStatusCode())
         .status(status.getReasonPhrase())
@@ -30,9 +30,6 @@ public class RuntimeExceptionMapper implements ExceptionMapper<RuntimeException>
 
     ex.printStackTrace();
 
-    return Response.status(status)
-        .entity(appExceptionResponse)
-        .type(MediaType.APPLICATION_JSON)
-        .build();
+    return Response.status(status).entity(appExceptionDto).type(MediaType.APPLICATION_JSON).build();
   }
 }

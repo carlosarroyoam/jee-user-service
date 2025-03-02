@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UpdateUserRequest {
+public class UpdateUserRequestDto {
   @NotBlank(message = "Name should not be blank")
   @Size(min = 3, max = 128, message = "Name should be between 3 and 128")
   private String name;
