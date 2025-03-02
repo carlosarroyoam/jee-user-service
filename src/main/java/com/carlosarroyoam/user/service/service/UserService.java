@@ -5,8 +5,8 @@ import com.carlosarroyoam.user.service.dao.UserDao;
 import com.carlosarroyoam.user.service.dto.CreateUserRequestDto;
 import com.carlosarroyoam.user.service.dto.UpdateUserRequestDto;
 import com.carlosarroyoam.user.service.dto.UserDto;
+import com.carlosarroyoam.user.service.dto.UserDto.UserDtoMapper;
 import com.carlosarroyoam.user.service.entity.User;
-import com.carlosarroyoam.user.service.mapper.UserMapper;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -24,12 +24,9 @@ public class UserService {
   @Inject
   private UserDao userDao;
 
-  @Inject
-  private UserMapper userMapper;
-
   public List<UserDto> findAll() {
     List<User> users = userDao.findAll();
-    return userMapper.toDtos(users);
+    return UserDtoMapper.INSTANCE.toDtos(users);
   }
 
   public UserDto findById(Long userId) {
@@ -38,7 +35,7 @@ public class UserService {
       throw new NotFoundException(AppMessages.USER_NOT_FOUND_EXCEPTION);
     });
 
-    return userMapper.toDto(userById);
+    return UserDtoMapper.INSTANCE.toDto(userById);
   }
 
   public UserDto create(CreateUserRequestDto requestDto) {
@@ -53,13 +50,13 @@ public class UserService {
     }
 
     LocalDateTime now = LocalDateTime.now();
-    User user = userMapper.toEntity(requestDto);
+    User user = UserDtoMapper.INSTANCE.toEntity(requestDto);
     user.setIsActive(Boolean.FALSE);
     user.setCreatedAt(now);
     user.setUpdatedAt(now);
 
     userDao.create(user);
-    return userMapper.toDto(user);
+    return UserDtoMapper.INSTANCE.toDto(user);
   }
 
   public void update(Long userId, UpdateUserRequestDto requestDto) {
