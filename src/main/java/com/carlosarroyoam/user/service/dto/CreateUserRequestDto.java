@@ -21,8 +21,8 @@ public class CreateUserRequestDto {
   private String name;
 
   @NotNull(message = "Age should not be null")
-  @Min(message = "Age should be min 18", value = 18)
-  @Max(message = "Age should be max 100", value = 100)
+  @Min(value = 18, message = "Age should be min 18")
+  @Max(value = 100, message = "Age should be max 100")
   private Byte age;
 
   @NotBlank(message = "Email should not be blank")
