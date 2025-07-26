@@ -15,7 +15,7 @@
 			<property name="javax.persistence.jdbc.password" value="toor" />
 			<property name="javax.persistence.sql-load-script-source" value="META-INF/import.sql"/>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect" />
-			<property name="hibernate.hbm2ddl.auto" value="create" />
+			<property name="hibernate.hbm2ddl.auto" value="update" />
 			<property name="show_sql" value="true" />
 		</properties>
 	</persistence-unit>
