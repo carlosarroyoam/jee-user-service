@@ -7,6 +7,7 @@ import com.carlosarroyoam.user.service.dto.UpdateUserRequestDto;
 import com.carlosarroyoam.user.service.dto.UserDto;
 import com.carlosarroyoam.user.service.dto.UserDto.UserDtoMapper;
 import com.carlosarroyoam.user.service.entity.User;
+import com.carlosarroyoam.user.service.utils.PasswordUtils;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -51,6 +52,7 @@ public class UserService {
 
     LocalDateTime now = LocalDateTime.now();
     User user = UserDtoMapper.INSTANCE.toEntity(requestDto);
+    user.setPassword(PasswordUtils.hashPassword(requestDto.getPassword()));
     user.setIsActive(Boolean.FALSE);
     user.setCreatedAt(now);
     user.setUpdatedAt(now);
