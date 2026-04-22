@@ -24,8 +24,7 @@ import javax.ws.rs.core.UriBuilder;
 @Path("/users")
 @ApplicationScoped
 public class UserResource {
-  @Inject
-  private UserService userService;
+  @Inject private UserService userService;
 
   @GET
   @Produces(MediaType.APPLICATION_JSON)
@@ -46,10 +45,11 @@ public class UserResource {
   @Consumes(MediaType.APPLICATION_JSON)
   public Response create(@Valid CreateUserRequestDto requestDto) {
     UserDto createdUser = userService.create(requestDto);
-    URI locationUri = UriBuilder.fromResource(UserResource.class)
-        .path("/{userId}")
-        .resolveTemplate("userId", createdUser.getId())
-        .build();
+    URI locationUri =
+        UriBuilder.fromResource(UserResource.class)
+            .path("/{userId}")
+            .resolveTemplate("userId", createdUser.getId())
+            .build();
     return Response.created(locationUri).build();
   }
 

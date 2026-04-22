@@ -18,11 +18,9 @@ import javax.ws.rs.NotFoundException;
 
 @ApplicationScoped
 public class UserService {
-  @Inject
-  private Logger logger;
+  @Inject private Logger logger;
 
-  @Inject
-  private UserDao userDao;
+  @Inject private UserDao userDao;
 
   public List<UserDto> findAll() {
     List<User> users = userDao.findAll();
@@ -30,10 +28,14 @@ public class UserService {
   }
 
   public UserDto findById(Long userId) {
-    User userById = userDao.findById(userId).orElseThrow(() -> {
-      logger.warning(AppMessages.USER_NOT_FOUND_EXCEPTION);
-      throw new NotFoundException(AppMessages.USER_NOT_FOUND_EXCEPTION);
-    });
+    User userById =
+        userDao
+            .findById(userId)
+            .orElseThrow(
+                () -> {
+                  logger.warning(AppMessages.USER_NOT_FOUND_EXCEPTION);
+                  throw new NotFoundException(AppMessages.USER_NOT_FOUND_EXCEPTION);
+                });
 
     return UserDtoMapper.INSTANCE.toDto(userById);
   }
@@ -60,10 +62,14 @@ public class UserService {
   }
 
   public void update(Long userId, UpdateUserRequestDto requestDto) {
-    User userById = userDao.findById(userId).orElseThrow(() -> {
-      logger.warning(AppMessages.USER_NOT_FOUND_EXCEPTION);
-      throw new NotFoundException(AppMessages.USER_NOT_FOUND_EXCEPTION);
-    });
+    User userById =
+        userDao
+            .findById(userId)
+            .orElseThrow(
+                () -> {
+                  logger.warning(AppMessages.USER_NOT_FOUND_EXCEPTION);
+                  throw new NotFoundException(AppMessages.USER_NOT_FOUND_EXCEPTION);
+                });
 
     Optional<User> userByUsername = userDao.findByUsername(requestDto.getUsername());
     if (userByUsername.isPresent() && !userByUsername.get().getId().equals(userId)) {
@@ -87,10 +93,14 @@ public class UserService {
   }
 
   public void deleteById(Long userId) {
-    User userById = userDao.findById(userId).orElseThrow(() -> {
-      logger.warning(AppMessages.USER_NOT_FOUND_EXCEPTION);
-      throw new NotFoundException(AppMessages.USER_NOT_FOUND_EXCEPTION);
-    });
+    User userById =
+        userDao
+            .findById(userId)
+            .orElseThrow(
+                () -> {
+                  logger.warning(AppMessages.USER_NOT_FOUND_EXCEPTION);
+                  throw new NotFoundException(AppMessages.USER_NOT_FOUND_EXCEPTION);
+                });
 
     userDao.deleteById(userById.getId());
   }

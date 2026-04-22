@@ -18,7 +18,9 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "users")
 @NamedQuery(name = User.FIND_ALL, query = "SELECT u FROM User u")
-@NamedQuery(name = User.FIND_BY_USERNAME, query = "SELECT u FROM User u WHERE u.username = :username")
+@NamedQuery(
+    name = User.FIND_BY_USERNAME,
+    query = "SELECT u FROM User u WHERE u.username = :username")
 @NamedQuery(name = User.FIND_BY_EMAIL, query = "SELECT u FROM User u WHERE u.email = :email")
 @Data
 @NoArgsConstructor

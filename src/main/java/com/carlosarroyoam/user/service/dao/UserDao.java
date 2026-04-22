@@ -12,11 +12,9 @@ import javax.persistence.TypedQuery;
 
 @ApplicationScoped
 public class UserDao {
-  @Inject
-  private Logger logger;
+  @Inject private Logger logger;
 
-  @Inject
-  private EntityManager entityManager;
+  @Inject private EntityManager entityManager;
 
   public List<User> findAll() {
     logger.info("Find all users");

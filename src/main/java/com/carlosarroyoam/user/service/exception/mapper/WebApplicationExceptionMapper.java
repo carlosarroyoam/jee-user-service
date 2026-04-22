@@ -14,20 +14,20 @@ import javax.ws.rs.ext.Provider;
 
 @Provider
 public class WebApplicationExceptionMapper implements ExceptionMapper<WebApplicationException> {
-  @Context
-  private UriInfo uriInfo;
+  @Context private UriInfo uriInfo;
 
   @Override
   public Response toResponse(WebApplicationException ex) {
     Status status = Status.fromStatusCode(ex.getResponse().getStatus());
 
-    AppExceptionDto appExceptionDto = AppExceptionDto.builder()
-        .message(ex.getMessage())
-        .code(status.getStatusCode())
-        .status(status.getReasonPhrase())
-        .path(uriInfo.getPath())
-        .timestamp(ZonedDateTime.now(ZoneId.of("UTC")))
-        .build();
+    AppExceptionDto appExceptionDto =
+        AppExceptionDto.builder()
+            .message(ex.getMessage())
+            .code(status.getStatusCode())
+            .status(status.getReasonPhrase())
+            .path(uriInfo.getPath())
+            .timestamp(ZonedDateTime.now(ZoneId.of("UTC")))
+            .build();
 
     return Response.status(status).entity(appExceptionDto).type(MediaType.APPLICATION_JSON).build();
   }

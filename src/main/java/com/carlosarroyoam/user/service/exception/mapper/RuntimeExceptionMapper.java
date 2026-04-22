@@ -13,20 +13,20 @@ import javax.ws.rs.ext.Provider;
 
 @Provider
 public class RuntimeExceptionMapper implements ExceptionMapper<RuntimeException> {
-  @Context
-  private UriInfo uriInfo;
+  @Context private UriInfo uriInfo;
 
   @Override
   public Response toResponse(RuntimeException ex) {
     Status status = Status.INTERNAL_SERVER_ERROR;
 
-    AppExceptionDto appExceptionDto = AppExceptionDto.builder()
-        .message("Whoops! Something went wrong")
-        .code(status.getStatusCode())
-        .status(status.getReasonPhrase())
-        .path(uriInfo.getPath())
-        .timestamp(ZonedDateTime.now(ZoneId.of("UTC")))
-        .build();
+    AppExceptionDto appExceptionDto =
+        AppExceptionDto.builder()
+            .message("Whoops! Something went wrong")
+            .code(status.getStatusCode())
+            .status(status.getReasonPhrase())
+            .path(uriInfo.getPath())
+            .timestamp(ZonedDateTime.now(ZoneId.of("UTC")))
+            .build();
 
     ex.printStackTrace();
 
