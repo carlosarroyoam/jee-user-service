@@ -12,8 +12,9 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "users")
@@ -22,7 +23,8 @@ import lombok.NoArgsConstructor;
     name = User.FIND_BY_USERNAME,
     query = "SELECT u FROM User u WHERE u.username = :username")
 @NamedQuery(name = User.FIND_BY_EMAIL, query = "SELECT u FROM User u WHERE u.email = :email")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder

@@ -2,14 +2,12 @@ package com.carlosarroyoam.user.service.dto;
 
 import java.time.ZonedDateTime;
 import java.util.Set;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter
+@Setter
 @Builder
 public class AppExceptionDto {
   private String message;
