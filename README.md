@@ -16,4 +16,4 @@ mvn clean package && docker build -t com.carlosarroyoam/jee-user-service:1.0-SNA
 
 # Run
 docker container rm -f jee-user-service || true &&
-docker container run -dp 8081:8080 -p 4849:4848 --name jee-user-service com.carlosarroyoam/jee-user-service:1.0-SNAPSHOT
+docker run -dp 8081:8080 -p 4849:4848 --name jee-user-service com.carlosarroyoam/jee-user-service:1.0-SNAPSHOT
