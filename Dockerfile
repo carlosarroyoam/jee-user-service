@@ -1,3 +1,6 @@
+# =========================
+# Runtime stage
+# =========================
 FROM airhacks/glassfish
 
-COPY ./target/jee-user-service.war ${DEPLOYMENT_DIR}
+COPY /target/jee-user-service.war ${DEPLOYMENT_DIR}
