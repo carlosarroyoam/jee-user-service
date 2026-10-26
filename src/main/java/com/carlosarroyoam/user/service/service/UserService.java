@@ -1,6 +1,6 @@
 package com.carlosarroyoam.user.service.service;
 
-import com.carlosarroyoam.user.service.constant.AppMessages;
+import com.carlosarroyoam.user.service.constant.MessageConstants;
 import com.carlosarroyoam.user.service.dao.UserDao;
 import com.carlosarroyoam.user.service.dto.CreateUserRequestDto;
 import com.carlosarroyoam.user.service.dto.UpdateUserRequestDto;
@@ -34,8 +34,8 @@ public class UserService {
             .findById(userId)
             .orElseThrow(
                 () -> {
-                  logger.warning(AppMessages.USER_NOT_FOUND_EXCEPTION);
-                  throw new NotFoundException(AppMessages.USER_NOT_FOUND_EXCEPTION);
+                  logger.warning(MessageConstants.USER_NOT_FOUND_EXCEPTION);
+                  throw new NotFoundException(MessageConstants.USER_NOT_FOUND_EXCEPTION);
                 });
 
     return UserDtoMapper.INSTANCE.toDto(userById);
@@ -43,13 +43,13 @@ public class UserService {
 
   public UserDto create(CreateUserRequestDto requestDto) {
     if (userDao.findByUsername(requestDto.getUsername()).isPresent()) {
-      logger.warning(AppMessages.USERNAME_ALREADY_EXISTS_EXCEPTION);
-      throw new BadRequestException(AppMessages.USERNAME_ALREADY_EXISTS_EXCEPTION);
+      logger.warning(MessageConstants.USERNAME_ALREADY_EXISTS_EXCEPTION);
+      throw new BadRequestException(MessageConstants.USERNAME_ALREADY_EXISTS_EXCEPTION);
     }
 
     if (userDao.findByEmail(requestDto.getEmail()).isPresent()) {
-      logger.warning(AppMessages.EMAIL_ALREADY_EXISTS_EXCEPTION);
-      throw new BadRequestException(AppMessages.EMAIL_ALREADY_EXISTS_EXCEPTION);
+      logger.warning(MessageConstants.EMAIL_ALREADY_EXISTS_EXCEPTION);
+      throw new BadRequestException(MessageConstants.EMAIL_ALREADY_EXISTS_EXCEPTION);
     }
 
     LocalDateTime now = LocalDateTime.now();
@@ -69,20 +69,20 @@ public class UserService {
             .findById(userId)
             .orElseThrow(
                 () -> {
-                  logger.warning(AppMessages.USER_NOT_FOUND_EXCEPTION);
-                  throw new NotFoundException(AppMessages.USER_NOT_FOUND_EXCEPTION);
+                  logger.warning(MessageConstants.USER_NOT_FOUND_EXCEPTION);
+                  throw new NotFoundException(MessageConstants.USER_NOT_FOUND_EXCEPTION);
                 });
 
     Optional<User> userByUsername = userDao.findByUsername(requestDto.getUsername());
     if (userByUsername.isPresent() && !userByUsername.get().getId().equals(userId)) {
-      logger.warning(AppMessages.USERNAME_ALREADY_EXISTS_EXCEPTION);
-      throw new BadRequestException(AppMessages.USERNAME_ALREADY_EXISTS_EXCEPTION);
+      logger.warning(MessageConstants.USERNAME_ALREADY_EXISTS_EXCEPTION);
+      throw new BadRequestException(MessageConstants.USERNAME_ALREADY_EXISTS_EXCEPTION);
     }
 
     Optional<User> userByEmail = userDao.findByEmail(requestDto.getEmail());
     if (userByEmail.isPresent() && !userByEmail.get().getId().equals(userId)) {
-      logger.warning(AppMessages.EMAIL_ALREADY_EXISTS_EXCEPTION);
-      throw new BadRequestException(AppMessages.EMAIL_ALREADY_EXISTS_EXCEPTION);
+      logger.warning(MessageConstants.EMAIL_ALREADY_EXISTS_EXCEPTION);
+      throw new BadRequestException(MessageConstants.EMAIL_ALREADY_EXISTS_EXCEPTION);
     }
 
     userById.setName(requestDto.getName());
@@ -100,8 +100,8 @@ public class UserService {
             .findById(userId)
             .orElseThrow(
                 () -> {
-                  logger.warning(AppMessages.USER_NOT_FOUND_EXCEPTION);
-                  throw new NotFoundException(AppMessages.USER_NOT_FOUND_EXCEPTION);
+                  logger.warning(MessageConstants.USER_NOT_FOUND_EXCEPTION);
+                  throw new NotFoundException(MessageConstants.USER_NOT_FOUND_EXCEPTION);
                 });
 
     userDao.deleteById(userById.getId());

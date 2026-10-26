@@ -1,12 +1,11 @@
 package com.carlosarroyoam.user.service.utils;
 
-import com.carlosarroyoam.user.service.constant.AppMessages;
+import com.carlosarroyoam.user.service.constant.CommonConstants;
 import org.mindrot.jbcrypt.BCrypt;
 
 public class PasswordUtils {
   private PasswordUtils() {
-    throw new IllegalAccessError(
-        AppMessages.STANDARD_ILLEGAL_ACCESS_EXCEPTION_MESSAGE_UTILITY_CLASS);
+    throw new IllegalAccessError(CommonConstants.ILLEGAL_ACCESS_EXCEPTION);
   }
 
   public static String hashPassword(String plainPassword) {
