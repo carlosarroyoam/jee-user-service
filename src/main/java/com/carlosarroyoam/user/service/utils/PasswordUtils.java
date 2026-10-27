@@ -5,7 +5,7 @@ import org.mindrot.jbcrypt.BCrypt;
 
 public class PasswordUtils {
   private PasswordUtils() {
-    throw new IllegalAccessError(CommonConstants.ILLEGAL_ACCESS_EXCEPTION);
+    throw new IllegalAccessError(CommonConstants.ILLEGAL_ACCESS_ERROR);
   }
 
   public static String hashPassword(String plainPassword) {

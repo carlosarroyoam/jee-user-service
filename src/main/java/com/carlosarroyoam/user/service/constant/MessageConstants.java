@@ -6,6 +6,6 @@ public class MessageConstants {
   public static final String USERNAME_ALREADY_EXISTS_EXCEPTION = "Username already exists";
 
   private MessageConstants() {
-    throw new IllegalAccessError(CommonConstants.ILLEGAL_ACCESS_EXCEPTION);
+    throw new IllegalAccessError(CommonConstants.ILLEGAL_ACCESS_ERROR);
   }
 }
