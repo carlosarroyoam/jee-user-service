@@ -32,11 +32,10 @@ public class UserService {
     User userById =
         userDao
             .findById(userId)
-            .orElseThrow(
-                () -> {
-                  logger.warning(MessageConstants.USER_NOT_FOUND_EXCEPTION);
-                  throw new NotFoundException(MessageConstants.USER_NOT_FOUND_EXCEPTION);
-                });
+            .orElseThrow(() -> {
+              logger.warning(MessageConstants.USER_NOT_FOUND_EXCEPTION);
+              return new NotFoundException(MessageConstants.USER_NOT_FOUND_EXCEPTION);
+            });
 
     return UserDtoMapper.INSTANCE.toDto(userById);
   }
@@ -67,11 +66,10 @@ public class UserService {
     User userById =
         userDao
             .findById(userId)
-            .orElseThrow(
-                () -> {
-                  logger.warning(MessageConstants.USER_NOT_FOUND_EXCEPTION);
-                  throw new NotFoundException(MessageConstants.USER_NOT_FOUND_EXCEPTION);
-                });
+            .orElseThrow(() -> {
+              logger.warning(MessageConstants.USER_NOT_FOUND_EXCEPTION);
+              return new NotFoundException(MessageConstants.USER_NOT_FOUND_EXCEPTION);
+            });
 
     Optional<User> userByUsername = userDao.findByUsername(requestDto.getUsername());
     if (userByUsername.isPresent() && !userByUsername.get().getId().equals(userId)) {
@@ -98,11 +96,10 @@ public class UserService {
     User userById =
         userDao
             .findById(userId)
-            .orElseThrow(
-                () -> {
-                  logger.warning(MessageConstants.USER_NOT_FOUND_EXCEPTION);
-                  throw new NotFoundException(MessageConstants.USER_NOT_FOUND_EXCEPTION);
-                });
+            .orElseThrow(() -> {
+              logger.warning(MessageConstants.USER_NOT_FOUND_EXCEPTION);
+              return new NotFoundException(MessageConstants.USER_NOT_FOUND_EXCEPTION);
+            });
 
     userDao.deleteById(userById.getId());
   }
