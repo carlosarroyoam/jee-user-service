@@ -8,6 +8,7 @@ import com.carlosarroyoam.user.service.dto.UserDto;
 import com.carlosarroyoam.user.service.dto.UserDto.UserDtoMapper;
 import com.carlosarroyoam.user.service.entity.User;
 import com.carlosarroyoam.user.service.utils.PasswordUtils;
+import java.time.Clock;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -19,9 +20,9 @@ import javax.ws.rs.NotFoundException;
 
 @ApplicationScoped
 public class UserService {
-  @Inject private Logger logger;
-
   @Inject private UserDao userDao;
+  @Inject private Logger logger;
+  @Inject private Clock clock;
 
   public List<UserDto> findAll() {
     List<User> users = userDao.findAll();
@@ -51,7 +52,7 @@ public class UserService {
       throw new BadRequestException(MessageConstants.EMAIL_ALREADY_EXISTS_EXCEPTION);
     }
 
-    LocalDateTime now = LocalDateTime.now();
+    LocalDateTime now = LocalDateTime.now(clock);
     User user = UserDtoMapper.INSTANCE.toEntity(requestDto);
     user.setPassword(PasswordUtils.hashPassword(requestDto.getPassword()));
     user.setIsActive(Boolean.FALSE);
@@ -83,11 +84,12 @@ public class UserService {
       throw new BadRequestException(MessageConstants.EMAIL_ALREADY_EXISTS_EXCEPTION);
     }
 
+    LocalDateTime now = LocalDateTime.now(clock);
     userById.setName(requestDto.getName());
     userById.setAge(requestDto.getAge());
     userById.setUsername(requestDto.getUsername());
     userById.setEmail(requestDto.getEmail());
-    userById.setUpdatedAt(LocalDateTime.now());
+    userById.setUpdatedAt(now);
 
     userDao.update(userById);
   }

@@ -3,6 +3,9 @@ package com.carlosarroyoam.user.service.exception.mapper;
 import com.carlosarroyoam.user.service.dto.AppExceptionDto;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.inject.Inject;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -13,6 +16,8 @@ import javax.ws.rs.ext.Provider;
 
 @Provider
 public class RuntimeExceptionMapper implements ExceptionMapper<RuntimeException> {
+  @Inject private Logger logger;
+
   @Context private UriInfo uriInfo;
 
   @Override
@@ -28,7 +33,7 @@ public class RuntimeExceptionMapper implements ExceptionMapper<RuntimeException>
             .timestamp(ZonedDateTime.now(ZoneId.of("UTC")))
             .build();
 
-    ex.printStackTrace();
+    logger.log(Level.SEVERE, "Whoops! Something went wrong", ex);
 
     return Response.status(status).entity(appExceptionDto).type(MediaType.APPLICATION_JSON).build();
   }
