@@ -14,11 +14,21 @@ import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
+/**
+ * Traduce las {@link ConstraintViolationException} de validación a una respuesta 400 Bad Request
+ * con un {@link AppExceptionDto}.
+ */
 @Provider
 public class ConstraintViolationExceptionMapper
     implements ExceptionMapper<ConstraintViolationException> {
   @Context private UriInfo uriInfo;
 
+  /**
+   * Construye la respuesta de error con los mensajes de las restricciones incumplidas.
+   *
+   * @param ex la excepción de validación lanzada
+   * @return la respuesta con el estado 400 Bad Request y el detalle de cada violación
+   */
   @Override
   public Response toResponse(ConstraintViolationException ex) {
     Status status = Status.BAD_REQUEST;

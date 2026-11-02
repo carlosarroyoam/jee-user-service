@@ -15,6 +15,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Entidad JPA que representa un rol persistida en la tabla {@code roles}, junto con los {@link User
+ * usuarios} que lo tienen asignado.
+ */
 @Entity
 @Table(name = "roles")
 @Getter

@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+/** Representa el cuerpo de error devuelto por la API cuando una petición falla. */
 @Getter
 @Setter
 @Builder

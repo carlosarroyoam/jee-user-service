@@ -12,6 +12,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/** Representa los datos enviados para crear un usuario. */
 @Getter
 @Setter
 @NoArgsConstructor

@@ -9,6 +9,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.factory.Mappers;
 
+/** Representa un rol expuesto por la API. */
 @Getter
 @Setter
 @Builder

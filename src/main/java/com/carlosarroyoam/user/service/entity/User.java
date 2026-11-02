@@ -16,6 +16,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Entidad JPA que representa un usuario persistida en la tabla {@code users}: datos personales,
+ * credenciales, estado de activación y su {@link Role rol}.
+ */
 @Entity
 @Table(name = "users")
 @NamedQuery(name = User.FIND_ALL, query = "SELECT u FROM User u")

@@ -11,6 +11,7 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
+/** Representa un usuario expuesto por la API, sin incluir su contraseña. */
 @Getter
 @Setter
 @Builder

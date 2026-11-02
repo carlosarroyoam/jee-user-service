@@ -12,10 +12,20 @@ import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
+/**
+ * Traduce las {@link WebApplicationException} (por ejemplo 400 y 404) a una respuesta con un {@link
+ * AppExceptionDto} que conserva el estado original.
+ */
 @Provider
 public class WebApplicationExceptionMapper implements ExceptionMapper<WebApplicationException> {
   @Context private UriInfo uriInfo;
 
+  /**
+   * Construye la respuesta de error con el mensaje y el estado de la excepción.
+   *
+   * @param ex la excepción lanzada
+   * @return la respuesta con el mismo estado HTTP que el de la excepción
+   */
   @Override
   public Response toResponse(WebApplicationException ex) {
     Status status = Status.fromStatusCode(ex.getResponse().getStatus());
