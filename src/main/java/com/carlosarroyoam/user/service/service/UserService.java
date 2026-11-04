@@ -132,14 +132,9 @@ public class UserService {
    * @throws NotFoundException con 404 si no existe un usuario con ese id
    */
   public void deleteById(Long userId) {
-    User userById =
-        userDao
-            .findById(userId)
-            .orElseThrow(() -> {
-              logger.warning(MessageConstants.USER_NOT_FOUND_EXCEPTION);
-              return new NotFoundException(MessageConstants.USER_NOT_FOUND_EXCEPTION);
-            });
-
-    userDao.deleteById(userById.getId());
+    if (!userDao.deleteById(userId)) {
+      logger.warning(MessageConstants.USER_NOT_FOUND_EXCEPTION);
+      throw new NotFoundException(MessageConstants.USER_NOT_FOUND_EXCEPTION);
+    }
   }
 }

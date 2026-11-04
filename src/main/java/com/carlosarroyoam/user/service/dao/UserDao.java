@@ -15,6 +15,7 @@ import javax.persistence.TypedQuery;
 public class UserDao {
   @Inject private Logger logger;
   @Inject private EntityManager entityManager;
+  @Inject private TransactionExecutor transactionExecutor;
 
   /**
    * Obtiene todos los usuarios.
@@ -83,18 +84,8 @@ public class UserDao {
    * @param user el usuario a persistir
    */
   public void create(User user) {
-    try {
-      logger.log(Level.INFO, "Create user: {0}", user);
-      entityManager.getTransaction().begin();
-      entityManager.persist(user);
-      entityManager.getTransaction().commit();
-    } catch (Exception e) {
-      if (entityManager.getTransaction().isActive()) {
-        entityManager.getTransaction().rollback();
-      }
-
-      throw e;
-    }
+    logger.log(Level.INFO, "Create user: {0}", user);
+    transactionExecutor.run(() -> entityManager.persist(user));
   }
 
   /**
@@ -104,18 +95,8 @@ public class UserDao {
    * @param user el usuario con los datos actualizados
    */
   public void update(User user) {
-    try {
-      logger.log(Level.INFO, "Update user with id: {0}", user.getId());
-      entityManager.getTransaction().begin();
-      entityManager.merge(user);
-      entityManager.getTransaction().commit();
-    } catch (Exception e) {
-      if (entityManager.getTransaction().isActive()) {
-        entityManager.getTransaction().rollback();
-      }
-
-      throw e;
-    }
+    logger.log(Level.INFO, "Update user with id: {0}", user.getId());
+    transactionExecutor.run(() -> entityManager.merge(user));
   }
 
   /**
@@ -123,20 +104,20 @@ public class UserDao {
    * transacción y relanza la excepción.
    *
    * @param userId el id del usuario a eliminar
+   * @return {@code true} si el usuario existía y fue eliminado, {@code false} si no existe ninguno
+   *     con ese id
    */
-  public void deleteById(Long userId) {
-    try {
-      logger.log(Level.INFO, "Delete user with id: {0}", userId);
-      entityManager.getTransaction().begin();
-      User user = entityManager.getReference(User.class, userId);
-      entityManager.remove(user);
-      entityManager.getTransaction().commit();
-    } catch (Exception e) {
-      if (entityManager.getTransaction().isActive()) {
-        entityManager.getTransaction().rollback();
-      }
+  public boolean deleteById(Long userId) {
+    logger.log(Level.INFO, "Delete user with id: {0}", userId);
+    return transactionExecutor.call(
+        () -> {
+          User user = entityManager.find(User.class, userId);
+          if (user == null) {
+            return false;
+          }
 
-      throw e;
-    }
+          entityManager.remove(user);
+          return true;
+        });
   }
 }
