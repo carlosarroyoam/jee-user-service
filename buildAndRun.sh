@@ -23,4 +23,4 @@ fi
 # Build Docker image and run container
 docker build -t "$IMAGE:$VERSION" . || exit 1
 docker container rm -f "$CONTAINER" >/dev/null 2>&1 || true
-docker run --detach -p 8081:8080 -p 127.0.0.1:4848:4848 --name "$CONTAINER" "$IMAGE:$VERSION" || exit 1
+docker run --detach -p 8081:8080 -p 127.0.0.1:4849:4848 --name "$CONTAINER" "$IMAGE:$VERSION" || exit 1
