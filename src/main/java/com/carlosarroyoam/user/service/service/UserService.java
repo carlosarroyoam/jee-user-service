@@ -80,8 +80,8 @@ public class UserService {
     user.setIsActive(Boolean.FALSE);
     user.setCreatedAt(now);
     user.setUpdatedAt(now);
-
     userDao.create(user);
+
     return UserDtoMapper.INSTANCE.toDto(user);
   }
 
@@ -121,7 +121,6 @@ public class UserService {
     userById.setUsername(requestDto.getUsername());
     userById.setEmail(requestDto.getEmail());
     userById.setUpdatedAt(now);
-
     userDao.update(userById);
   }
 

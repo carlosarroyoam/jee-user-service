@@ -56,7 +56,7 @@ public class UserDao {
       return Optional.empty();
     }
 
-    return Optional.of(results.get(0));
+    return Optional.of(results.getFirst());
   }
 
   /**
@@ -74,7 +74,7 @@ public class UserDao {
       return Optional.empty();
     }
 
-    return Optional.of(results.get(0));
+    return Optional.of(results.getFirst());
   }
 
   /**
