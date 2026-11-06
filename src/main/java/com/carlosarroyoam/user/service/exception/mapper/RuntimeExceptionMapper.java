@@ -1,10 +1,6 @@
 package com.carlosarroyoam.user.service.exception.mapper;
 
 import com.carlosarroyoam.user.service.dto.AppExceptionDto;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
@@ -13,6 +9,10 @@ import jakarta.ws.rs.core.Response.Status;
 import jakarta.ws.rs.core.UriInfo;
 import jakarta.ws.rs.ext.ExceptionMapper;
 import jakarta.ws.rs.ext.Provider;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Traduce cualquier {@link RuntimeException} no controlada a una respuesta 500 Internal Server

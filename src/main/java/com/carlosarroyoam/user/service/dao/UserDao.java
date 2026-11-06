@@ -1,14 +1,14 @@
 package com.carlosarroyoam.user.service.dao;
 
 import com.carlosarroyoam.user.service.entity.User;
-import java.util.List;
-import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
+import java.util.List;
+import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /** Acceso a datos para la entidad {@link User}. */
 @ApplicationScoped
@@ -109,15 +109,14 @@ public class UserDao {
    */
   public boolean deleteById(Long userId) {
     logger.log(Level.INFO, "Delete user with id: {0}", userId);
-    return transactionExecutor.call(
-        () -> {
-          User user = entityManager.find(User.class, userId);
-          if (user == null) {
-            return false;
-          }
+    return transactionExecutor.call(() -> {
+      User user = entityManager.find(User.class, userId);
+      if (user == null) {
+        return false;
+      }
 
-          entityManager.remove(user);
-          return true;
-        });
+      entityManager.remove(user);
+      return true;
+    });
   }
 }

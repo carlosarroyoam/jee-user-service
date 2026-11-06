@@ -1,9 +1,9 @@
 package com.carlosarroyoam.user.service.producer;
 
-import java.util.logging.Logger;
 import jakarta.enterprise.context.Dependent;
 import jakarta.enterprise.inject.Produces;
 import jakarta.enterprise.inject.spi.InjectionPoint;
+import java.util.logging.Logger;
 
 /** Productor CDI de {@link Logger} nombrados según la clase que los inyecta. */
 public class LoggerProducer {

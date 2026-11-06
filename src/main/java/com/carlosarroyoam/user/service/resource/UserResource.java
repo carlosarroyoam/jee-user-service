@@ -4,8 +4,6 @@ import com.carlosarroyoam.user.service.dto.CreateUserRequestDto;
 import com.carlosarroyoam.user.service.dto.UpdateUserRequestDto;
 import com.carlosarroyoam.user.service.dto.UserDto;
 import com.carlosarroyoam.user.service.service.UserService;
-import java.net.URI;
-import java.util.List;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
@@ -20,6 +18,8 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriBuilder;
+import java.net.URI;
+import java.util.List;
 
 /** Expone los endpoints REST para administrar usuarios bajo {@code /users}. */
 @Path("/users")

@@ -1,8 +1,8 @@
 package com.carlosarroyoam.user.service.producer;
 
-import java.time.Clock;
 import jakarta.enterprise.context.Dependent;
 import jakarta.enterprise.inject.Produces;
+import java.time.Clock;
 
 /** Productor CDI del {@link Clock} de la aplicación. */
 public class ClockProducer {

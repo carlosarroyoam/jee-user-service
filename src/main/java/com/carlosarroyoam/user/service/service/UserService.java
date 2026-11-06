@@ -8,15 +8,15 @@ import com.carlosarroyoam.user.service.dto.UserDto;
 import com.carlosarroyoam.user.service.dto.UserDto.UserDtoMapper;
 import com.carlosarroyoam.user.service.entity.User;
 import com.carlosarroyoam.user.service.utils.PasswordUtils;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.BadRequestException;
+import jakarta.ws.rs.NotFoundException;
 import java.time.Clock;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
-import jakarta.ws.rs.BadRequestException;
-import jakarta.ws.rs.NotFoundException;
 
 /** Lógica de negocio para consultar y administrar usuarios ({@link User}). */
 @ApplicationScoped
