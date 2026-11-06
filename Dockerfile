@@ -1,7 +1,7 @@
 # =========================
 # Build stage
 # =========================
-FROM maven:3.9-eclipse-temurin-17 AS build
+FROM maven:3.9-eclipse-temurin-21 AS build
 
 WORKDIR /build
 
@@ -16,6 +16,8 @@ RUN mvn package -DskipTests -B
 # =========================
 # Runtime stage
 # =========================
-FROM airhacks/glassfish
+FROM payara/server-full:6.2025.11-jdk21
 
-COPY --from=build /build/target/jee-user-service.war ${DEPLOYMENT_DIR}
+ENV JAVA_OPTS="-Xmx2g -Xms1g -XX:+UseG1GC"
+
+COPY --from=build /build/target/jee-user-service.war $DEPLOY_DIR/

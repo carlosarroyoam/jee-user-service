@@ -1,15 +1,15 @@
 # Develop
 To start developing you will need to install the following tools on your dev local machine:
 	
-	- Java 8 Development Kit (JDK 8)
-	- GlassFish Server 5.1 Full Platform
+	- Java 21 Development Kit (JDK 21)
+	- Payara Server 6 Full (Jakarta EE 10)
 	- MySQL 8.0.33 or higher
 	- Docker
 
-If you are using Eclipse IDE you'll need to install GlassFish tools. You can follow the Baeldung: Configuring the GlassFish Server in Eclipse guide on
-the following link.
+If you are using Eclipse IDE you'll need to install the Payara Tools plugin (available on the Eclipse Marketplace) to register and manage a
+Payara Server 6 instance from the IDE. See the Payara documentation for the setup details.
 
-[Configuring the GlassFish Server in Eclipse](https://www.baeldung.com/eclipse-glassfish-setup)
+[Payara Documentation](https://docs.payara.fish)
 
 # Build
 docker build -t com.carlosarroyoam/jee-user-service:1.0-SNAPSHOT .
