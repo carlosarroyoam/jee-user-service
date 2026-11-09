@@ -24,6 +24,6 @@ public class RoleDto {
 
     RoleDto toDto(Role role);
 
-    List<RoleDto> toDtos(List<Role> roles);
+    List<RoleDto> toDtoList(List<Role> roles);
   }
 }
